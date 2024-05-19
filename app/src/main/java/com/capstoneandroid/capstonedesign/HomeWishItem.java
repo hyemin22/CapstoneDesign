@@ -1,14 +1,20 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.Context;
+
 public class HomeWishItem {
     String title;
     String date;
     String dday;
+    int backgroundTint;
+    int textColor;
 
-    public HomeWishItem(String title, String date, String dday) {
+    public HomeWishItem(Context context, String title, String date, String dday, int backgroundTint, int textColor) {
         this.title = title;
         this.date = date;
         this.dday = dday;
+        this.backgroundTint = context.getResources().getColor(backgroundTint);
+        this.textColor = context.getResources().getColor(textColor);
     }
 
     public String getTitle() {
@@ -20,6 +26,12 @@ public class HomeWishItem {
     public String getDday() {
         return dday;
     }
+    public int getBackgroundTint() {
+        return backgroundTint;
+    }
+    public int getTextColor() {
+        return textColor;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -29,5 +41,11 @@ public class HomeWishItem {
     }
     public void setDday(String dday) {
         this.dday = dday;
+    }
+    public void setBackgroundTint(int color) {
+        this.backgroundTint = color;
+    }
+    public void setTextColor(int color) {
+        this.textColor = color;
     }
 }

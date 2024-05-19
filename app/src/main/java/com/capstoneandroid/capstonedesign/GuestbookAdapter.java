@@ -1,5 +1,6 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,13 @@ import java.util.ArrayList;
 public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.ViewHolder> {
 
     //GuestbookItem 객체 리스트
-    ArrayList<GuestbookItem> items = new ArrayList<GuestbookItem>();
+    ArrayList<GuestbookItem> items;
+    Context context;
+
+    public GuestbookAdapter(ArrayList<GuestbookItem> items, Context context) {
+        this.items = items;
+        this.context = context;
+    }
 
     //뷰홀더 새로 생성
     @NonNull
@@ -22,6 +29,7 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.item_guestbook, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -40,18 +48,22 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
     public void addItem(GuestbookItem item) {
         items.add(item);
     }
+    //
 
     public void setItems(ArrayList<GuestbookItem> items) {
         this.items = items;
     }
+    //
 
     public GuestbookItem getItem(int position) {
         return items.get(position);
     }
+    //
 
     public void setItem(int position, GuestbookItem item) {
         items.set(position, item);
     }
+    //
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -67,7 +79,7 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
             usernameTextView = itemView.findViewById(R.id.username);
         }
 
-        //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
+        ////뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(GuestbookItem item) {
             profileImageView.setImageResource(item.getProfileImage());
             messageTextView.setText(item.getMessage());

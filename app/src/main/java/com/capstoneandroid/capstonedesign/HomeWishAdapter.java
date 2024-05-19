@@ -1,5 +1,6 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,10 @@ public class HomeWishAdapter extends RecyclerView.Adapter<HomeWishAdapter.ViewHo
             titleTextView.setText(item.getTitle());
             dateTextView.setText(item.getDate());
             ddayTextView.setText(item.getDday());
+
+            // backgroundTint와 textColor를 설정합니다.
+            ddayTextView.setBackgroundTintList(ColorStateList.valueOf(item.getBackgroundTint()));
+            ddayTextView.setTextColor(item.getTextColor());
         }
 
     }
