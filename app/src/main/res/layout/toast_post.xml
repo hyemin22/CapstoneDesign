@@ -19,6 +19,6 @@
         android:textSize="13dp"
         android:textColor="@color/white"
         android:gravity="center"
-        android:textStyle="bold" />
+        android:fontFamily="@font/pretendardmedium"/>
 
 </RelativeLayout>

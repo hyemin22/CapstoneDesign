@@ -1,11 +1,13 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +25,7 @@ public class Fragment1 extends Fragment {
 
     private RelativeLayout missionLayout;
     private CheckBox missionCheck;
+    private ImageButton imgBtnPlus;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
@@ -120,6 +123,13 @@ public class Fragment1 extends Fragment {
 
         //방명록
         viewPager.setPageTransformer(transform);
+
+        // 이미지 버튼 초기화 및 클릭 리스너 설정
+        imgBtnPlus = rootView.findViewById(R.id.imgBtnPlus);
+        imgBtnPlus.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SignupNameActivity.class);
+            startActivity(intent);
+        });
 
     }
 }

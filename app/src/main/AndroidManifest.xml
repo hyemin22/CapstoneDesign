@@ -10,17 +10,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light"
+        android:theme="@style/Base.Theme.CapstoneDesign"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignupNameActivity" android:label="SignupName 액티비티"/>
+        <activity android:name=".SignupIconActivity" android:label="SignupIcon 액티비티"/>
+        <activity android:name=".SignupTermsActivity" android:label="SignupTerms 액티비티"/>
+        <activity android:name=".SignupSuccessActivity" android:label="SignupSuccess 액티비티"/>
+        <activity android:name=".SignupInviteActivity" android:label="SignupInvite 액티비티"/>
     </application>
 
 </manifest>

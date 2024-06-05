@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="20dp">
 
         <!--오늘의 방명록-->
         <RelativeLayout
@@ -26,7 +26,7 @@
                 android:text="오늘의 방명록"
                 android:textColor="@color/black"
                 android:textSize="24dp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendardbold"/>
 
             <ImageButton
                 android:id="@+id/imgBtnPlus"
@@ -41,7 +41,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <androidx.viewpager2.widget.ViewPager2
@@ -70,12 +70,12 @@
                 android:text="다가오는 위시리스트"
                 android:textColor="@color/black"
                 android:textSize="24dp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendardbold"/>
 
             <ImageButton
                 android:id="@+id/imgBtnArrow"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="10dp"
+                android:layout_height="13dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="#00000000"
@@ -107,12 +107,12 @@
                 android:text="하연님의 미션"
                 android:textColor="@color/black"
                 android:textSize="24dp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendardbold"/>
 
             <ImageButton
                 android:id="@+id/imgBtnArrow2"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="10dp"
+                android:layout_height="13dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="#00000000"

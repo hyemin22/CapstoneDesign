@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,14 +9,14 @@
             android:layout_height="230dp"
             android:layout_gravity="center"
             android:background="@drawable/default_postit"
-            android:padding="18dp">
+            android:padding="17dp">
 
             <ImageView
                 android:id="@+id/profileImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="35dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/default_profile_image" />
 
@@ -32,8 +31,8 @@
                 android:maxLines="2"
                 android:text="아직 작성된 방명록이 없어요."
                 android:textColor="@color/black"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+                android:textSize="20dp"
+                android:fontFamily="@font/yeongdeoksea" />
 
             <TextView
                 android:id="@+id/username"
@@ -43,6 +42,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="15dp"
                 android:text="from.user"
+                android:textSize="17dp"
+                android:fontFamily="@font/yeongdeoksea"
                 android:textColor="@color/black" />
 
         </RelativeLayout>
