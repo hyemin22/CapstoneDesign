@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/monthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="33dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="28dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/pretendardbold"
+                    android:text="5월" />
+
+                <Spinner
+                    android:id='@+id/spinner'
+                    android:layout_width="100dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="@font/pretendardextrabold"
+                    android:background="@drawable/spinner_bg"
+                    android:textColor="#2B66F6"
+                    android:entries="@array/selectCalender">
+
+                </Spinner>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="일"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="월"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="화"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="수"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="목"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="금"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="토"
+                    android:gravity="center"
+                    android:fontFamily="@font/pretendardbold"
+                    android:textSize="18sp"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:id="@+id/recyclerview"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24dp"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="5월 13일 월요일"/>
+
+                <ImageView
+                    android:id="@+id/photo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    app:srcCompat="@drawable/photo1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="한강에서 피크닉🧺"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/pretendardmedium"
+                    android:text="드디어 미루고 미루던 한강 피크닉을 했습니다!  근.."/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ff0000"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/emo1"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ff0000"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/emo2"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ff0000"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/emo3"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    app:srcCompat="@drawable/line" />
+
+                <ImageView
+                    android:id="@+id/photo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    app:srcCompat="@drawable/photo2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="딸들이 사준 저녁"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/pretendardmedium"
+                    android:text="뚝섬 근처 이탈리안 레스토랑 ‘볼로냐'. 아빠 입맛.."/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ff0000"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/emo3"/>
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/pushbtnlong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="bottom"
+                    app:srcCompat="@drawable/pushbtnlong" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>
