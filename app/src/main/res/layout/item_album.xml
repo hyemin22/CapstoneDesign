@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="30dp">
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:background="@drawable/album_back"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/albumTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="2023 제주도에서!"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:fontFamily="@font/yeongdeoksea" />
+
+        <ImageView
+            android:id="@+id/emoji"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="110dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="110dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="110dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="200dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/album_button"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/albumName"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="2023 제주여행"
+        android:textSize="21dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/pretendardsemibold"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="357dp"
+        android:layout_marginLeft="35dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_showmore"
+        android:background="@color/transparent"
+        android:layout_marginTop="360dp"
+        android:layout_marginLeft="210dp"/>
+
+
+</RelativeLayout>
