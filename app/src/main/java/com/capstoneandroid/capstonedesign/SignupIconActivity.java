@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignupIconActivity extends AppCompatActivity {
 
+    private ImageButton backBtn;
     private GridLayout gridIcon;
     private Button okBtn;
     private ImageButton selectedIconButton;
@@ -23,6 +24,7 @@ public class SignupIconActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_icon);
 
+        backBtn = findViewById(R.id.backBtn);
         gridIcon = findViewById(R.id.gridIcon);
         okBtn = findViewById(R.id.okBtn2);
         mainText = findViewById(R.id.maintext);
@@ -56,6 +58,15 @@ public class SignupIconActivity extends AppCompatActivity {
             });
         }
 
+        //이전화면버튼
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed(); // 이전 화면으로 이동
+            }
+        });
+
+        //확인버튼
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

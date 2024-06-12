@@ -20,11 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupNameActivity" android:label="SignupName 액티비티"/>
-        <activity android:name=".SignupIconActivity" android:label="SignupIcon 액티비티"/>
-        <activity android:name=".SignupTermsActivity" android:label="SignupTerms 액티비티"/>
-        <activity android:name=".SignupSuccessActivity" android:label="SignupSuccess 액티비티"/>
-        <activity android:name=".SignupInviteActivity" android:label="SignupInvite 액티비티"/>
+        <activity android:name=".SignupNameActivity" android:label="SignupName 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupIconActivity" android:label="SignupIcon 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupTermsActivity" android:label="SignupTerms 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupSuccessActivity" android:label="SignupSuccess 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupInviteActivity" android:label="SignupInvite 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

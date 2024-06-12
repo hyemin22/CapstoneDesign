@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SignupTermsActivity extends AppCompatActivity {
 
+    private ImageButton backBtn;
     private CheckBox checkBoxAll, essential1, essential2, optional;
     private Button okBtn; 
 
@@ -20,6 +22,7 @@ public class SignupTermsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_terms);
 
+        backBtn = findViewById(R.id.backBtn);
         checkBoxAll = findViewById(R.id.checkbox_all);
         essential1 = findViewById(R.id.essential1);
         essential2 = findViewById(R.id.essential2);
@@ -89,6 +92,14 @@ public class SignupTermsActivity extends AppCompatActivity {
         essential1.setOnCheckedChangeListener(individualCheckBoxListener);
         essential2.setOnCheckedChangeListener(individualCheckBoxListener);
         optional.setOnCheckedChangeListener(individualCheckBoxListener);
+
+        //이전화면버튼
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed(); // 이전 화면으로 이동
+            }
+        });
 
         //확인 버튼 클릭 시 다음 화면으로
         okBtn.setOnClickListener(new View.OnClickListener() {

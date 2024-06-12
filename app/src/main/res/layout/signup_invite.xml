@@ -8,11 +8,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="가족 연결을 위해\n초대 코드를 공유하세요."
+        android:text="가족 연결을 위해\n초대 링크를 공유해보아요!"
         android:textSize="27dp"
         android:fontFamily="@font/pretendardsemibold"
         android:textColor="@color/black"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="90dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -20,29 +20,9 @@
         android:scaleX="1.15"
         android:scaleY="1.15"
         android:src="@drawable/giftbox"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="70dp"
         android:layout_gravity="center_horizontal"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="하연님의 초대 코드"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/pretendardregular" />
-
-    <TextView
-        android:id="@+id/invitecode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/underlined_code"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/pretendardsemibold" />
 
     <Button
         android:layout_width="match_parent"
@@ -54,15 +34,5 @@
         android:textColor="@color/white"
         android:fontFamily="@font/pretendardsemibold"
         android:layout_marginTop="60dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/underlined_know"
-        android:textColor="@color/gray1"
-        android:textSize="17dp"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/pretendardmedium"
-        android:layout_marginTop="23dp"/>
 
 </LinearLayout>
