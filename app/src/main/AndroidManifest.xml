@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CapstoneDesign"
         tools:targetApi="31">
+        <activity android:name=".AlbumDiaryList" />
+        <activity android:name=".AlbumCreateActivity" />
+        <activity android:name=".FeedEventFragment" />
+        <activity android:name=".DiaryActivity" />
         <activity
             android:name=".MainActivity2"
             android:exported="false" />
