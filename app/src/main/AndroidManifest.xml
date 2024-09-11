@@ -10,15 +10,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CapstoneDesign"
+        android:theme="@style/Base.Theme.CapstoneDesign"
         tools:targetApi="31">
         <activity android:name=".AlbumDiaryList" />
         <activity android:name=".AlbumCreateActivity" />
         <activity android:name=".FeedEventFragment" />
         <activity android:name=".DiaryActivity" />
-        <activity
-            android:name=".MainActivity2"
-            android:exported="false" />
+        <activity android:name=".GuestWriteActivity" />
+        <activity android:name=".GuestBookCheckActivity" />
+        <activity android:name=".PostWriteActivity" />
+        <activity android:name=".PostCheckActivity" />
+        <activity android:name=".AlarmActivity" />
+        <activity android:name=".WishCreateActivity" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -42,10 +45,19 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignupNameActivity" android:label="SignupName 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupIconActivity" android:label="SignupIcon 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupTermsActivity" android:label="SignupTerms 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupSuccessActivity" android:label="SignupSuccess 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SignupInviteActivity" android:label="SignupInvite 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

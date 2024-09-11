@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:background="#FFEAF0FF">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="47dp"
+        android:layout_height="43dp"
+        android:backgroundTint="@color/transparent"
+        android:scaleType="fitXY"
+        android:scaleX="-1"
+        android:src="@drawable/ic_chevron_black" />
+
+    <TextView
+        android:id="@+id/to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/yeongdeoksea"
+        android:maxLines="4"
+        android:text="To. 하연에게"
+        android:textColor="@color/black"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/yeongdeoksea"
+        android:maxLines="4"
+        android:text="하연 ~~ 오늘 중간고사지?\n엄마가 아침밥도 못 챙겨주고 나왔네..\n떨지 말고 찬찬히 풀고 나오세요.\n오늘도 사랑해 우리 딸 ❤️"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:lineSpacingExtra="5px"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/message"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/yeongdeoksea"
+        android:maxLines="4"
+        android:text="2024년 5월 10일"
+        android:textColor="@color/black"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/date"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/yeongdeoksea"
+        android:maxLines="4"
+        android:text="From. 엄마가"
+        android:textColor="@color/black"
+        android:textSize="22dp" />
+
+    <Button
+        android:id="@+id/okBtn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_alignParentBottom="true"
+        android:text="답장 쓰러 가기"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendardsemibold"
+        android:layout_marginBottom="60dp" />
+
+</RelativeLayout>

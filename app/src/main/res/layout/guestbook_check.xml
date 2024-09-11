@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="47dp"
+            android:layout_height="43dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="fitXY"
+            android:scaleX="-1"
+            android:src="@drawable/ic_chevron_black"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="92dp"
+            android:text="아빠"
+            android:textSize="23dp"
+            android:fontFamily="@font/pretendardbold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="의 방명록"
+            android:textSize="23dp"
+            android:fontFamily="@font/pretendardbold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="95dp"
+            android:layout_marginBottom="8dp"
+            android:text="..."
+            android:textSize="23dp"
+            android:fontFamily="@font/pretendardbold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp">
+
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="390dp"
+            android:layout_gravity="center"
+            android:background="@drawable/default_postit"
+            android:padding="17dp">
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_marginTop="150dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="오늘 비온대요 다들 우산 챙겨요~\n그리고 내일 저녁 약속도 잊지 말기^^"
+                android:textColor="@color/black"
+                android:textSize="26dp"
+                android:fontFamily="@font/yeongdeoksea" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

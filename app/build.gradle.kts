@@ -31,11 +31,13 @@ android {
 
 dependencies {
 
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.play.services.maps)
+    implementation("com.google.android.material:material:1.9.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

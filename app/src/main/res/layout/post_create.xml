@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="47dp"
+            android:layout_height="43dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="fitXY"
+            android:scaleX="-1"
+            android:src="@drawable/ic_chevron_black"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:text="쪽지 남기기"
+            android:textSize="23dp"
+            android:fontFamily="@font/pretendardbold"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가족에게 소소한\n마음을 전하세요📮"
+            android:fontFamily="@font/pretendardsemibold"
+            android:textSize="26dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내용"
+            android:fontFamily="@font/pretendardbold"
+            android:textSize="22dp"
+            android:textColor="@color/blue"
+            android:layout_marginTop="40dp" />
+
+        <EditText
+            android:id="@+id/contentEdit"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/rounded_textbox"
+            android:layout_marginTop="15dp"
+            android:padding="13dp"
+            android:hint="입력..."
+            android:gravity="start"
+            android:textSize="17dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="40dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="보내는 사람"
+                android:fontFamily="@font/pretendardbold"
+                android:textSize="22dp"
+                android:textColor="@color/blue" />
+
+            <CheckBox
+                android:id="@+id/anonChk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="익명"
+                android:textSize="18dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:button="@null"
+                android:layout_marginLeft="200dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp" >
+
+            <ImageView
+                android:id="@+id/myChar"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ch_strawberry" />
+
+            <TextView
+                android:id="@+id/myName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myChar"
+                android:layout_centerVertical="true"
+                android:text="하연"
+                android:textColor="@color/black"
+                android:textSize="21dp"
+                android:fontFamily="@font/pretendardbold"
+                android:layout_marginLeft="13dp" />
+
+            <EditText
+                android:id="@+id/anonName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_textbox"
+                android:padding="13dp"
+                android:hint="익명으로 보낼 닉네임을 입력해주세요."
+                android:gravity="start|center"
+                android:textSize="17dp"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="받는 사람"
+            android:fontFamily="@font/pretendardbold"
+            android:textSize="22dp"
+            android:textColor="@color/blue"
+            android:layout_marginTop="40dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" >
+
+            <Spinner
+                android:id="@+id/spinner"
+                style="@style/Widget.AppCompat.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_textbox"
+                android:padding="13dp"
+                android:dropDownWidth="match_parent"
+                android:popupBackground="@drawable/rounded_background"
+                android:spinnerMode="dropdown" />
+
+            <ImageButton
+                android:id="@+id/spinnerBtn"
+                android:layout_width="33dp"
+                android:layout_height="35dp"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_chevron"
+                android:backgroundTint="@color/transparent"
+                android:rotation="270"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp" />
+
+            <ImageView
+                android:id="@+id/receiverChar"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ch_grape"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/receiverName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/receiverChar"
+                android:layout_centerVertical="true"
+                android:text="엄마"
+                android:textColor="@color/black"
+                android:textSize="21dp"
+                android:fontFamily="@font/pretendardbold"
+                android:layout_marginLeft="13dp"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_button"
+            android:text="쪽지 보내기"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/pretendardsemibold"
+            android:layout_marginTop="80dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
