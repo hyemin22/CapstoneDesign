@@ -274,7 +274,7 @@
                 android:layout_marginTop="80dp"
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/pretendardsemibold"
-                android:text="쪽지 보내기"
+                android:text="등록하기"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
