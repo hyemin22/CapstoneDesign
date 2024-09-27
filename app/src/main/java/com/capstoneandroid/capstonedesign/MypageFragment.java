@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class Fragment5 extends Fragment {
+public class MypageFragment extends Fragment {
+
     private TextView goToFamilyControl;
     private TextView goToAlarm;
     private TextView goToFamilyScrap;

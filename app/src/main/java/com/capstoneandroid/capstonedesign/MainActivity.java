@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Fragment5 fragment5;
     private FeedMapFragment feedMapFragment;  // 지도 프래그먼트
 
-
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     BottomNavigationView bottomNavigation;

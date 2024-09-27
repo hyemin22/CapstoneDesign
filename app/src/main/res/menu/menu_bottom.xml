@@ -31,6 +31,6 @@
         android:id="@+id/tab5"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_my"
-        android:title="마이페이지" />
+        android:title="MY" />
 
 </menu>
