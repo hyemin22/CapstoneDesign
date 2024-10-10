@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,11 @@ import java.util.ArrayList;
 public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.ViewHolder>{
 
     ArrayList<DayMissionItem> items = new ArrayList<DayMissionItem>();
+    Context context;
+
+    public DayMissionAdapter(Context context) {
+        this.context = context;
+    }
 
     //뷰홀더 새로 생성
     @NonNull
@@ -35,6 +42,16 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
         DayMissionItem item = items.get(position);
         holder.setItem(item);
 
+        // 미션 아이템 클릭 시 수정/삭제 화면으로 이동
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MissionCreateActivity.class);
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("source", "DayMissionAdapter");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -73,7 +90,7 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
             progressStaticTextView = itemView.findViewById(R.id.progressText);
             progressTextView = itemView.findViewById(R.id.progress);
             parentLayout = itemView.findViewById(R.id.missionLayout);
-            CheckBox checkBox = itemView.findViewById(R.id.missionCheck);
+            CheckBox checkBox = itemView.findViewById(R.id.check);
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -103,6 +120,5 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
             titleTextView.setText(item.getTitle());
             progressTextView.setText(item.getProgress());
         }
-
     }
 }

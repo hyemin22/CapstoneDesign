@@ -3,11 +3,8 @@ package com.capstoneandroid.capstonedesign;
 import android.content.Context;
 
 public class HomeWishItem {
-    String title;
-    String date;
-    String dday;
-    int backgroundTint;
-    int textColor;
+    String title, date, dday;
+    int backgroundTint, textColor;
 
     public HomeWishItem(Context context, String title, String date, String dday, int backgroundTint, int textColor) {
         this.title = title;

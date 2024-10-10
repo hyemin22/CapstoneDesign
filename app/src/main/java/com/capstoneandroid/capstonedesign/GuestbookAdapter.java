@@ -1,6 +1,8 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.ViewHolder> {
-
+    private static final int REQUEST_CODE = 1001;  // REQUEST_CODE 정의
     //GuestbookItem 객체 리스트
     ArrayList<GuestbookItem> items;
     Context context;
@@ -38,6 +40,17 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GuestbookItem item = items.get(position);
         holder.setItem(item);
+
+        // 아이템 클릭 리스너 추가
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, GuestBookCheckActivity.class);
+                intent.putExtra("content", item.getMessage());
+                intent.putExtra("position", holder.getAdapterPosition());  // position 전달
+                ((Activity) context).startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
     }
 
     @Override
@@ -48,22 +61,23 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
     public void addItem(GuestbookItem item) {
         items.add(item);
     }
-    //
 
     public void setItems(ArrayList<GuestbookItem> items) {
         this.items = items;
     }
-    //
 
     public GuestbookItem getItem(int position) {
         return items.get(position);
     }
-    //
 
     public void setItem(int position, GuestbookItem item) {
         items.set(position, item);
     }
-    //
+    public void removeItem(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, items.size());
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 

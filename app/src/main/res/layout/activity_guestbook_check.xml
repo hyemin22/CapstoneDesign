@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,11 +13,11 @@
             android:id="@+id/backBtn"
             android:layout_width="47dp"
             android:layout_height="43dp"
+            android:layout_marginLeft="8dp"
             android:backgroundTint="@color/transparent"
             android:scaleType="fitXY"
             android:scaleX="-1"
-            android:src="@drawable/ic_chevron_black"
-            android:layout_marginLeft="8dp"/>
+            android:src="@drawable/ic_chevron_black" />
 
         <TextView
             android:id="@+id/name"
@@ -25,37 +25,37 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="92dp"
+            android:fontFamily="@font/pretendardbold"
             android:text="아빠"
-            android:textSize="23dp"
-            android:fontFamily="@font/pretendardbold"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="23dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/pretendardbold"
             android:text="의 방명록"
-            android:textSize="23dp"
-            android:fontFamily="@font/pretendardbold"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="23dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/hamBtn"
+            android:layout_width="25dp"
+            android:layout_height="38dp"
             android:layout_gravity="center"
-            android:layout_marginStart="95dp"
-            android:layout_marginBottom="8dp"
-            android:text="..."
-            android:textSize="23dp"
-            android:fontFamily="@font/pretendardbold" />
+            android:layout_marginStart="100dp"
+            android:src="@drawable/ic_threedot"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="centerCrop"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="350dp"
@@ -69,14 +69,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
                 android:layout_marginTop="150dp"
                 android:ellipsize="end"
+                android:fontFamily="@font/yeongdeoksea"
+                android:gravity="center"
                 android:maxLines="4"
                 android:text="오늘 비온대요 다들 우산 챙겨요~\n그리고 내일 저녁 약속도 잊지 말기^^"
                 android:textColor="@color/black"
-                android:textSize="26dp"
-                android:fontFamily="@font/yeongdeoksea" />
+                android:textSize="26dp" />
 
         </RelativeLayout>
     </LinearLayout>

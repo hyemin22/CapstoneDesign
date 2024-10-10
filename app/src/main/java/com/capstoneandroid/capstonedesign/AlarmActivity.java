@@ -16,7 +16,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alarm_check);
+        setContentView(R.layout.activity_alarm_check);
 
         backBtn = findViewById(R.id.backBtn);
 

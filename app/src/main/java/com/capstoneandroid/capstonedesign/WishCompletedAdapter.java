@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,11 @@ import java.util.ArrayList;
 public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdapter.ViewHolder> {
 
     ArrayList<WishCompletedItem> items = new ArrayList<WishCompletedItem>();
+    Context context;
+
+    public WishCompletedAdapter(Context context) {
+        this.context = context;
+    }
 
     //뷰홀더 새로 생성
     @NonNull
@@ -30,6 +37,17 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WishCompletedItem item = items.get(position);
         holder.setItem(item);
+
+        // 위시 아이템 클릭 시 수정/삭제 화면으로 이동
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, WishCreateActivity.class);
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("source", "WishCompletedAdapter");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

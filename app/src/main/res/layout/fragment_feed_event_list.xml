@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/img_albumlist"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eventListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingTop="40dp"
+        android:clipToPadding="false"/>
 
-</RelativeLayout>
+    <ImageButton
+        android:id="@+id/toggleBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end|top"
+        android:layout_margin="25dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/ic_event_list"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

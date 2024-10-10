@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 //추억 화면
 public class Fragment3 extends Fragment {
     FeedCalMonthFragment fragment1;
-    FeedEventFragment fragment2;
+    FeedEventRootFragment fragment2;
     FeedMapFragment fragment3;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment3, container, false);
@@ -26,7 +26,7 @@ public class Fragment3 extends Fragment {
     private void initUI(ViewGroup rootView) {
         // 상단탭
         fragment1 = new FeedCalMonthFragment();
-        fragment2 = new FeedEventFragment();
+        fragment2 = new FeedEventRootFragment();
         fragment3 = new FeedMapFragment();
 
         getChildFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();

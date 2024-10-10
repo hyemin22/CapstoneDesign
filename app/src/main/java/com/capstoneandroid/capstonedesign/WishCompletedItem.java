@@ -3,9 +3,7 @@ package com.capstoneandroid.capstonedesign;
 import android.content.Context;
 
 public class WishCompletedItem {
-    String emoji;
-    String title;
-    String date;
+    String emoji, title, date;
 
     public WishCompletedItem(Context context, String emoji, String title, String date) {
         this.emoji = emoji;

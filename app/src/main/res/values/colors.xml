@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="black2">#FF3A3A3A</color>
     <color name="gray">#FF898989</color>
     <color name="gray1">#FFA1A1A1</color>
     <color name="gray2">#FFD9D9D9</color>
     <color name="gray3">#FFB7B7B7</color>
     <color name="gray4">#FFF5F5F5</color>
+    <color name="gray5">#FFF3F2F2</color>
     <color name="lightGray">#FFF7F7F7</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#FFF46164</color>
@@ -15,4 +17,9 @@
     <color name="blue">#FF2B66F6</color>
     <color name="blue2">#FF6E8BFF</color>
     <color name="transparent">#00000000</color>
+    <color name="album_yellow">#FFFFEFCA</color>
+    <color name="album_red">#FFFFCBBC</color>
+    <color name="album_blue">#FFBFD7F8</color>
+    <color name="album_purple">#FFD9BCFF</color>
+    <color name="album_white">#FFD9D9D9</color>
 </resources>

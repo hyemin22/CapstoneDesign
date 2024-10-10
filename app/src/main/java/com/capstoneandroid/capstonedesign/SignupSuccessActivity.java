@@ -15,7 +15,7 @@ public class SignupSuccessActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_success);
+        setContentView(R.layout.activity_signup_success);
 
         Button okBtn = findViewById(R.id.okBtn4);
 

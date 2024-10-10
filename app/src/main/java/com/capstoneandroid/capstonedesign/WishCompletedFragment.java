@@ -44,7 +44,6 @@ public class WishCompletedFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_wish_completed, container, false);
 
         initUI(rootView);
-
         return rootView;
     }
 
@@ -54,7 +53,7 @@ public class WishCompletedFragment extends Fragment {
         RecyclerView recyclerView1 = rootView.findViewById(R.id.wishCompletedView);
         LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView1.setLayoutManager(linearManager);
-        WishCompletedAdapter adapter = new WishCompletedAdapter();
+        WishCompletedAdapter adapter = new WishCompletedAdapter(getContext());
 
         adapter.addItem(new WishCompletedItem(getContext(),"❤️","다같이 한강 가서 치킨 먹기", "2024년 5월 5일 예정"));
         adapter.addItem(new WishCompletedItem(getContext(),"🔥","대전 랑골로에서 파스타 먹기", "2024년 5월 11일 예정"));

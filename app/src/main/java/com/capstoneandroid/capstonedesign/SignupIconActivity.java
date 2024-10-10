@@ -22,7 +22,7 @@ public class SignupIconActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_icon);
+        setContentView(R.layout.activity_signup_icon);
 
         backBtn = findViewById(R.id.backBtn);
         gridIcon = findViewById(R.id.gridIcon);

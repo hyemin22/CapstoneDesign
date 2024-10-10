@@ -45,6 +45,7 @@ public class Fragment2 extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WishCreateActivity.class);
+                intent.putExtra("source", "Fragment2");
                 startActivity(intent);
             }
         });
@@ -60,7 +61,6 @@ public class Fragment2 extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                Log.d("MainActivity", "선택된 탭: " + position);
 
                 Fragment selected = null;
 

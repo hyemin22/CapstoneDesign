@@ -20,7 +20,7 @@ public class SignupTermsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_terms);
+        setContentView(R.layout.activity_signup_terms);
 
         backBtn = findViewById(R.id.backBtn);
         checkBoxAll = findViewById(R.id.checkbox_all);

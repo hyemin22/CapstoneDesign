@@ -20,6 +20,7 @@
             android:layout_marginLeft="8dp"/>
 
         <TextView
+            android:id="@+id/pagename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -28,6 +29,16 @@
             android:textSize="23dp"
             android:fontFamily="@font/pretendardbold"
             android:textColor="@color/black" />
+
+        <ImageButton
+            android:id="@+id/hamBtn"
+            android:layout_width="25dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:src="@drawable/ic_threedot"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="centerCrop"/>
 
     </LinearLayout>
 
@@ -38,6 +49,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/ment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="소소한 일상을\n방명록으로 남겨보아요✍🏻"
@@ -54,16 +66,47 @@
             android:textColor="@color/blue"
             android:layout_marginTop="40dp" />
 
-        <EditText
-            android:id="@+id/contentEdit"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/rounded_textbox"
-            android:layout_marginTop="15dp"
-            android:padding="13dp"
-            android:hint="입력..."
-            android:gravity="start"
-            android:textSize="17dp"/>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/contentEdit"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/rounded_textbox"
+                android:layout_marginTop="15dp"
+                android:padding="13dp"
+                android:hint="입력..."
+                android:gravity="start"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/text"
+                android:layout_alignBottom="@id/contentEdit"
+                android:layout_marginBottom="15dp"
+                android:text="0"
+                android:textSize="15dp"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/pretendardregular"/>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/contentEdit"
+                android:layout_alignEnd="@id/contentEdit"
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="/100자"
+                android:textSize="15dp"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/pretendardregular"/>
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/okBtn"

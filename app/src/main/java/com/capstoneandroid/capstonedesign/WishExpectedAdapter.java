@@ -1,5 +1,8 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,11 @@ import java.util.ArrayList;
 
 public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapter.ViewHolder>{
     ArrayList<WishExpectedItem> items = new ArrayList<WishExpectedItem>();
+    Context context;
+
+    public WishExpectedAdapter(Context context) {
+        this.context = context;
+    }
 
     //뷰홀더 새로 생성
     @NonNull
@@ -32,6 +40,17 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WishExpectedItem item = items.get(position);
         holder.setItem(item);
+
+        // 위시 아이템 클릭 시 수정/삭제 화면으로 이동
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, WishCreateActivity.class);
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("source", "WishExpectedAdapter");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -78,7 +97,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                     if (isChecked) {
                         parentLayout.setBackgroundResource(R.drawable.checked_background_wish);
                         check.setBackgroundResource(R.drawable.ic_checked);
-
+                        //체크 시 완료 화면으로 넘어가는 액션!!!!
                     } else {
                         parentLayout.setBackgroundResource(R.drawable.unchecked_background);
                         check.setBackgroundResource(R.drawable.ic_unchecked);

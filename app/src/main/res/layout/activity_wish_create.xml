@@ -24,16 +24,16 @@
                 android:scaleX="-1"
                 android:src="@drawable/ic_chevron_black" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/hamBtn"
+                android:layout_width="25dp"
+                android:layout_height="38dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="100dp"
-                android:fontFamily="@font/pretendardbold"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="23dp" />
-
+                android:layout_marginStart="315dp"
+                android:src="@drawable/ic_threedot"
+                android:backgroundTint="@color/transparent"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
         </LinearLayout>
 
         <LinearLayout
@@ -43,6 +43,7 @@
             android:padding="20dp">
 
             <TextView
+                android:id="@+id/ment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendardsemibold"
@@ -67,8 +68,10 @@
                 android:background="@drawable/rounded_textbox"
                 android:gravity="start|center"
                 android:hint="ex. 가족 유럽여행 가기"
-                android:padding="13dp"
-                android:textSize="17dp" />
+                android:padding="15dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendardsemibold"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,7 +107,9 @@
                     android:gravity="center"
                     android:hint="2024.09.09 (월)"
                     android:padding="13dp"
-                    android:textSize="17dp" />
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/pretendardsemibold"/>
 
                 <TextView
                     android:id="@+id/endDay"
@@ -117,7 +122,9 @@
                     android:gravity="center"
                     android:hint="2024.09.09 (월)"
                     android:padding="13dp"
-                    android:textSize="17dp" />
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/pretendardsemibold"/>
 
             </LinearLayout>
 
@@ -173,7 +180,9 @@
                     android:dropDownWidth="match_parent"
                     android:padding="13dp"
                     android:popupBackground="@drawable/rounded_background"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/pretendardsemibold"/>
 
                 <ImageButton
                     android:id="@+id/spinnerBtn"
@@ -232,7 +241,9 @@
                 android:gravity="start"
                 android:hint="입력..."
                 android:padding="13dp"
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendardsemibold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -261,6 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/pretendardregular"
                 android:text="잊지 않고 수행하도록 일주일 전에 알려드려요."
                 android:textColor="@color/gray"
@@ -271,7 +283,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="60dp"
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/pretendardsemibold"
                 android:text="등록하기"

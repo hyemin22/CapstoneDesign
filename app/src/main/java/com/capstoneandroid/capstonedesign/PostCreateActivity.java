@@ -1,6 +1,5 @@
 package com.capstoneandroid.capstonedesign;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostWriteActivity extends AppCompatActivity {
+public class PostCreateActivity extends AppCompatActivity {
     ImageButton backBtn, spinnerBtn;
     EditText contentEdit, anonName;
     //받는사람 등 추가!!!
@@ -31,7 +30,7 @@ public class PostWriteActivity extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.post_create); // 액티비티의 레이아웃 파일 설정
+        setContentView(R.layout.activity_post_create); // 액티비티의 레이아웃 파일 설정
 
         backBtn = findViewById(R.id.backBtn);
         contentEdit = findViewById(R.id.contentEdit);
@@ -81,7 +80,7 @@ public class PostWriteActivity extends AppCompatActivity {
         String sourceActivity = getIntent().getStringExtra("source_activity");
 
         // 식별자에 따라 다른 동작을 수행
-        if ("WhatActivity".equals(sourceActivity)) {
+        if ("AlarmFragment".equals(sourceActivity)) {
             // 1. 쪽지 작성 버튼 클릭해서 넘어온거면 -> 받는 사람 선택
             spinner.setOnClickListener(new View.OnClickListener() {
                 @Override

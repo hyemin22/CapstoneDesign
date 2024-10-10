@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<!--    눌렀을 때-->
-    <item android:state_focused="true" android:state_pressed="true">
-        <shape android:shape="oval">
+    <!--    눌렀을 때-->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="100dp" />
             <stroke android:width="2dp" android:color="@color/blue" />
-            <size android:width="60dp" android:height="60dp"/>
+            <size android:width="60dp" android:height="60dp" />
         </shape>
     </item>
-<!--    기본 상태-->
+    <!--    눌렀을 때-->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="100dp" />
+            <stroke android:width="2dp" android:color="@color/blue" />
+            <size android:width="60dp" android:height="60dp" />
+        </shape>
+    </item>
+    <!--    기본 상태-->
     <item>
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
+            <corners android:radius="100dp" />
             <stroke android:width="2dp" android:color="@color/transparent" />
-            <size android:width="60dp" android:height="60dp"/>
+            <size android:width="60dp" android:height="60dp" />
         </shape>
     </item>
 

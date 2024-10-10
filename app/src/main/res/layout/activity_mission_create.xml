@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="47dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="8dp"
+                android:backgroundTint="@color/transparent"
+                android:scaleType="fitXY"
+                android:scaleX="-1"
+                android:src="@drawable/ic_chevron_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="90dp"
+                android:fontFamily="@font/pretendardbold"
+                android:text="                       "
+                android:textColor="@color/black"
+                android:textSize="23dp" />
+
+            <ImageButton
+                android:id="@+id/hamBtn"
+                android:layout_width="25dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="100dp"
+                android:backgroundTint="@color/transparent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_threedot"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/ment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendardsemibold"
+                android:text="어떤 미션을\n만드시겠어요?"
+                android:textColor="@color/black"
+                android:textSize="26dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/pretendardbold"
+                android:text="미션 제목"
+                android:textColor="@color/blue"
+                android:textSize="22dp" />
+
+            <EditText
+                android:id="@+id/titleEdit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rounded_textbox"
+                android:gravity="start|center_vertical"
+                android:hint="루틴 이름을 입력해주세요."
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendardsemibold"
+                android:textSize="17dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/pretendardbold"
+                android:text="위시리스트 아이콘"
+                android:textColor="@color/blue"
+                android:textSize="22dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/pretendardregular"
+                android:text="위시리스트와 어울리는 이모지를 선택해주세요."
+                android:textColor="@color/gray"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/iconSelect"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_emojiselect" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/pretendardbold"
+                android:text="미션 주기"
+                android:textColor="@color/blue"
+                android:textSize="22dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    style="@style/Widget.AppCompat.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/rounded_textbox"
+                    android:dropDownWidth="match_parent"
+                    android:padding="13dp"
+                    android:popupBackground="@drawable/rounded_background"
+                    android:spinnerMode="dropdown" />
+
+                <ImageButton
+                    android:id="@+id/spinnerBtn"
+                    android:layout_width="33dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="@color/transparent"
+                    android:rotation="270"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_chevron" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/cycle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/pretendardmedium"
+                    android:text="반복 요일"
+                    android:textColor="@color/black"
+                    android:textSize="17dp"
+                    android:visibility="gone"/>
+
+                <CheckBox
+                    android:id="@+id/everydayChk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="310dp"
+                    android:layout_marginTop="20dp"
+                    android:button="@null"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="매일"
+                    android:textColor="@color/gray"
+                    android:textSize="15dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/days"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_below="@id/cycle"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="월"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="화"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="수"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="목"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="금"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="토"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_selector2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:text="일"
+                        android:textColor="@color/gray"
+                        android:textSize="17dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/underlineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/days"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/pretendardmedium"
+                    android:text="@string/underline_cycleday"
+                    android:textColor="@color/gray"
+                    android:textSize="17dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/weekmonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cycle"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/weekmonthText"
+                        android:layout_width="140dp"
+                        android:layout_height="60dp"
+                        android:layout_below="@id/cycle"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_textbox"
+                        android:fontFamily="@font/pretendardsemibold"
+                        android:gravity="start|center_vertical"
+                        android:padding="15dp"
+                        android:text="주마다"
+                        android:textColor="@color/black2"
+                        android:textSize="17dp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp">
+
+                        <Spinner
+                            android:id="@+id/spinner2"
+                            style="@style/Widget.AppCompat.Spinner"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/rounded_textbox"
+                            android:dropDownWidth="match_parent"
+                            android:padding="13dp"
+                            android:popupBackground="@drawable/rounded_background"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageButton
+                            android:id="@+id/spinner2Btn"
+                            android:layout_width="33dp"
+                            android:layout_height="35dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="43dp"
+                            android:layout_marginRight="10dp"
+                            android:backgroundTint="@color/transparent"
+                            android:rotation="270"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_chevron" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:layout_toRightOf="@id/spinner2Btn"
+                            android:text="번"
+                            android:textSize="17dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardbold"
+                    android:text="미션 알림"
+                    android:textColor="@color/blue"
+                    android:textSize="22dp" />
+
+                <Switch
+                    android:id="@+id/alarmSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="240dp"
+                    android:checked="false" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/pretendardregular"
+                android:text="잊지 않고 수행하도록 일주일 전에 알려드려요."
+                android:textColor="@color/gray"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/timeSelect"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_textbox"
+                android:gravity="start|center_vertical"
+                android:hint="시간 선택"
+                android:padding="15dp"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/okBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/pretendardsemibold"
+                android:text="등록하기"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,7 +1,5 @@
 package com.capstoneandroid.capstonedesign;
 
-import android.content.Context;
-
 public class DayMissionItem {
     int icon;
     String title;

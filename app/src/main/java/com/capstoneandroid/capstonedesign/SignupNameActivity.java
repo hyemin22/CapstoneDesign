@@ -17,7 +17,7 @@ public class SignupNameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_name);
+        setContentView(R.layout.activity_signup_name);
 
         ImageButton backBtn = findViewById(R.id.backBtn);
         EditText editName = findViewById(R.id.editName);

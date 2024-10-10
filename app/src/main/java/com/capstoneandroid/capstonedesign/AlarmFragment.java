@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,6 +51,8 @@ public class AlarmFragment extends Fragment {
         recyclerView.setLayoutManager(linearManager);
         AlarmAdapter adapter = new AlarmAdapter();
 
+        Button okBtn = rootView.findViewById(R.id.okBtn);
+
         // 탭 포지션에 따라 다른 아이템을 추가
         if (tabPosition == 0) {
             // 첫 번째 탭: 활동
@@ -57,6 +60,8 @@ public class AlarmFragment extends Fragment {
             adapter.addItem(new AlarmItem(getContext(),"✏️", "아빠님이 방명록을 작성했어요.", "2시간 전"));
             adapter.addItem(new AlarmItem(getContext(),"💬", "아빠님이 내 일기에 댓글을 남겼어요.", "2시간 전"));
             adapter.addItem(new AlarmItem(getContext(),"❤️", "엄마님이 내 일기에 공감했어요.", "3시간 전"));
+
+            okBtn.setVisibility(View.GONE);
         } else if (tabPosition == 1) {
             // 두 번째 탭: 쪽지함
             adapter.addItem(new AlarmItem(getContext(),"✉️", "엄마가 쪽지를 보냈어요.", "방금 전"));
@@ -68,6 +73,16 @@ public class AlarmFragment extends Fragment {
                 public void onItemClick(View view, int position) {
                     // 아이템 클릭 시 실행할 코드 (쪽지 확인 화면으로 전환)
                     openDetailScreen(position);
+                }
+            });
+
+            okBtn.setVisibility(View.VISIBLE);
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), PostCreateActivity.class);
+                    intent.putExtra("source_activity", "AlarmFragment"); //액티비티 구분 위한 식별자
+                    startActivity(intent);
                 }
             });
         }

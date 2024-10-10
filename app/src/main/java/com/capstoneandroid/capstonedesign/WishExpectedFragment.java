@@ -1,8 +1,6 @@
 package com.capstoneandroid.capstonedesign;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +89,7 @@ public class WishExpectedFragment extends Fragment {
         RecyclerView recyclerView2 = rootView.findViewById(R.id.wishExpectedView);
         GridLayoutManager gridManager = new GridLayoutManager(getContext(), 2);
         recyclerView2.setLayoutManager(gridManager);
-        WishExpectedAdapter adapter = new WishExpectedAdapter();
+        WishExpectedAdapter adapter = new WishExpectedAdapter(getContext());
 
         adapter.addItem(new WishExpectedItem(getContext(), "🍗", "한강 가서 치킨 시켜 먹기", "D-2", "2024년 5월 24일 예정"));
         adapter.addItem(new WishExpectedItem(getContext(), "🍝", "대전 유명 파스타 가게 가보기", "D-10", "2024년 6월 20일 예정"));

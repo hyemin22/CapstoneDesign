@@ -1,7 +1,11 @@
 package com.capstoneandroid.capstonedesign;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +31,10 @@ public class Fragment1 extends Fragment {
 
     private RelativeLayout missionLayout;
     private CheckBox missionCheck;
-    private ImageButton post, guestWrite, imgBtnArroaw, imgBtnArrow2;
+    private ImageButton post, guestWrite, imgBtnArrow, imgBtnArrow2;
+    private static final int REQUEST_CODE = 100;  // 요청 코드
+    private GuestbookAdapter adapter;  // 어댑터 선언
+    private ArrayList<GuestbookItem> items = new ArrayList<>(); //방명록 아이템 추가
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
@@ -54,13 +62,13 @@ public class Fragment1 extends Fragment {
         guestWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), GuestWriteActivity.class);
+                int position = items.size();
+                Intent intent = new Intent(getActivity(), GuestBookActivity.class);
+                intent.putExtra("source_activity", "Fragment1"); //액티비티 구분 위한 식별자
+                intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
-
-        //방명록 아이템 추가
-        ArrayList<GuestbookItem> items = new ArrayList<>();
 
         items.add(new GuestbookItem(R.drawable.default_profile_image,
                 "오늘 비온대요 다들 우산 챙겨요~ 아 그리고 내일 나 출장 가는 거", "from.아빠"));
@@ -69,12 +77,12 @@ public class Fragment1 extends Fragment {
         items.add(new GuestbookItem(R.drawable.character3_image,
                 "이번 주에 다 같이 영화보는 거 어때!", "from. 언니"));
 
-        GuestbookAdapter adapter = new GuestbookAdapter(items, getContext());
+        adapter = new GuestbookAdapter(items, getContext());
         ViewPager2 viewPager = rootView.findViewById(R.id.guestView);
 
         //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
-        imgBtnArroaw = rootView.findViewById(R.id.imgBtnArrow);
-        imgBtnArroaw.setOnClickListener(new View.OnClickListener() {
+        imgBtnArrow = rootView.findViewById(R.id.imgBtnArrow);
+        imgBtnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Intent 대신 FragmentTransaction 사용
@@ -97,25 +105,35 @@ public class Fragment1 extends Fragment {
         adapter2.addItem(new HomeWishItem(getContext(),"다같이 한강 가서 치킨 먹기", "2024년 5월 5일 예정", "D-3", R.color.lightPink, R.color.pink));
         adapter2.addItem(new HomeWishItem(getContext(),"대전 랑골로에서 파스타 먹기", "2024년 5월 11일 예정", "D-6", R.color.lightGreen, R.color.green));
 
+        //위시리스트
+        recyclerView1.setAdapter(adapter2);
+
+        //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
+        imgBtnArrow2 = rootView.findViewById(R.id.imgBtnArrow2);
+        imgBtnArrow2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MissionActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //하루 미션 리사이클러뷰
         RecyclerView recyclerView2 = rootView.findViewById(R.id.daymissionView);
         GridLayoutManager gridManager = new GridLayoutManager(getContext(), 2);
         recyclerView2.setLayoutManager(gridManager);
-        DayMissionAdapter adapter3 = new DayMissionAdapter();
+        DayMissionAdapter adapter3 = new DayMissionAdapter(getContext());
 
         adapter3.addItem(new DayMissionItem(R.drawable.ic_hand, "하루 시작 굿모닝 인사 보내기", "100%"));
         adapter3.addItem(new DayMissionItem(R.drawable.ic_moon, "하루 끝 굿나잇 인사 보내기", "0%"));
+
+        //하루 미션
+        recyclerView2.setAdapter(adapter3);
 
         //방명록
         viewPager.setOffscreenPageLimit(3);
         viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
         viewPager.setAdapter(adapter);
-
-        //위시리스트
-        recyclerView1.setAdapter(adapter2);
-
-        //하루 미션
-        recyclerView2.setAdapter(adapter3);
 
         //방명록
         CompositePageTransformer transform = new CompositePageTransformer();
@@ -162,4 +180,41 @@ public class Fragment1 extends Fragment {
         viewPager.setPageTransformer(transform);
 
     }
+    private boolean isReceiverRegistered = false;
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int deletePosition = intent.getIntExtra("delete_position", -1);
+            Log.d("Fragment1", "Delete position received: " + deletePosition);
+            if (deletePosition != -1) {
+                adapter.removeItem(deletePosition);
+            } else {
+                Log.d("Fragment1", "Invalid delete position received");
+            }
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter("DELETE_GUESTBOOK_ITEM"));
+            isReceiverRegistered = true;
+            Log.d("Fragment1", "Receiver registered");
+        }
+        //LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter("DELETE_GUESTBOOK_ITEM"));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+            isReceiverRegistered = false;
+            Log.d("Fragment1", "Receiver unregistered");
+        }
+        //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
 }

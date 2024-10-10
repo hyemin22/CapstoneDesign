@@ -1,7 +1,9 @@
 package com.capstoneandroid.capstonedesign;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,13 +13,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,22 +28,23 @@ import java.util.List;
 
 public class WishCreateActivity extends AppCompatActivity {
 
-    ImageButton backBtn, spinnerBtn;
+    ImageButton backBtn, hamBtn, spinnerBtn;
     ImageView iconSelect;
     EditText titleEdit, memoEdit;
-    TextView startDay, endDay, plusText;
+    TextView ment, startDay, endDay, plusText;
     Spinner spinner;
     Switch alarmSwitch;
     Button okBtn;
     ArrayAdapter<String> adapter;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wish_create);
+        setContentView(R.layout.activity_wish_create);
 
         backBtn = findViewById(R.id.backBtn);
+        hamBtn = findViewById(R.id.hamBtn);
+        ment = findViewById(R.id.ment);
         spinnerBtn = findViewById(R.id.spinnerBtn);
         iconSelect = findViewById(R.id.iconSelect);
         titleEdit = findViewById(R.id.titleEdit);
@@ -51,6 +55,94 @@ public class WishCreateActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         alarmSwitch = findViewById(R.id.alarmSwitch);
         okBtn = findViewById(R.id.okBtn);
+
+        // Intent로 전달된 데이터 받기
+        Intent intent = getIntent();
+        String source = intent.getStringExtra("source");
+
+        // 어떤 화면에서 넘어왔는지에 따라
+        if ("WishExpectedAdapter".equals(source) || "WishCompletedAdapter".equals(source)) {
+            String title = intent.getStringExtra("title");
+            titleEdit.setText(title);
+            hamBtn.setVisibility(View.VISIBLE);
+            ment.setVisibility(View.GONE);
+            iconSelect.setEnabled(false);
+            titleEdit.setEnabled(false);
+            memoEdit.setEnabled(false);
+            startDay.setEnabled(false);
+            endDay.setEnabled(false);
+            plusText.setEnabled(false);
+            spinner.setEnabled(false);
+            alarmSwitch.setEnabled(false);
+            okBtn.setVisibility(View.GONE);
+
+            //햄버거 버튼 설정
+            hamBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // PopupMenu 생성
+                    PopupMenu popupMenu = new PopupMenu(WishCreateActivity.this, hamBtn);
+                    popupMenu.getMenuInflater().inflate(R.menu.menu_edit_delete, popupMenu.getMenu());
+
+                    if ("WishCompletedAdapter".equals(source)) {
+                        // WishCompletedAdapter에서 넘어온 경우, 수정 메뉴를 숨김
+                        popupMenu.getMenu().findItem(R.id.edit).setVisible(false);
+                    }
+
+                    // 메뉴 항목 클릭 리스너 설정
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            int itemId = item.getItemId();
+                            if (itemId == R.id.edit) { // 수정
+                                iconSelect.setEnabled(true);
+                                titleEdit.setEnabled(true);
+                                memoEdit.setEnabled(true);
+                                startDay.setEnabled(true);
+                                endDay.setEnabled(true);
+                                plusText.setEnabled(true);
+                                spinner.setEnabled(true);
+                                alarmSwitch.setEnabled(true);
+                                okBtn.setVisibility(View.VISIBLE);
+                                okBtn.setText("수정하기");
+                                return true;
+                            } else if (itemId == R.id.delete) { // 삭제
+                                // 삭제!!!!!
+                                finish(); // 현재 액티비티 종료
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+
+                    // 팝업 메뉴 보여주기
+                    popupMenu.show();
+                }
+            });
+
+            //백엔드에서 정보 가져와서 내용 채우기!!!!!
+            //제목 채우기
+            //성취 예정일 채우기
+            //카테고리 채우기
+            //아이콘 채우기
+            //메모 채우기
+            //알림 채우기
+
+        } else if ("Fragment2".equals(source)) {
+            // Fragment2에서 넘어온 경우 - 작성 화면
+            hamBtn.setVisibility(View.INVISIBLE);
+            ment.setVisibility(View.VISIBLE);
+            iconSelect.setEnabled(true);
+            titleEdit.setEnabled(true);
+            memoEdit.setEnabled(true);
+            startDay.setEnabled(true);
+            endDay.setEnabled(true);
+            plusText.setEnabled(true);
+            spinner.setEnabled(true);
+            alarmSwitch.setEnabled(true);
+            okBtn.setVisibility(View.VISIBLE);
+            okBtn.setText("등록하기");
+        }
 
         // 스피너와 어댑터 초기화
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
@@ -68,13 +160,11 @@ public class WishCreateActivity extends AppCompatActivity {
             }
         });
 
-        //제목 DB에 저장
-
         //성취 예정일 스피너
         startDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog();
+                showDatePickerDialog(startDay);
             }
         });
 
@@ -82,7 +172,7 @@ public class WishCreateActivity extends AppCompatActivity {
         endDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog();
+                showDatePickerDialog(endDay);
             }
         });
 
@@ -116,8 +206,6 @@ public class WishCreateActivity extends AppCompatActivity {
             }
         });
 
-        //메모 DB에 저장
-
         //알림
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -134,12 +222,13 @@ public class WishCreateActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //DB에 내용 저장
                 //예정된 위시리스트 목록에 추가
             }
         });
     }
 
-    private void showDatePickerDialog() {
+    private void showDatePickerDialog(final TextView targetTextView) {
         // 현재 날짜로 설정
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -164,7 +253,7 @@ public class WishCreateActivity extends AppCompatActivity {
                         // 월과 일을 두 자리 숫자로 형식화
                         String formattedDate = String.format("%04d.%02d.%02d(%s)", year, month + 1, dayOfMonth, daysOfWeek[dayOfWeekIndex]);
 
-                        startDay.setText(formattedDate);
+                        targetTextView.setText(formattedDate);
                     }
                 },
                 year, month, day);

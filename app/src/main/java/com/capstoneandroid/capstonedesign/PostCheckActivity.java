@@ -18,7 +18,7 @@ public class PostCheckActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.post_check);
+        setContentView(R.layout.activity_post_check);
 
         backBtn = findViewById(R.id.backBtn);
         to = findViewById(R.id.to);
@@ -47,7 +47,7 @@ public class PostCheckActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PostCheckActivity.this, PostWriteActivity.class);
+                Intent intent = new Intent(PostCheckActivity.this, PostCreateActivity.class);
                 intent.putExtra("source_activity", "PostCheckActivity");
                 startActivity(intent);
             }
