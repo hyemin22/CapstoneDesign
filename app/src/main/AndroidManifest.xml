@@ -12,18 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.CapstoneDesign"
         tools:targetApi="31">
-        <activity android:name=".AlbumDiaryListActivity" />
-        <activity android:name=".AlbumCreateActivity" />
-        <activity android:name=".FeedEventRootFragment" />
-        <activity android:name=".DiaryActivity" />
-        <activity android:name=".GuestBookActivity" />
-        <activity android:name=".GuestBookCheckActivity" />
-        <activity android:name=".PostCreateActivity" />
-        <activity android:name=".PostCheckActivity" />
-        <activity android:name=".AlarmActivity" />
-        <activity android:name=".WishCreateActivity" />
-        <activity android:name=".MissionActivity"/>
-        <activity android:name=".MissionCreateActivity"/>
+        <activity android:name=".activity.AlbumDiaryListActivity" />
+        <activity android:name=".activity.AlbumCreateActivity" />
+        <activity android:name=".fragment.FeedEventRootFragment" />
+        <activity android:name=".activity.DiaryActivity" />
+        <activity android:name=".activity.GuestBookActivity" />
+        <activity android:name=".activity.GuestBookCheckActivity" />
+        <activity android:name=".activity.PostCreateActivity" />
+        <activity android:name=".activity.PostCheckActivity" />
+        <activity android:name=".activity.AlarmActivity" />
+        <activity android:name=".activity.WishCreateActivity" />
+        <activity android:name=".activity.MissionActivity"/>
+        <activity android:name=".activity.MissionCreateActivity"/>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -43,7 +43,7 @@
             android:name=".FeedActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,23 +52,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupNameActivity"
+            android:name=".activity.SignupNameActivity"
             android:label="SignupName 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SignupIconActivity"
+            android:name=".activity.SignupIconActivity"
             android:label="SignupIcon 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SignupTermsActivity"
+            android:name=".activity.SignupTermsActivity"
             android:label="SignupTerms 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SignupSuccessActivity"
+            android:name=".activity.SignupSuccessActivity"
             android:label="SignupSuccess 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SignupInviteActivity"
+            android:name=".activity.SignupInviteActivity"
             android:label="SignupInvite 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
