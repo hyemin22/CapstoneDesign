@@ -39,7 +39,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.play.services.maps)
     implementation("com.google.android.material:material:1.9.0")
-
+    implementation("com.naver.maps:map-sdk:3.18.0")     // 네이버 지도 SDK
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -1,5 +1,6 @@
 package com.capstoneandroid.capstonedesign.activity;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,27 +10,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.fragment.FeedMapFragment;
 import com.capstoneandroid.capstonedesign.fragment.Fragment1;
 import com.capstoneandroid.capstonedesign.fragment.Fragment2;
 import com.capstoneandroid.capstonedesign.fragment.Fragment3;
 import com.capstoneandroid.capstonedesign.fragment.Fragment4;
 import com.capstoneandroid.capstonedesign.fragment.Fragment5;
-import com.capstoneandroid.capstonedesign.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.naver.maps.map.LocationTrackingMode;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.util.FusedLocationSource;
 
 import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FusedLocationSource locationSource;
+    private NaverMap mNaverMap;
     private Fragment1 fragment1;
     private Fragment2 fragment2;
     private Fragment3 fragment3;
     private Fragment4 fragment4;
     private Fragment5 fragment5;
+    private FeedMapFragment feedMapFragment;  // 지도 프래그먼트
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     BottomNavigationView bottomNavigation;
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private static final String[] PERMISSIONS = {
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
 
     @Override
@@ -43,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         fragment3 = new Fragment3();
         fragment4 = new Fragment4();
         fragment5 = new Fragment5();
+        feedMapFragment = new FeedMapFragment();  // FeedMapFragment 초기화
 
         setFragment(R.id.tab1);
 
@@ -76,6 +91,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    // 권한 요청 결과 처리
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (mNaverMap != null) {
+                    mNaverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+                }
+            }
+        }
     }
 
 //    // 쪽지 토스트 메시지
