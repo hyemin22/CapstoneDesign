@@ -23,7 +23,7 @@ public class Fragment5 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mypage, container, false);
+        View view = inflater.inflate(R.layout.fragment5, container, false);
 
         // 내 가족관리를 눌렀을 때 AlarmFragment로 이동
         goToFamilyControl = view.findViewById(R.id.family);

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class SignupNameActivity extends AppCompatActivity {
+public class SignupNameActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

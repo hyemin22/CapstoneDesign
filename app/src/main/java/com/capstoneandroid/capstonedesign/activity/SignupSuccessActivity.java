@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class SignupSuccessActivity extends AppCompatActivity {
+public class SignupSuccessActivity extends BaseActivity {
 
     private Button okBtn;
 

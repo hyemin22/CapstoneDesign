@@ -19,7 +19,7 @@ import com.capstoneandroid.capstonedesign.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostCreateActivity extends AppCompatActivity {
+public class PostCreateActivity extends BaseActivity {
     ImageButton backBtn, spinnerBtn;
     EditText contentEdit, anonName;
     //받는사람 등 추가!!!

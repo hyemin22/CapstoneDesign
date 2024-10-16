@@ -15,7 +15,7 @@ import com.capstoneandroid.capstonedesign.adapter.DiaryListAdapter;
 
 import java.util.Arrays;
 
-public class AlbumDiaryListActivity extends AppCompatActivity {
+public class AlbumDiaryListActivity extends BaseActivity {
     Button backBtn, editBtn;
     boolean isEditMode = false;
 

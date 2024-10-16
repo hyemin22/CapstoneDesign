@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class PostCheckActivity extends AppCompatActivity {
+public class PostCheckActivity extends BaseActivity {
     ImageButton backBtn;
     TextView to, message, date, from;
     Button okBtn;

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class WishCreateActivity extends AppCompatActivity {
+public class WishCreateActivity extends BaseActivity {
 
     ImageButton backBtn, hamBtn, spinnerBtn;
     ImageView iconSelect;

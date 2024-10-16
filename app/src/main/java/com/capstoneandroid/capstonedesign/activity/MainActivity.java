@@ -24,7 +24,7 @@ import com.naver.maps.map.util.FusedLocationSource;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private FusedLocationSource locationSource;
     private NaverMap mNaverMap;
