@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstoneandroid.capstonedesign.activity.MissionCreateActivity;
 import com.capstoneandroid.capstonedesign.item.ActivityItem;
 import com.capstoneandroid.capstonedesign.R;
 
@@ -18,6 +21,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
     ArrayList<ActivityItem> items = new ArrayList<ActivityItem>();
+    Context context;
+    public ActivityAdapter(Context context) {
+        this.context = context;
+    }
 
     //뷰홀더 새로 생성
     @NonNull
@@ -34,6 +41,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     public void onBindViewHolder(@NonNull ActivityAdapter.ViewHolder holder, int position) {
         ActivityItem item = items.get(position);
         holder.setItem(item);
+
+        // 활동 아이템 클릭 시 수정/삭제 화면으로 이동
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MissionCreateActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
         // ViewHolder의 이미지와 텍스트 설정
         holder.heart.setImageResource(item.isHeartFilled() ? R.drawable.ic_heart_fill : R.drawable.ic_heart);

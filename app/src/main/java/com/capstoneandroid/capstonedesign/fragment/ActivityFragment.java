@@ -129,7 +129,7 @@ public class ActivityFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.activityView);
         LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearManager);
-        adapter = new ActivityAdapter();
+        adapter = new ActivityAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
         // 탭에 따라 다른 내용 설정

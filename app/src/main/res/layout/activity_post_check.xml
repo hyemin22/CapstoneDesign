@@ -94,7 +94,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="260dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/pretendardsemibold"
         android:text="답장 쓰러 가기"

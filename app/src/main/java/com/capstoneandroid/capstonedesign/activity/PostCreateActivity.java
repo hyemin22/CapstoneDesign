@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -84,12 +85,18 @@ public class PostCreateActivity extends BaseActivity {
         // 식별자에 따라 다른 동작을 수행
         if ("AlarmFragment".equals(sourceActivity)) {
             // 1. 쪽지 작성 버튼 클릭해서 넘어온거면 -> 받는 사람 선택
-            spinner.setOnClickListener(new View.OnClickListener() {
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onClick(View view) {
-                    spinner.performClick();
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    // 선택된 항목 처리
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // 아무 항목도 선택되지 않았을 때 처리
                 }
             });
+
         } else if ("PostCheckActivity".equals(sourceActivity)) {
             // 2. 답장 보내러가기 버튼 클릭해서 넘어온거면 -> 받는 사람 자동 설정
             receiverChar.setVisibility(View.VISIBLE);
