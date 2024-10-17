@@ -22,8 +22,8 @@
         <activity android:name=".activity.PostCheckActivity" />
         <activity android:name=".activity.AlarmActivity" />
         <activity android:name=".activity.WishCreateActivity" />
-        <activity android:name=".activity.MissionActivity"/>
-        <activity android:name=".activity.MissionCreateActivity"/>
+        <activity android:name=".activity.MissionActivity" />
+        <activity android:name=".activity.MissionCreateActivity" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -37,11 +37,13 @@
         -->
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="fzwnh8umkh" />
-
+            android:value="fzwnh8umkh" /> <!-- MainActivity에서 intent-filter 제거 -->
+        <!--<activity android:name=".activity.MainActivity" />  SignupNameActivity에 intent-filter 추가 -->
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Start 액티비티"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +52,7 @@
         </activity>
         <activity
             android:name=".activity.SignupNameActivity"
-            android:label="SignupName 액티비티"
+            android:label="SignupIcon 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.SignupIconActivity"
@@ -68,6 +70,21 @@
             android:name=".activity.SignupInviteActivity"
             android:label="SignupInvite 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao{a06273008a3877ae89b4b37f85acaeab}" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

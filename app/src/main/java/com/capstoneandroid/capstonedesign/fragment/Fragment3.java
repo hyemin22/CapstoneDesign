@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 
@@ -16,6 +17,7 @@ public class Fragment3 extends Fragment {
     FeedCalMonthFragment fragment1;
     FeedEventRootFragment fragment2;
     FeedMapFragment fragment3;
+    SearchingFragment searchingFragment;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment3, container, false);
 
@@ -29,6 +31,7 @@ public class Fragment3 extends Fragment {
         fragment1 = new FeedCalMonthFragment();
         fragment2 = new FeedEventRootFragment();
         fragment3 = new FeedMapFragment();
+        searchingFragment = new SearchingFragment(); // SearchingFragment 초기화
 
         getChildFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
 
@@ -67,6 +70,19 @@ public class Fragment3 extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        // SearchingBtn 클릭 리스너 설정
+        ImageButton searchingBtn = rootView.findViewById(R.id.SearchingBtn);
+        searchingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // SearchingFragment로 전환
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, searchingFragment)
+                        .addToBackStack(null) // 뒤로 가기 버튼을 위한 백스택 추가
+                        .commit();
             }
         });
 

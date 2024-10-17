@@ -189,26 +189,26 @@ public class MissionCreateActivity extends BaseActivity {
                         days.setVisibility(View.VISIBLE);
                         weekmonth.setVisibility(View.GONE);
                         break;
-                    case "주마다":
-                        // 주마다 선택 시 처리
+                    case "한 주에":
+                        // 한 주에 선택 시 처리
                         cycle.setVisibility(View.VISIBLE);
                         cycle.setText("주 목표");
                         underlineText.setVisibility(View.GONE);
                         everydayChk.setVisibility(View.GONE);
                         days.setVisibility(View.GONE);
                         weekmonth.setVisibility(View.VISIBLE);
-                        weekmonthText.setText("주마다");
+                        weekmonthText.setText("한 주에");
                         fetchDataFromBackend2();
                         break;
-                    case "월마다":
-                        // 월마다 선택 시 처리
+                    case "한 달에":
+                        // 한 달에 선택 시 처리
                         cycle.setVisibility(View.VISIBLE);
                         cycle.setText("월 목표");
                         underlineText.setVisibility(View.GONE);
                         everydayChk.setVisibility(View.GONE);
                         days.setVisibility(View.GONE);
                         weekmonth.setVisibility(View.VISIBLE);
-                        weekmonthText.setText("월마다");
+                        weekmonthText.setText("한 달에");
                         fetchDataFromBackend2();
                         break;
                     case "직접 지정":
@@ -289,8 +289,8 @@ public class MissionCreateActivity extends BaseActivity {
         List<String> items = new ArrayList<>();
         items.add("미션을 수행할 주기를 선택해주세요.");
         items.add("매일");
-        items.add("주마다");
-        items.add("월마다");
+        items.add("한 주에");
+        items.add("한 달에");
         items.add("직접 지정");
 
         // 스피너 어댑터에 아이템 추가

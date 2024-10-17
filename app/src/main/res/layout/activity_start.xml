@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/start"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".activity.StartActivity">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/rectangle"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="소중한 기억을 한 공간에 담다"
+        android:textColor="@color/white"
+        android:layout_marginTop="50dp"
+        android:textSize="17dp"
+        android:fontFamily="@font/pretendardregular" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기억담아"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:fontFamily="@font/pretendardbold" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00ff0000"
+        android:layout_marginTop="250dp"
+        android:id="@+id/kakaologin"
+        app:srcCompat="@drawable/kakaologin"/>
+
+</LinearLayout>
