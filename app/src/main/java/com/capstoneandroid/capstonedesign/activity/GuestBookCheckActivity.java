@@ -14,7 +14,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class GuestBookCheckActivity extends AppCompatActivity {
+public class GuestBookCheckActivity extends BaseActivity {
     ImageButton backBtn, hamBtn;
     TextView name, content;
 

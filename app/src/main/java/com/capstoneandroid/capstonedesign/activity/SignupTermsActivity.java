@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class SignupTermsActivity extends AppCompatActivity {
+public class SignupTermsActivity extends BaseActivity {
 
     private ImageButton backBtn;
     private CheckBox checkBoxAll, essential1, essential2, optional;

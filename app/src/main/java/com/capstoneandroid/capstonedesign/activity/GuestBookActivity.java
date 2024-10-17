@@ -19,7 +19,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class GuestBookActivity extends AppCompatActivity {
+public class GuestBookActivity extends BaseActivity {
     ImageButton backBtn, hamBtn;
     TextView pagename, ment, count;
     EditText contentEdit;

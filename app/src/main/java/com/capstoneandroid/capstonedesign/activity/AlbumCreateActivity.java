@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class AlbumCreateActivity extends AppCompatActivity{
+public class AlbumCreateActivity extends BaseActivity {
 
     ImageButton backBtn;
     EditText titleEdit;

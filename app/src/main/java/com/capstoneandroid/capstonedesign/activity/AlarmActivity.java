@@ -6,14 +6,13 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.capstoneandroid.capstonedesign.fragment.AlarmFragment;
 import com.capstoneandroid.capstonedesign.R;
 import com.google.android.material.tabs.TabLayout;
 
-public class AlarmActivity extends AppCompatActivity {
+public class AlarmActivity extends BaseActivity {
     ImageButton backBtn;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {

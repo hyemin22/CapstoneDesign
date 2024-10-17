@@ -20,7 +20,7 @@ import com.capstoneandroid.capstonedesign.item.RecMissionItem;
 
 import java.util.Calendar;
 
-public class MissionActivity extends AppCompatActivity {
+public class MissionActivity extends BaseActivity {
     ImageButton backBtn;
     TextView name, month;
     Button addBtn, okBtn;

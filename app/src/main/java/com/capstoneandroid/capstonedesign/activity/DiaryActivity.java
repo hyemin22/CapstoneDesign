@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class DiaryActivity extends AppCompatActivity {
+public class DiaryActivity extends BaseActivity {
 
     ImageView img;
 

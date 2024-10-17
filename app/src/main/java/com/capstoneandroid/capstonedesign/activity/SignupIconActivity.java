@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
-public class SignupIconActivity extends AppCompatActivity {
+public class SignupIconActivity extends BaseActivity {
 
     private ImageButton backBtn;
     private GridLayout gridIcon;

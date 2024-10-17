@@ -26,7 +26,7 @@ import com.capstoneandroid.capstonedesign.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissionCreateActivity extends AppCompatActivity {
+public class MissionCreateActivity extends BaseActivity {
     ImageButton backBtn, hamBtn;
     TextView ment, cycle, underlineText, weekmonthText, timeSelect;
     EditText titleEdit;
