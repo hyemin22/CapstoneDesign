@@ -19,16 +19,30 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>{
 
     ArrayList<LocalDate> dayList;
+    boolean isMonthlyView;  // 월간/주간 뷰 구분을 위한 변수
 
-    public CalendarAdapter(ArrayList<LocalDate> dayList) {
+    public CalendarAdapter(ArrayList<LocalDate> dayList, boolean isMonthlyView) {
         this.dayList = dayList;
+        this.isMonthlyView = isMonthlyView;  // 생성자로 월간/주간 뷰 구분
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        // 월간 뷰일 때는 기본 뷰 타입, 주간 뷰일 때는 다른 뷰 타입을 반환
+        return isMonthlyView ? 1 : 2;
+    }
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.calendar_cell, parent, false);
+        View view;
+
+        // 월간 뷰와 주간 뷰의 레이아웃을 다르게 설정
+        if(viewType == 1) {  // 월간 뷰
+            view = inflater.inflate(R.layout.calendar_cell, parent, false);
+        } else {  // 주간 뷰
+            view = inflater.inflate(R.layout.calendar_cell, parent, false);
+        }
 
         return new CalendarViewHolder(view);
     }
@@ -47,27 +61,32 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             if(day.equals(CalendarUtil.selecedDate)) {
                 holder.parentView.setBackgroundResource(R.drawable.my_selector);
                 holder.dayText.setTextColor(Color.WHITE);
+            }else {
+
             }
+
+
         }
 
 
         // 날짜 클릭 이벤트
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int iYear = day.getYear();   // 년
-                    int iMonth = day.getMonthValue();   // 월
-                    int iDay = day.getDayOfMonth();    //일
+            @Override
+            public void onClick(View view) {
+                int iYear = day.getYear();   // 년
+                int iMonth = day.getMonthValue();   // 월
+                int iDay = day.getDayOfMonth();    //일
 
-                    String yearMonDay = iYear + "년" + iMonth + "월" + iDay + "일";
+                String yearMonDay = iYear + "년" + iMonth + "월" + iDay + "일";
 
-                    Toast.makeText(holder.itemView.getContext(), yearMonDay, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(holder.itemView.getContext(), yearMonDay, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     @Override
     public int getItemCount() {
+
         return dayList.size();
     }
 
