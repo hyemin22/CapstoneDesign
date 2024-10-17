@@ -42,11 +42,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         ActivityItem item = items.get(position);
         holder.setItem(item);
 
-        // 활동 아이템 클릭 시 수정/삭제 화면으로 이동
+        // 활동 아이템 클릭 시 상세페이지 화면으로 이동
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, MissionCreateActivity.class);
+                Intent intent = new Intent(context, MissionCreateActivity.class); //상세페이지 액티비티로 변경!!
                 context.startActivity(intent);
             }
         });

@@ -1,33 +1,20 @@
 package com.capstoneandroid.capstonedesign.activity;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.capstoneandroid.capstonedesign.R;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
     private static final String TAG = "KakaoLogin";
     private View loginButton;
 

@@ -68,6 +68,28 @@ public class Fragment1 extends Fragment {
             }
         });
 
+        //    // 쪽지 토스트 메시지
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if(item.getItemId() == R.id.icon_post) {
+//
+//            LayoutInflater inflater = getLayoutInflater();
+//
+//            View layout = inflater.inflate(
+//                    R.layout.toast_post, (ViewGroup) findViewById(R.id.toast_layout_root));
+//
+//            TextView text = layout.findViewById(R.id.text);
+//
+//            Toast toast = new Toast(this);
+//            text.setText("쪽지가 도착했어요.");
+//            toast.setGravity(Gravity.TOP, 400, 110);
+//            toast.setDuration(Toast.LENGTH_SHORT);
+//            toast.setView(layout);
+//            toast.show();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
         //방명록 추가 버튼 클릭 시 동작
         guestWrite = rootView.findViewById(R.id.guestWrite);
         guestWrite.setOnClickListener(new View.OnClickListener() {

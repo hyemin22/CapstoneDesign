@@ -87,12 +87,6 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     // 권한 요청 결과 처리
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -105,28 +99,5 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
-
-//    // 쪽지 토스트 메시지
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId() == R.id.icon_post) {
-//
-//            LayoutInflater inflater = getLayoutInflater();
-//
-//            View layout = inflater.inflate(
-//                    R.layout.toast_post, (ViewGroup) findViewById(R.id.toast_layout_root));
-//
-//            TextView text = layout.findViewById(R.id.text);
-//
-//            Toast toast = new Toast(this);
-//            text.setText("쪽지가 도착했어요.");
-//            toast.setGravity(Gravity.TOP, 400, 110);
-//            toast.setDuration(Toast.LENGTH_SHORT);
-//            toast.setView(layout);
-//            toast.show();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
 
 }

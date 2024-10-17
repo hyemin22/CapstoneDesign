@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.graphics.Color;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +21,11 @@ public class BaseActivity extends AppCompatActivity {
     // 상태바 글씨 및 아이콘 색 설정 (어두운 아이콘)
     private void setStatusBarIconColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 상태바 아이콘 및 글씨 색상을 어둡게 설정
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+            // 상태바 배경색을 유지하거나 명시적으로 설정 (여기서는 흰색으로 설정)
+            getWindow().setStatusBarColor(Color.WHITE);  // 원하는 색상으로 설정
         }
     }
 
