@@ -15,6 +15,20 @@
         android:paddingRight="50dp"
         android:paddingBottom="10dp" />
 
+
+    <Spinner
+        android:id='@+id/spinner'
+        android:layout_width="85dp"
+        android:layout_height="33dp"
+        android:layout_marginRight="18dp"
+        android:layout_margin="25dp"
+        android:layout_gravity="bottom"
+        android:fontFamily="@font/pretendardextrabold"
+        android:background="@drawable/spinner_bg"
+        android:entries="@array/selectEvent">
+
+    </Spinner>
+
     <ImageButton
         android:id="@+id/toggleBtn"
         android:layout_width="30dp"

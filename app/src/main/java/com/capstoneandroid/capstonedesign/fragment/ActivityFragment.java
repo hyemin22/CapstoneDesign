@@ -65,7 +65,7 @@ public class ActivityFragment extends Fragment {
             dialog.getWindow().setLayout(970, 600); // 원하는 크기로 설정 (px 단위)
             WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
             params.x = 0;  // x 위치 조정
-            params.y = -70;  // y 위치 조정
+            params.y = 170;  // y 위치 조정
             dialog.getWindow().setAttributes(params);
 
             GridLayout gridLayout = dialogView.findViewById(R.id.gridLayout); // GridLayout 가져오기
@@ -104,7 +104,7 @@ public class ActivityFragment extends Fragment {
             dialog.getWindow().setLayout(970, 800); // 원하는 크기로 설정 (px 단위)
             WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
             params.x = 0;  // x 위치 조정
-            params.y = 30;  // y 위치 조정
+            params.y = 240;  // y 위치 조정
             dialog.getWindow().setAttributes(params);
 
             GridLayout gridLayout = dialogView.findViewById(R.id.gridLayout); // GridLayout 가져오기

@@ -3,17 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blue2"
+    android:background="@color/blue"
     android:gravity="center_horizontal"
     android:padding="20dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.15"
+        android:scaleY="1.15"
+        android:src="@drawable/giftbox"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입에 성공했어요!"
         android:textColor="@color/white"
+        android:layout_marginTop="10dp"
         android:textSize="27dp"
-        android:layout_marginTop="230dp"
         android:fontFamily="@font/pretendardbold" />
 
     <TextView
@@ -26,24 +35,17 @@
         android:layout_marginTop="50dp"
         android:fontFamily="@font/pretendardsemibold" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="145dp"
-        android:scaleX="1.1"
-        android:scaleY="1.1"
-        android:src="@drawable/signupsuccessimage" />
+
 
     <Button
         android:id="@+id/okBtn4"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_button"
+        android:background="#FFFFFF"
         android:text="확인"
         android:textSize="20dp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/pretendardsemibold"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/pretendardsemibold"/>
 
 </LinearLayout>
