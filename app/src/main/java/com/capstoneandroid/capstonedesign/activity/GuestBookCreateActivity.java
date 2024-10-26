@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,12 +16,16 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.model.GuestBook;
+import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
+import com.kakao.sdk.user.UserApiClient;
 
-public class GuestBookActivity extends BaseActivity {
+import org.json.JSONObject;
+
+public class GuestBookCreateActivity extends BaseActivity {
     ImageButton backBtn, hamBtn;
     TextView pagename, ment, count;
     EditText contentEdit;
@@ -55,7 +61,7 @@ public class GuestBookActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // PopupMenu 생성
-                PopupMenu popupMenu = new PopupMenu(GuestBookActivity.this, hamBtn);
+                PopupMenu popupMenu = new PopupMenu(GuestBookCreateActivity.this, hamBtn);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_delete, popupMenu.getMenu());
 
                 // 메뉴 항목 클릭 리스너 설정
@@ -67,7 +73,7 @@ public class GuestBookActivity extends BaseActivity {
                             // 삭제할 아이템의 인덱스를 intent로 넘김
                             Intent resultIntent = new Intent("DELETE_GUESTBOOK_ITEM");
                             resultIntent.putExtra("delete_position", position);
-                            LocalBroadcastManager.getInstance(GuestBookActivity.this).sendBroadcast(resultIntent);
+                            LocalBroadcastManager.getInstance(GuestBookCreateActivity.this).sendBroadcast(resultIntent);
                             finish(); // 현재 액티비티 종료
                             return true;
                         }
@@ -126,12 +132,41 @@ public class GuestBookActivity extends BaseActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String content = contentEdit.getText().toString();
-                // 방명록 확인 화면으로 이동
-                Intent intent = new Intent(GuestBookActivity.this, GuestBookCheckActivity.class);
-                intent.putExtra("content", content);
-                startActivity(intent);
-                finish();
+                // 로그인한 사용자 정보 조회
+                UserApiClient.getInstance().me((user, error) -> {
+                    if (error != null) {
+                        Log.e(TAG, "사용자 정보 요청 실패", error);
+                    } else if (user != null) {
+                        Long user_id = user.getId(); // 카카오 사용자 고유 ID
+                        String content = contentEdit.getText().toString(); // 방명록에 입력한 내용
+
+                        // POJO 클래스를 사용하여 방명록 데이터 생성
+                        GuestBook guestBook = new GuestBook(user_id, content);
+
+                        // 서버로 POST 요청 보내기
+                        sendGuestBookData(guestBook);
+                    }
+                    return null;
+                });
+            }
+        });
+    }
+
+    private void sendGuestBookData(GuestBook guestBook) {
+        // 서버로 POST 요청 보내기
+        GuestBookRepository repository = new GuestBookRepository();
+        repository.sendGuestBookDataToServer(guestBook, new GuestBookRepository.GuestBookCallback() {
+            @Override
+            public void onSuccess() {
+                // 방명록 추가 성공
+                Log.d("GuestBookCreateActivity", "방명록이 성공적으로 추가되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 방명록 추가 실패
+                Log.e("GuestBookCreateActivity", "방명록 추가 실패: " + errorMessage);
             }
         });
     }

@@ -29,7 +29,7 @@ import com.capstoneandroid.capstonedesign.item.GuestbookItem;
 import com.capstoneandroid.capstonedesign.item.HomeWishItem;
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.activity.AlarmActivity;
-import com.capstoneandroid.capstonedesign.activity.GuestBookActivity;
+import com.capstoneandroid.capstonedesign.activity.GuestBookCreateActivity;
 import com.capstoneandroid.capstonedesign.activity.MissionActivity;
 import com.capstoneandroid.capstonedesign.adapter.DayMissionAdapter;
 import com.capstoneandroid.capstonedesign.adapter.GuestbookAdapter;
@@ -96,7 +96,7 @@ public class Fragment1 extends Fragment {
             @Override
             public void onClick(View view) {
                 int position = items.size();
-                Intent intent = new Intent(getActivity(), GuestBookActivity.class);
+                Intent intent = new Intent(getActivity(), GuestBookCreateActivity.class);
                 intent.putExtra("source_activity", "Fragment1"); //액티비티 구분 위한 식별자
                 intent.putExtra("position", position);
                 startActivity(intent);

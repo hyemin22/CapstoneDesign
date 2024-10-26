@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="기억담아에서 사용할\n닉네임을 입력해주세요."
+        android:text="가족 아이디를 입력해주세요.\n또는 새로운 가족 버튼을 클릭!"
         android:textSize="27dp"
         android:fontFamily="@font/pretendardsemibold"
         android:textColor="@color/black"
@@ -26,14 +26,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이름"
+        android:text="가족 번호"
         android:textSize="19dp"
         android:fontFamily="@font/pretendardsemibold"
         android:textColor="@color/gray1"
         android:layout_marginTop="40dp" />
 
     <EditText
-        android:id="@+id/editName"
+        android:id="@+id/editNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
@@ -42,6 +42,18 @@
         android:textSize="26dp"
         android:maxLines="1"
         android:fontFamily="@font/pretendardsemibold"/>
+
+    <Button
+        android:id="@+id/newBtn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button"
+        android:text="새로운 가족 만들기"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendardsemibold"
+        android:layout_marginTop="300dp" />
 
     <Button
         android:id="@+id/okBtn1"
@@ -53,7 +65,6 @@
         android:textSize="20dp"
         android:textColor="@color/white"
         android:fontFamily="@font/pretendardsemibold"
-        android:layout_marginTop="400dp" />
-
+        android:layout_marginTop="40dp" />
 
 </LinearLayout>

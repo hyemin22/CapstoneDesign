@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
 
@@ -58,9 +57,15 @@ public class SignupNameActivity extends BaseActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                long familyid = getIntent().getLongExtra("familyid",-1L);
+                long kakaoId = getIntent().getLongExtra("kakaoId",-1L);
                 String name = editName.getText().toString();
+
                 Intent intent = new Intent(SignupNameActivity.this, SignupIconActivity.class);
+                intent.putExtra("familyid", familyid);
+                intent.putExtra("kakaoId", kakaoId);
                 intent.putExtra("name", name);
+
                 startActivity(intent);
             }
         });

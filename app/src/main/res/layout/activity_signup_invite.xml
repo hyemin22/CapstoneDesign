@@ -8,31 +8,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="가족 연결을 위해\n초대 링크를 공유해보아요!"
+        android:text="가족 연결을 위해\n초대 링크를 공유해요 😋"
         android:textSize="27dp"
         android:fontFamily="@font/pretendardsemibold"
         android:textColor="@color/black"
         android:layout_marginTop="90dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleX="1.15"
-        android:scaleY="1.15"
-        android:src="@drawable/giftbox"
-        android:layout_marginTop="110dp"
-        android:layout_marginBottom="70dp"
+        android:layout_width="300dp"
+        android:layout_height="320dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/signupinvite"
         android:layout_gravity="center_horizontal"/>
 
+    <TextView
+        android:id="@+id/familyid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/blue"
+        android:fontFamily="@font/pretendardmedium"
+        android:text="395043"
+        android:textSize="23dp" />
+
     <Button
+        android:id="@+id/signupBtn"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_button"
-        android:text="공유하기"
+        android:text="회원가입하기"
         android:textSize="20dp"
         android:textColor="@color/white"
         android:fontFamily="@font/pretendardsemibold"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="130dp"/>
 
 </LinearLayout>

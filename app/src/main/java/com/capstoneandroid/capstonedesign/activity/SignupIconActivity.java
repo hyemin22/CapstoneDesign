@@ -39,8 +39,17 @@ public class SignupIconActivity extends BaseActivity {
         okBtn.setEnabled(false);
         okBtn.setAlpha(0.5f);
 
+        // 각 버튼에 태그를 설정하기 위한 아이콘 이름 배열
+        String[] iconTags = {"ch_orange", "ch_pineapple", "ch_grape", "ch_strawberry",
+                "ch_apple", "ch_mango", "ch_kiwi", "ch_cherry"};
+
         for(int i=0; i<gridIcon.getChildCount();i++){
             ImageButton iconButton = (ImageButton) gridIcon.getChildAt(i);
+
+            // 각 버튼에 대응되는 태그 설정
+            iconButton.setTag(iconTags[i]);
+
+            // 초기 버튼 상태 설정
             iconButton.setAlpha(0.5f);
             iconButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,8 +82,16 @@ public class SignupIconActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // 선택된 아이콘과 함께 다음 화면으로 이동
+                long familyid = getIntent().getLongExtra("familyid",-1L);
+                long kakaoId = getIntent().getLongExtra("kakaoId",-1L);
+                String name = getIntent().getStringExtra("name");
+
                 Intent intent = new Intent(SignupIconActivity.this, SignupTermsActivity.class);
-                intent.putExtra("selectedIcon", (Integer)selectedIconButton.getTag());
+
+                intent.putExtra("familyid", familyid);
+                intent.putExtra("kakaoId", kakaoId);
+                intent.putExtra("name", name);
+                intent.putExtra("selectedIcon", (String)selectedIconButton.getTag());
                 startActivity(intent);
             }
         });

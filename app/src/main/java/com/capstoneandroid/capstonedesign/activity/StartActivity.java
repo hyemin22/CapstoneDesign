@@ -1,12 +1,13 @@
 package com.capstoneandroid.capstonedesign.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.repository.UserRepository;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
@@ -16,48 +17,123 @@ import kotlin.jvm.functions.Function2;
 
 public class StartActivity extends BaseActivity {
     private static final String TAG = "KakaoLogin";
-    private View loginButton;
+    private long kakaoId;
+
+    // 로그인 결과 처리
+    Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
+        @Override
+        public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+            if (oAuthToken != null) {
+                Log.e(TAG, "로그인 성공: " + oAuthToken.getAccessToken());
+                // 카카오 로그인 후 사용자 정보 조회 및 성공 후 처리
+                fetchUserInfo(oAuthToken);
+            } else {
+                // 로그인 실패
+                Log.e(TAG, "로그인 실패: " + (throwable != null ? throwable.getMessage() : "Unknown error"));
+            }
+            return null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         KakaoSdk.init(this, "a06273008a3877ae89b4b37f85acaeab");
-        setContentView(R.layout.activity_start);
 
-        loginButton = findViewById(R.id.kakaologin);
+        // SharedPreferences에서 로그인 상태 확인
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false);
 
-        // 카카오톡이 설치되어 있는지 확인하는 메서드 , 카카오에서 제공함. 콜백 객체를 이용합.
-        Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
-            @Override
-            // 콜백 메서드 ,
-            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-                Log.e(TAG, "CallBack Method");
-                //oAuthToken != null 이라면 로그인 성공
-                if (oAuthToken != null) {
-                    // 토큰이 전달된다면 로그인이 성공한 것이고 토큰이 전달되지 않으면 로그인 실패한다.
+        if (isLoggedIn) {
+            // 로그인된 상태라면 MainActivity로 이동
+            navigateToMainActivity();
+        } else {
+            // 로그인되지 않은 상태라면 온보딩 화면 보여주기
+            setContentView(R.layout.activity_start);
 
-                } else {
-                    //로그인 실패
-                    Log.e(TAG, "invoke: login fail");
+            // 카카오 로그인 버튼 클릭 이벤트 설정
+            findViewById(R.id.kakaologin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loginWithKakao();
                 }
+            });
+        }
+    }
 
-                return null;
+    private void fetchUserInfo(OAuthToken token) {
+        UserApiClient.getInstance().me((user, error) -> {
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error);
+            } else if (user != null) {
+                kakaoId = user.getId(); // 카카오 사용자 고유 ID
+                // 사용자 정보 요청이 완료된 후 로그인 성공 처리
+                onLoginSuccess(token);
             }
-        };
+            return null;
+        });
+    }
 
-        // 로그인 버튼 클릭 리스너
-        loginButton.setOnClickListener(new View.OnClickListener() {
+    private void loginWithKakao() {
+        // 카카오 로그인 처리 (SDK 사용)
+        if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(StartActivity.this)) {
+            UserApiClient.getInstance().loginWithKakaoTalk(StartActivity.this, callback);
+        } else {
+            UserApiClient.getInstance().loginWithKakaoAccount(StartActivity.this, callback);
+        }
+    }
+
+    private void onLoginSuccess(OAuthToken token) {
+        // 로그인 성공 시 사용자 정보를 확인
+        checkIfUserExists(new UserRepository.UserExistCallback() {
             @Override
-            public void onClick(View view) {
+            public void onExistCheckSuccess() {
+                // 기존 사용자는 로그인 상태를 저장하고 MainActivity로 이동
+                setLoginState(true);
+                navigateToMainActivity();
+            }
 
-                // 해당 기기에 카카오톡이 설치되어 있는 확인
-                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(StartActivity.this)) {
-                    UserApiClient.getInstance().loginWithKakaoTalk(StartActivity.this, callback);
-                } else {
-                    // 카카오톡이 설치되어 있지 않다면
-                    UserApiClient.getInstance().loginWithKakaoAccount(StartActivity.this, callback);
-                }
+            @Override
+            public void onExistCheckFailure(String errorMessage) {
+                // 신규 사용자일 경우 SignUpFamilyIdActivity로 이동
+                Intent intent = new Intent(StartActivity.this, SignUpFamilyIdActivity.class);
+                intent.putExtra("kakaoId", kakaoId);
+                startActivity(intent);
+
+                // 로그인 상태를 저장하여 재실행 시 StartActivity를 건너뜀
+                setLoginState(true);
+                finish();
             }
         });
+    }
+
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(StartActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void checkIfUserExists(UserRepository.UserExistCallback callback) {
+        UserRepository userRepository = new UserRepository();
+        userRepository.isUserExist(kakaoId, new UserRepository.UserExistCallback() {
+            @Override
+            public void onExistCheckSuccess() {
+                // 유저가 존재하면 콜백 호출
+                callback.onExistCheckSuccess();
+            }
+
+            @Override
+            public void onExistCheckFailure(String errorMessage) {
+                // 유저가 존재하지 않는다면 콜백 호출
+                callback.onExistCheckFailure(errorMessage);
+            }
+        });
+    }
+
+    private void setLoginState(boolean isLoggedIn) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_logged_in", isLoggedIn);
+        editor.apply();
     }
 }

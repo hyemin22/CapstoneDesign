@@ -1,6 +1,9 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +16,47 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.model.GuestBook;
+import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.repository.UserRepository;
+import com.kakao.sdk.user.UserApiClient;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Fragment5 extends Fragment {
-    private TextView goToFamilyControl;
-    private TextView goToAlarm;
-    private TextView goToFamilyScrap;
-    private TextView goToMyScrap;
-
+    private TextView nickname1, nickname2, phone_number,
+            goToFamilyControl, goToAlarm, goToFamilyScrap, goToMyScrap;
+    private CircleImageView profile;
+;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment5, container, false);
 
-        // 내 가족관리를 눌렀을 때 AlarmFragment로 이동
+        nickname1 = view.findViewById(R.id.nickname1);
+        nickname2 = view.findViewById(R.id.nickname2);
+        phone_number = view.findViewById(R.id.phone_number);
+        profile = view.findViewById(R.id.profile);
         goToFamilyControl = view.findViewById(R.id.family);
+        goToAlarm = view.findViewById(R.id.alarm);
+        goToFamilyScrap = view.findViewById(R.id.familyScrap);
+        goToMyScrap = view.findViewById(R.id.myScrap);
+
+        // 유저 이름, 전화번호, 캐릭터 띄우기
+        // 로그인한 사용자 정보 조회
+        UserApiClient.getInstance().me((user, error) -> {
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error);
+            } else if (user != null) {
+                Long user_id = user.getId(); // 카카오 사용자 고유 ID
+
+                // 서버로 GET 요청 보내기
+                getUserInfoData(user_id);
+            }
+            return null;
+        });
+
+        // 내 가족관리를 눌렀을 때 AlarmFragment로 이동
         goToFamilyControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +71,6 @@ public class Fragment5 extends Fragment {
         });
 
         // 가족 공동 스크랩을 눌렀을 때 AlarmFragment로 이동
-        goToFamilyScrap = view.findViewById(R.id.familyScrap);
         goToFamilyScrap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +85,6 @@ public class Fragment5 extends Fragment {
         });
 
         // 내 스크랩을 눌렀을 때 AlarmFragment로 이동
-        goToMyScrap = view.findViewById(R.id.myScrap);
         goToMyScrap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +99,6 @@ public class Fragment5 extends Fragment {
         });
 
         // 알림설정을 눌렀을 때 AlarmFragment로 이동
-        goToAlarm = view.findViewById(R.id.alarm);
         goToAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,5 +113,34 @@ public class Fragment5 extends Fragment {
         });
 
         return view;
+    }
+
+    private void getUserInfoData(Long user_id) {
+        // 서버로 Get 요청 보내기
+        UserRepository userRepository = new UserRepository();
+        userRepository.getUserInfo(user_id, new UserRepository.GetInfoCallback() {
+            @Override
+            public void onInfoGetSuccess(User user) {
+                nickname1.setText(user.getNickname());
+                nickname2.setText(user.getNickname());
+                phone_number.setText(user.getPhone_number());
+
+                //선택한 캐릭터 띄워주기
+                String ch_name = user.getCharacter_choice();
+                int drawableId = getResources().getIdentifier(ch_name, "drawable", getContext().getPackageName());
+                System.out.println("drawable" + drawableId);
+
+                if (drawableId != 0) {
+                    profile.setImageResource(drawableId);
+                } else {
+                    profile.setImageResource(R.drawable.ic_my);
+                }
+            }
+
+            @Override
+            public void onInfoGetFailure(String errorMessage) {
+                Log.e(TAG, "유저 정보 가져오기 실패: " + errorMessage);
+            }
+        });
     }
 }

@@ -1,7 +1,10 @@
 package com.capstoneandroid.capstonedesign.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,6 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.repository.UserRepository;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SignupTermsActivity extends BaseActivity {
 
@@ -29,7 +37,7 @@ public class SignupTermsActivity extends BaseActivity {
         essential1 = findViewById(R.id.essential1);
         essential2 = findViewById(R.id.essential2);
         optional = findViewById(R.id.optional);
-        okBtn = findViewById(R.id.okBtn3);
+        okBtn = findViewById(R.id.okBtn);
 
         //확인 버튼 비활성화, 반투명
         okBtn.setEnabled(false);
@@ -107,8 +115,43 @@ public class SignupTermsActivity extends BaseActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupTermsActivity.this, SignupSuccessActivity.class);
-                startActivity(intent);
+
+                // Intent에서 넘어온 값 받기
+                Intent intent = getIntent();
+                Long kakaoId = getIntent().getLongExtra("kakaoId",-1L);
+                String nickname = intent.getStringExtra("name");
+                String characterChoice = intent.getStringExtra("selectedIcon");
+                //String kakaoPhoneNumber = intent.getStringExtra("phone_number");  // 카카오에서 받은 전화번호
+                Long family_id = intent.getLongExtra("familyid",-1L);
+
+                // POJO 클래스를 사용하여 회원가입 데이터 생성
+                User user = new User(
+                        kakaoId,
+                        nickname,
+                        characterChoice,
+                        essential1.isChecked(),
+                        essential2.isChecked(),
+                        optional.isChecked(),
+                        (family_id == -1) ? null : family_id
+                );
+
+                // 서버로 POST 요청 보내기
+                UserRepository repository = new UserRepository();
+                repository.sendSignupDataToServer(user, new UserRepository.SignupCallback() {
+                    @Override
+                    public void onSignupSuccess(Long familyId) { // 서버의 유저 테이블에서 family_id값 가져오기
+                        // family_id를 받아서 다음 액티비티로 전달
+                        Intent intent = new Intent(SignupTermsActivity.this, SignupInviteActivity.class);
+                        intent.putExtra("familyId", familyId);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onSignupFailure(String errorMessage) {
+                        Log.e(TAG, "Signup error: " + errorMessage);
+                        // 에러 처리 로직 (예: 토스트 메시지 표시)
+                    }
+                });
             }
         });
     }

@@ -147,7 +147,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/okBtn3"
+        android:id="@+id/okBtn"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_gravity="center_horizontal"
@@ -156,7 +156,7 @@
         android:textSize="20dp"
         android:textColor="@color/white"
         android:fontFamily="@font/pretendardsemibold"
-        android:layout_marginTop="270dp"/>
+        android:layout_marginTop="220dp"/>
 
 
 </LinearLayout>

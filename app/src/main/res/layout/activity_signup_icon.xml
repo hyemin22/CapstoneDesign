@@ -125,6 +125,6 @@
         android:textSize="20dp"
         android:textColor="@color/white"
         android:fontFamily="@font/pretendardsemibold"
-        android:layout_marginTop="260dp" />
+        android:layout_marginTop="210dp" />
 
 </LinearLayout>

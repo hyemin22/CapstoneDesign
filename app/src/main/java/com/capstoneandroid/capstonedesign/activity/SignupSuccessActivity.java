@@ -19,12 +19,12 @@ public class SignupSuccessActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_success);
 
-        Button okBtn = findViewById(R.id.okBtn4);
+        Button okBtn = findViewById(R.id.okBtn);
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupSuccessActivity.this, SignupInviteActivity.class);
+                Intent intent = new Intent(SignupSuccessActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

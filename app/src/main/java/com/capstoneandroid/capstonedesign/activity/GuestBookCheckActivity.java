@@ -9,7 +9,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
@@ -50,7 +49,7 @@ public class GuestBookCheckActivity extends BaseActivity {
                         int itemId = item.getItemId();
                         if (itemId == R.id.edit) { // 수정
                             String write = content.getText().toString();
-                            Intent intent = new Intent(GuestBookCheckActivity.this, GuestBookActivity.class);
+                            Intent intent = new Intent(GuestBookCheckActivity.this, GuestBookCreateActivity.class);
                             intent.putExtra("content", write);
                             intent.putExtra("source_activity", "GuestCheckActivity"); //액티비티 구분 위한 식별자
                             startActivity(intent);
