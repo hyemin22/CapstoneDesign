@@ -1,38 +1,41 @@
 package com.capstoneandroid.capstonedesign.item;
 
 public class GuestbookItem {
-    int profileImage;
-    String message;
-    String username;
+    String character_choice;
+    String content;
+    String nickname;
 
-    public GuestbookItem(int profileImage, String message, String username) {
-        this.profileImage = profileImage;
-        this.message = message;
-        this.username = username;
+    public GuestbookItem(String character_choice, String content, String nickname) {
+        this.character_choice = character_choice;
+        this.content = content;
+        this.nickname = nickname;
     }
 
-    public int getProfileImage() {
-        return profileImage;
+    public String getCharacter_choice() {
+        return character_choice;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setProfileImage(int profileImage) {
-        this.profileImage = profileImage;
+
+
+
+    public void setCharacter_choice(String character_choice) {
+        this.character_choice = character_choice;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }

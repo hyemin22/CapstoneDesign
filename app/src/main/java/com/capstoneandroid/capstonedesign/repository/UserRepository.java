@@ -21,7 +21,7 @@ public class UserRepository {
 
     public UserRepository() {
         // Retrofit 클라이언트 초기화
-        this.userApiService = RetrofitClient.getClient("http://172.19.8.222:8080")
+        this.userApiService = RetrofitClient.getClient("http://172.19.14.35:8080")
                 .create(UserApiService.class);
     }
 

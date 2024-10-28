@@ -3,6 +3,7 @@ package com.capstoneandroid.capstonedesign.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, GuestBookCheckActivity.class);
-                intent.putExtra("content", item.getMessage());
+                intent.putExtra("content", item.getContent());
                 intent.putExtra("position", holder.getAdapterPosition());  // position 전달
                 ((Activity) context).startActivityForResult(intent, REQUEST_CODE);
             }
@@ -103,9 +104,22 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
 
         ////뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(GuestbookItem item) {
-            profileImageView.setImageResource(item.getProfileImage());
-            messageTextView.setText(item.getMessage());
-            usernameTextView.setText(item.getUsername());
+            int drawableId = getDrawableId(item.getCharacter_choice());
+            profileImageView.setImageResource(drawableId);
+            messageTextView.setText(item.getContent());
+            usernameTextView.setText(item.getNickname());
+        }
+
+        private int getDrawableId(String characterChoice) {
+            int drawableId = itemView.getContext().getResources().getIdentifier(characterChoice, "drawable", itemView.getContext().getPackageName());
+            System.out.println("Drawable ID: " + drawableId);
+
+            // drawableId가 0이면 해당 drawable이 존재하지 않는 것이므로 예외 처리
+            if (drawableId == 0) {
+                throw new Resources.NotFoundException("Drawable not found for name: " + characterChoice);
+            }
+
+            return drawableId;
         }
 
     }

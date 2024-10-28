@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,13 +22,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.widget.ViewPager2.PageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 
-import com.capstoneandroid.capstonedesign.item.DayMissionItem;
-import com.capstoneandroid.capstonedesign.item.GuestbookItem;
-import com.capstoneandroid.capstonedesign.item.HomeWishItem;
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.activity.AlarmActivity;
 import com.capstoneandroid.capstonedesign.activity.GuestBookCreateActivity;
@@ -34,10 +33,14 @@ import com.capstoneandroid.capstonedesign.activity.MissionActivity;
 import com.capstoneandroid.capstonedesign.adapter.DayMissionAdapter;
 import com.capstoneandroid.capstonedesign.adapter.GuestbookAdapter;
 import com.capstoneandroid.capstonedesign.adapter.HomeWishAdapter;
-import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.item.DayMissionItem;
+import com.capstoneandroid.capstonedesign.item.GuestbookItem;
+import com.capstoneandroid.capstonedesign.item.HomeWishItem;
 import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
+import com.kakao.sdk.user.UserApiClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //홈화면
 public class Fragment1 extends Fragment {
@@ -105,12 +108,19 @@ public class Fragment1 extends Fragment {
             }
         });
 
-        items.add(new GuestbookItem(R.drawable.default_profile_image,
-                "오늘 비온대요 다들 우산 챙겨요~ 아 그리고 내일 나 출장 가는 거", "from.아빠"));
-        items.add(new GuestbookItem(R.drawable.character1_image,
-                "다들 뭐하니~ 오늘 다들 저녁 먹고 오나?", "from. 엄마"));
-        items.add(new GuestbookItem(R.drawable.character3_image,
-                "이번 주에 다 같이 영화보는 거 어때!", "from. 언니"));
+        // 로그인한 사용자 정보 조회
+        UserApiClient.getInstance().me((user, error) -> {
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error);
+            } else if (user != null) {
+                Long user_id = user.getId(); // 카카오 사용자 고유 ID
+
+                // 서버로 get 요청 보내기
+                sendGetGuestBookData(user_id);
+            }
+            return null;
+        });
+
 
         adapter = new GuestbookAdapter(items, getContext());
         ViewPager2 viewPager = rootView.findViewById(R.id.guestView);
@@ -214,26 +224,38 @@ public class Fragment1 extends Fragment {
         //방명록
         viewPager.setPageTransformer(transform);
 
-        // 인스턴스 생성
-        GuestBookRepository guestBookRepository = new GuestBookRepository();
-        Long userId = 123L; // 방명록을 조회할 유저 ID
+    }
 
+    private void sendGetGuestBookData(Long userId) {
+
+        GuestBookRepository guestBookRepository = new GuestBookRepository();
         // 방명록 데이터 가져오기
         guestBookRepository.getUsersGuestBook(userId, new GuestBookRepository.GetIDCallback() {
             @Override
-            public void onIDGetSuccess(User user) {
+            public void onIDGetSuccess(List<GuestbookItem> guestbookItems) {
                 getActivity().runOnUiThread(() -> {
-                    adapter.setUserData(user);
+                    // items 리스트에 서버에서 받아온 응답 데이터 추가
+                    items.clear(); // 기존 데이터 초기화 (필요 시)
+
+                    // 서버에서 받은 방명록 응답을 items에 추가
+                    for (GuestbookItem guestbookItem : guestbookItems) { // 수정된 부분
+                        items.add(new GuestbookItem(
+                                guestbookItem.getCharacter_choice(), // 기본 프로필 이미지
+                                guestbookItem.getContent(), // 방명록 내용
+                                "from. " + guestbookItem.getNickname() // 작성자 이름
+                        ));
+                    }
+
+                    // 어댑터에 변경 사항을 알림
                     adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onIDGetFailure(String errorMessage) {
-                Log.e("Error", "유저 조회 실패: " + errorMessage);
+                Log.e("Error", "방명록 조회 실패: " + errorMessage);
             }
         });
-
     }
     private boolean isReceiverRegistered = false;
 

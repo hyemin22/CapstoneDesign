@@ -9,20 +9,21 @@
             android:layout_height="230dp"
             android:layout_gravity="center"
             android:background="@drawable/default_postit"
-            android:padding="17dp">
+            android:padding="13dp">
 
             <ImageView
                 android:id="@+id/profileImage"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="35dp"
+                android:layout_marginBottom="15dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/default_profile_image" />
+                android:src="@drawable/ch_apple" />
 
             <TextView
                 android:id="@+id/message"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginEnd="7dp"
                 android:text="from.user"
                 android:textSize="17dp"
                 android:fontFamily="@font/yeongdeoksea"

@@ -1,9 +1,9 @@
 package com.capstoneandroid.capstonedesign.api;
 
+import com.capstoneandroid.capstonedesign.item.GuestbookItem;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
-import com.capstoneandroid.capstonedesign.model.User;
 
-import org.json.JSONObject;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,6 +19,6 @@ public interface GuestBookApiService {
 
     // 방명록 작성한 유저 id 조회
     @GET("/guestbook/family")
-    Call<User> getUsersGuestBook(@Query("userId") Long userId);
+    Call<List<GuestbookItem>> getUsersGuestBook(@Query("writer_id") Long userId);
 
 }
