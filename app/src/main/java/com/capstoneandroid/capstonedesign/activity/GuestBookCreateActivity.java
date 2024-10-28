@@ -170,4 +170,6 @@ public class GuestBookCreateActivity extends BaseActivity {
             }
         });
     }
+
+
 }

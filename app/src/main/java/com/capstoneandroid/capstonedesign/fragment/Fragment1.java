@@ -34,6 +34,8 @@ import com.capstoneandroid.capstonedesign.activity.MissionActivity;
 import com.capstoneandroid.capstonedesign.adapter.DayMissionAdapter;
 import com.capstoneandroid.capstonedesign.adapter.GuestbookAdapter;
 import com.capstoneandroid.capstonedesign.adapter.HomeWishAdapter;
+import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
 
 import java.util.ArrayList;
 
@@ -211,6 +213,26 @@ public class Fragment1 extends Fragment {
 
         //방명록
         viewPager.setPageTransformer(transform);
+
+        // 인스턴스 생성
+        GuestBookRepository guestBookRepository = new GuestBookRepository();
+        Long userId = 123L; // 방명록을 조회할 유저 ID
+
+        // 방명록 데이터 가져오기
+        guestBookRepository.getUsersGuestBook(userId, new GuestBookRepository.GetIDCallback() {
+            @Override
+            public void onIDGetSuccess(User user) {
+                getActivity().runOnUiThread(() -> {
+                    adapter.setUserData(user);
+                    adapter.notifyDataSetChanged();
+                });
+            }
+
+            @Override
+            public void onIDGetFailure(String errorMessage) {
+                Log.e("Error", "유저 조회 실패: " + errorMessage);
+            }
+        });
 
     }
     private boolean isReceiverRegistered = false;

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstoneandroid.capstonedesign.activity.GuestBookCheckActivity;
 import com.capstoneandroid.capstonedesign.item.GuestbookItem;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.model.User;
 
 import java.util.ArrayList;
 
@@ -81,6 +82,9 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
         items.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, items.size());
+    }
+
+    public void setUserData(User user) {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
