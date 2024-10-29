@@ -12,6 +12,12 @@ public class WishExpectedItem {
         this.date = date;
     }
 
+    public WishExpectedItem(String emoji, String title, String date) {
+        this.emoji = emoji;
+        this.title = title;
+        this.date = date;
+    }
+
     public String getEmoji() {
         return emoji;
     }

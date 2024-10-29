@@ -216,12 +216,28 @@
                 android:textColor="@color/gray"
                 android:textSize="16dp" />
 
-            <ImageView
-                android:id="@+id/iconSelect"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/ic_emojiselect" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iconSelect"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/ic_emojiselect" />
+
+                <EditText
+                    android:id="@+id/selectedEmoji"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="start"
+                    android:padding="13dp"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/pretendardsemibold"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -264,6 +280,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="180dp"
+                    android:track="@drawable/switch_track_selector"
+                    android:thumb="@drawable/switch_thumb"
                     android:checked="false"/>
 
             </LinearLayout>
