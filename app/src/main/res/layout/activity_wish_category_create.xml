@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ff0000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="@drawable/backbtn"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:fontFamily="@font/pretendardsemibold"
+            android:text="카테고리 편집"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <View
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="#00ff0000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="@drawable/ic_plus"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/pretendardbold"
+        android:text="제목"
+        android:textColor="@color/blue"
+        android:textSize="22dp" />
+
+    <EditText
+        android:id="@+id/titleEdit"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_textbox"
+        android:gravity="start|center"
+        android:hint="카테고리의 제목을 입력해주세요."
+        android:padding="15dp"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/pretendardsemibold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/pretendardbold"
+        android:text="위시리스트 아이콘"
+        android:textColor="@color/blue"
+        android:textSize="22dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iconSelect"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_emojiselect" />
+
+        <EditText
+            android:id="@+id/selectedEmoji"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:gravity="start"
+            android:padding="13dp"
+            android:textSize="17dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendardsemibold"/>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/okBtn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="310dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/pretendardsemibold"
+        android:text="완료"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+</LinearLayout>
