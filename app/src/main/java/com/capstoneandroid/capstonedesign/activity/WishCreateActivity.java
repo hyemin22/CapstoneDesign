@@ -258,11 +258,12 @@ public class WishCreateActivity extends BaseActivity {
                         String startday = startDay.getText().toString(); // wishlist 시작날짜 입력한 내용
                         String endday = endDay.getText().toString(); // wishlist 종료날짜 입력한 내용
                         String selectedItem = spinner.getSelectedItem().toString(); // 스피너에서 선택된 항목을 문자열로 가져오기
-                        Integer spinnerValue = Integer.parseInt(selectedItem); // 문자열을 정수로 변환 // wishlist 제목 입력한 내용
+                        Integer spinnerValue = Integer.parseInt(selectedItem); // 문자열을 정수로 변환
                         String emoji = emojiEdit.getText().toString(); // wishlist 이모지 입력한 내용
                         Boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부 선택한 내용
                         // POJO 클래스를 사용하여 방명록 데이터 생성
                         WishList wishList = new WishList(user_id, title, startday, endday, spinnerValue, emoji, alarmswitch, memo);
+                        wishList.WishListCategory(user_id, title);  // 카테고리 설정
 
                         // 서버로 POST 요청 보내기
                         sendWishListData(wishList);
@@ -279,47 +280,34 @@ public class WishCreateActivity extends BaseActivity {
         wishListRepository.sendWishListDataToServer(wishList, new WishListRepository.WishListCallback() {
             @Override
             public void onSuccess() {
-                // 방명록 추가 성공
+                // 위시리스트 추가 성공
                 Log.d("WishListCreateActivity", "위시리스트가 성공적으로 추가되었습니다");
                 finish(); //현재 액티비티 종료
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                // 방명록 추가 실패
+                // 위시리스트 추가 실패
                 Log.e("WishListCreateActivity", "위시리스트 추가 실패: " + errorMessage);
             }
         });
     }
 
-    private void sendGetWishListData(Long familyId) {
-
+    private void sendWishListCategory(WishList wishList) {
+        // 서버로 POST 요청 보내기
         WishListRepository wishListRepository = new WishListRepository();
-        // 방명록 데이터 가져오기
-        wishListRepository.getFamilyWishList(familyId, new WishListRepository.GetListCallback() {
+        wishListRepository.sendWishListCategoryToServer(wishList, new WishListRepository.WishListCallback() {
             @Override
-            public void onListGetSuccess(List<WishExpectedItem> wishExpectedItems) {
-                WishCreateActivity.this.runOnUiThread(() -> {
-                    // items 리스트에 서버에서 받아온 응답 데이터 추가
-                    items.clear(); // 기존 데이터 초기화 (필요 시)
-
-                    // 서버에서 받은 방명록 응답을 items에 추가
-                    for (WishExpectedItem wishExpectedItem : wishExpectedItems) {
-                        items.add(new WishExpectedItem(
-                                wishExpectedItem.getEmoji(), // 이모지
-                                wishExpectedItem.getTitle(), // 제목
-                                wishExpectedItem.getDate() // 날짜
-                        ));
-                    }
-
-                    // 어댑터에 변경 사항을 알림
-                    adapter.notifyDataSetChanged();
-                });
+            public void onSuccess() {
+                // 위시리스트 카테고리 추가 성공
+                Log.d("WishListCategoryCreateActivity", "위시리스트 카테고리가 성공적으로 추가되었습니다");
+                finish(); //현재 액티비티 종료
             }
 
             @Override
-            public void onListGetFailure(String errorMessage) {
-                Log.e("Error", "방명록 조회 실패: " + errorMessage);
+            public void onFailure(String errorMessage) {
+                // 위시리스트 카테고리 추가 실패
+                Log.e("WishListCategoryCreateActivity", "위시리스트 카테고리 추가 실패: " + errorMessage);
             }
         });
     }

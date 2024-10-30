@@ -3,7 +3,7 @@ package com.capstoneandroid.capstonedesign.item;
 import android.content.Context;
 
 public class WishExpectedItem {
-    String emoji, title, dday, date;
+    String emoji, title, dday, date, category;
 
     public WishExpectedItem(Context context, String emoji, String title, String dday, String date) {
         this.emoji = emoji;
@@ -18,6 +18,10 @@ public class WishExpectedItem {
         this.date = date;
     }
 
+    public WishExpectedItem(String category) {
+        this.category = category;
+    }
+
     public String getEmoji() {
         return emoji;
     }
@@ -30,6 +34,7 @@ public class WishExpectedItem {
     public String getDate() {
         return date;
     }
+    public String getCategory() { return category;}
     public void setEmoji(String emoji) {
         this.emoji = emoji;
     }
@@ -42,4 +47,5 @@ public class WishExpectedItem {
     public void setDate(String date) {
         this.date = date;
     }
+    public void setCategory() { this.category = category;}
 }

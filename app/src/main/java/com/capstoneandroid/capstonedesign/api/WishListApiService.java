@@ -1,6 +1,7 @@
 package com.capstoneandroid.capstonedesign.api;
 
 import com.capstoneandroid.capstonedesign.item.GuestbookItem;
+import com.capstoneandroid.capstonedesign.item.WishCompletedItem;
 import com.capstoneandroid.capstonedesign.item.WishExpectedItem;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.model.WishList;
@@ -19,8 +20,20 @@ public interface WishListApiService {
     @POST("/wish")
     Call<Void> saveWishList(@Body WishList wishList);
 
-    // WishList 작성한 가족 id로 접근
+    // WishList 카테고리 데이터를 POST로 전송
+    @POST("/wish/category")
+    Call<Void> saveWishListCategory(@Body WishList wishList);
+
+    // WishList 카테고리 작성한 가족 번호로 접근
+    @GET("/wish/expected")
+    Call<List<WishExpectedItem>> getFamilyWishListExpected(@Query("familyId") Long familyId);
+
+    // WishList 카테고리 작성한 가족 번호로 접근
+    @GET("/wish/completed")
+    Call<List<WishCompletedItem>> getFamilyWishListCompleted(@Query("familyId") Long userId);
+
+    // WishList 카테고리 작성한 가족 번호로 접근
     @GET("/wish/category")
-    Call<List<WishExpectedItem>> getFamilyWishList(@Query("familyId") Long familyId);
+    Call<List<WishExpectedItem>> getFamilyWishListCategory(@Query("familyId") Long familyId);
 
 }
