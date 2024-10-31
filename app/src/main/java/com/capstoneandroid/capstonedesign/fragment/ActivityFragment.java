@@ -207,56 +207,58 @@ public class ActivityFragment extends Fragment {
             case "맛집":
                 ment.setText("가족끼리 먹기 좋은\n근처 맛집");
                 //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.activity1, "아지오", "이탈리아 음식점", "90",
-                        R.drawable.activity2,
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.agio1, "아지오", "이탈리아 음식점", "90",
+                        R.drawable.kakao8,
                         "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.activity22, "어글리스토브", "이탈리아 음식점", "40",
-                        R.drawable.activity14,
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao6, "어글리스토브", "이탈리아 음식점", "40",
+                        R.drawable.kakao6,
                         "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.activity12, "애슐리 퀸즈", "이탈리아 음식점", "10",
-                        R.drawable.activity21,
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao7, "애슐리 퀸즈", "이탈리아 음식점", "10",
+                        R.drawable.kakao13,
                         "친절해요", "청결해요", "부모님이 좋아하세요"));
                 break;
             case "여행":
                 ment.setText("가족과 함께 추억을\n쌓을 수 있는 여행지");
                 //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image1, "롯데월드", "놀이공원", "90",
-                        R.drawable.image1,
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao2, "롯데월드", "놀이공원", "90",
+                        R.drawable.kakao3,
                         "아이와 가기 좋아요", "재밌어요", "풍경이 예뻐요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image2, "강릉 1박 2일 여행", "지역 여행", "40",
-                        R.drawable.image2,
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao5, "강릉 1박 2일 여행", "지역 여행", "40",
+                        R.drawable.kakao17,
                         "음식이 맛있어요", "풍경이 예뻐요", "부모님이 좋아하세요"));
                 break;
             case "이색":
                 ment.setText("색다른 경험을 제공하는\n이색 활동");
                 //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image1, "이색활동", "이탈리아 음식점", "90",
-                        R.drawable.image1,
-                        "재밌어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image2, "어글리스토브", "이탈리아 음식점", "40",
-                        R.drawable.image2,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao13, "공주경비행기", "비행, 항공레저", "190",
+                        R.drawable.kakao8,
+                        "친절해요", "스릴넘쳐요", "특별한 체험이에요"));
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao15, "포레스트 벨 동물체험", "체험여행", "2787",
+                        R.drawable.kakao13,
+                        "친절해요", "체험 프로그램이 다양해요", "주차하기 편해요"));
                 break;
             case "야외활동":
                 ment.setText("가족과 함께하는\n다양한 야외 활동");
                 //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image1, "야외활동", "이탈리아 음식점", "90",
-                        R.drawable.image1,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image2, "어글리스토브", "이탈리아 음식점", "40",
-                        R.drawable.image2,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao15, "망원한강공원", "시민공원", "4419",
+                        R.drawable.kakao19,
+                        "뷰가 좋아요", "산책로가 잘 되어있어요", "사진이 잘 나와요"));
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao7, "인왕산", "산", "7655",
+                        R.drawable.kakao4,
+                        "뷰가 좋아요", "사진이 잘 나와요", "산책로가 잘 나와요"));
                 break;
             case "실내활동":
                 ment.setText("편안하게 함께 할 수\n있는 실내 활동");
                 //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image1, "실내활동", "이탈리아 음식점", "90",
-                        R.drawable.image1,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.image2, "어글리스토브", "이탈리아 음식점", "40",
-                        R.drawable.image2,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                break;
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao20, "디즈니 100년 특별전", "미술관", "7993",
+                        R.drawable.kakao11,
+                        "사진찍기 좋아요", "친절해요", "혼잡하지 않아요"));
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao9, "격변의 시대, 여성 삶 예술", "미술관", "12990",
+                        R.drawable.kakao17, R.drawable.image3, R.drawable.image4,
+                        "작품이 많아요", "혼잡하지 않아요", "산책하기 좋아요"));
+                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao14, "머든 수완점", "북카페", "222",
+                        R.drawable.kakao1,
+                        "인테리어가 멋져요", "음료가 맛있어요", "읽을만한 책이 많아요"));
             default: //디폴트는 어떻게 해야할지 생각
                 break;
         }
