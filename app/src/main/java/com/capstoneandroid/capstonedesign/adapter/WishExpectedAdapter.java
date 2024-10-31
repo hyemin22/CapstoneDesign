@@ -23,7 +23,8 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
     ArrayList<WishExpectedItem> items = new ArrayList<WishExpectedItem>();
     Context context;
 
-    public WishExpectedAdapter(Context context) {
+    public WishExpectedAdapter(ArrayList<WishExpectedItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 

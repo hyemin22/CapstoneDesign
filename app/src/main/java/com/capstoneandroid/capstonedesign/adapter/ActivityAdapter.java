@@ -89,7 +89,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView profileImageView;
         TextView titleTextView, typeTextView, numTextView, tag1TextView, tag2TextView, tag3TextView;
-        ImageView imageView1, imageView2, imageView3, heart;
+        ImageView imageView1, heart;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,8 +102,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             tag2TextView = itemView.findViewById(R.id.tag2);
             tag3TextView = itemView.findViewById(R.id.tag3);
             imageView1 = itemView.findViewById(R.id.image1);
-            imageView2 = itemView.findViewById(R.id.image2);
-            imageView3 = itemView.findViewById(R.id.image3);
             heart = itemView.findViewById(R.id.heart);
         }
 
@@ -114,8 +112,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             typeTextView.setText(item.getType());
             numTextView.setText(item.getNum());
             imageView1.setImageResource(item.getImage1());
-            imageView2.setImageResource(item.getImage2());
-            imageView3.setImageResource(item.getImage3());
             tag1TextView.setText(item.getTag1());
             tag2TextView.setText(item.getTag2());
             tag3TextView.setText(item.getTag3());

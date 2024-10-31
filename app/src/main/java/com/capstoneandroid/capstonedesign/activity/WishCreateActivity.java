@@ -202,6 +202,8 @@ public class WishCreateActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //카테고리 추가 화면
+                Intent intent = new Intent(WishCreateActivity.this, WishCategoryCreateActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -261,9 +263,9 @@ public class WishCreateActivity extends BaseActivity {
                         Integer spinnerValue = Integer.parseInt(selectedItem); // 문자열을 정수로 변환
                         String emoji = emojiEdit.getText().toString(); // wishlist 이모지 입력한 내용
                         Boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부 선택한 내용
+
                         // POJO 클래스를 사용하여 방명록 데이터 생성
                         WishList wishList = new WishList(user_id, title, startday, endday, spinnerValue, emoji, alarmswitch, memo);
-                        wishList.WishListCategory(user_id, title);  // 카테고리 설정
 
                         // 서버로 POST 요청 보내기
                         sendWishListData(wishList);
@@ -289,25 +291,6 @@ public class WishCreateActivity extends BaseActivity {
             public void onFailure(String errorMessage) {
                 // 위시리스트 추가 실패
                 Log.e("WishListCreateActivity", "위시리스트 추가 실패: " + errorMessage);
-            }
-        });
-    }
-
-    private void sendWishListCategory(WishList wishList) {
-        // 서버로 POST 요청 보내기
-        WishListRepository wishListRepository = new WishListRepository();
-        wishListRepository.sendWishListCategoryToServer(wishList, new WishListRepository.WishListCallback() {
-            @Override
-            public void onSuccess() {
-                // 위시리스트 카테고리 추가 성공
-                Log.d("WishListCategoryCreateActivity", "위시리스트 카테고리가 성공적으로 추가되었습니다");
-                finish(); //현재 액티비티 종료
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                // 위시리스트 카테고리 추가 실패
-                Log.e("WishListCategoryCreateActivity", "위시리스트 카테고리 추가 실패: " + errorMessage);
             }
         });
     }

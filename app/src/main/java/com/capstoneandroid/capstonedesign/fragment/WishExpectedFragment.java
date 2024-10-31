@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +18,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.activity.WishCategoryCreateActivity;
+import com.capstoneandroid.capstonedesign.activity.WishCreateActivity;
 import com.capstoneandroid.capstonedesign.api.UserApiService;
 import com.capstoneandroid.capstonedesign.item.WishExpectedItem;
 import com.capstoneandroid.capstonedesign.adapter.WishExpectedAdapter;
 import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.model.WishCategory;
 import com.capstoneandroid.capstonedesign.repository.WishListRepository;
 import com.kakao.sdk.network.ApiCallback;
 import com.kakao.sdk.user.UserApiClient;
@@ -31,8 +35,11 @@ import java.util.List;
 public class WishExpectedFragment extends Fragment {
 
     private Button selectedButton;
+    private String selectedCategory;
     private static final int REQUEST_CODE = 100;  // 요청 코드
     private ArrayList<WishExpectedItem> items = new ArrayList<>(); // 위시리시트 아이템 추가
+    private ArrayList<WishCategory> categories = new ArrayList<>(); // 위시리시트 아이템 추가
+    private List<Button> categoryButtons = new ArrayList<>(); // 카테고리 버튼 리스트 추가
 
     private WishExpectedAdapter adapter;
 
@@ -62,46 +69,9 @@ public class WishExpectedFragment extends Fragment {
         hamBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Button category = new Button(getContext());
-                category.setText("버튼"); //사용자가 입력한 이름 넣기
-                category.setBackgroundResource(R.drawable.button_selector);
-
-                // TextColor 상태 리스트 적용
-                category.setTextColor(getResources().getColorStateList(R.color.button_color));
-
-                // 텍스트 크기 설정
-                category.setTextSize(17);
-
-                // 폰트 패밀리 설정 (커스텀 폰트)
-                category.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pretendardbold));
-
-                // 크기 조절을 위해 LayoutParams 설정
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        190,
-                        105
-                );
-                params.setMargins(0, 0, 25, 0);
-                category.setLayoutParams(params);
-
-                category.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // 현재 선택된 버튼이 있는 경우
-                        if (selectedButton != null) {
-                            // 현재 선택된 버튼을 unselected 상태로 변경
-                            selectedButton.setSelected(false);
-                        }
-                        // 새로 클릭된 버튼을 selected 상태로 변경
-                        category.setSelected(true);
-                        selectedButton = category;
-
-                        // 화면 전환 또는 추가 작업 수행
-                        //어떤 카테고리를 클릭했느냐에 따라 보여지는 위시리스트 목록이 다름 - 백엔드
-                        //updateForSelectedButton(category);
-                    }
-                });
-
-                linearLayout.addView(category);
+                //카테고리 추가 화면
+                Intent intent = new Intent(getActivity(), WishCategoryCreateActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -111,36 +81,28 @@ public class WishExpectedFragment extends Fragment {
                 Log.e(TAG, "사용자 정보 요청 실패", error);
             } else if (user != null) {
                 Long user_id = user.getId(); // 카카오 사용자 고유 ID
-                // Long family_id = user.getFamily_id();  // 사용자의 FamilyID 가져오기
 
                 // 서버로 get 요청 보내기
                 sendGetWishListData(user_id);
-                sendGetWishListCategory(user_id);  // user_id가 아니라 family_id를 사용해야할 거 같은데 getter 작동 안함,,
+                sendGetWishListCategory(user_id);
 
             }
             return null;
         });
 
+        adapter = new WishExpectedAdapter(items, getContext());
 
         RecyclerView recyclerView2 = rootView.findViewById(R.id.wishExpectedView);
         GridLayoutManager gridManager = new GridLayoutManager(getContext(), 2);
         recyclerView2.setLayoutManager(gridManager);
 
-
-        adapter.addItem(new WishExpectedItem(getContext(), "🍗", "한강 가서 치킨 시켜 먹기", "D-2", "2024년 5월 24일 예정"));
-        adapter.addItem(new WishExpectedItem(getContext(), "🍝", "대전 유명 파스타 가게 가보기", "D-10", "2024년 6월 20일 예정"));
-        adapter.addItem(new WishExpectedItem(getContext(), "🍔", "다같이 인앤아웃 버거 먹어보기", "D-13", "2024년 6월 23일 예정"));
-        adapter.addItem(new WishExpectedItem(getContext(), "🍚", "춘천 유명 미슐랭 닭갈비 먹어보기", "D-15", "2024년 6월 25일 예정"));
-        adapter.addItem(new WishExpectedItem(getContext(), "✈️", "여름 푸켓 여행 가기", "미정", ""));
-        adapter.addItem(new WishExpectedItem(getContext(), "✈️", "겨울 삿포로 여행 가기", "미정", ""));
-
         recyclerView2.setAdapter(adapter);
     }
 
-    private void sendGetWishListData(Long familyId) {
+    private void sendGetWishListData(Long userId) {
         WishListRepository wishListRepository = new WishListRepository();
         // 예정된 위시리스트 데이터 가져오기
-        wishListRepository.getFamilyExpectedWishList(familyId, new WishListRepository.GetListCallback() {
+        wishListRepository.getFamilyExpectedWishList(userId, selectedCategory, new WishListRepository.GetListCallback() {
             @Override
             public void onListGetSuccess(List<WishExpectedItem> wishExpectedItems) {
                 getActivity().runOnUiThread(() -> {
@@ -149,8 +111,10 @@ public class WishExpectedFragment extends Fragment {
                     // 서버에서 받은 위시리스트 응답을 items에 추가
                     for (WishExpectedItem wishExpectedItem : wishExpectedItems) {
                         items.add(new WishExpectedItem(
+                                getContext(),
                                 wishExpectedItem.getEmoji(), // 이모지
                                 wishExpectedItem.getTitle(), // 제목
+                                wishExpectedItem.getDday(),
                                 wishExpectedItem.getDate() // 날짜
                         ));
                     }
@@ -169,26 +133,53 @@ public class WishExpectedFragment extends Fragment {
     private void sendGetWishListCategory(Long familyId) {
         WishListRepository wishListRepository = new WishListRepository();
         // 방명록 데이터 가져오기
-        wishListRepository.getWishListByCategory(familyId, new WishListRepository.GetListCallback() {
+        wishListRepository.getWishListByCategory(familyId, new WishListRepository.GetCategoryListCallback() {
             @Override
-            public void onListGetSuccess(List<WishExpectedItem> wishExpectedItems) {
+            public void onListGetSuccess(List<WishCategory> wishCategories) {
                 getActivity().runOnUiThread(() -> {
-                    // items 리스트에 서버에서 받아온 응답 데이터 추가
-                    items.clear(); // 기존 데이터 초기화 (필요 시)
-                    // 서버에서 받은 위시리스트 카테고리 응답을 items에 추가
-                    for (WishExpectedItem wishExpectedItem : wishExpectedItems) {
-                        items.add(new WishExpectedItem(
-                                wishExpectedItem.getCategory() // 카테고리
-                        ));
+                    // 서버에서 받은 위시리스트 카테고리 응답을 기반으로 버튼 생성
+                    for (WishCategory wishCategory : wishCategories) {
+                        Button categoryButton = new Button(getContext());
+                        categoryButton.setText(wishCategory.getName()); // 카테고리 이름 설정
+                        categoryButton.setBackgroundResource(R.drawable.button_selector);
+                        categoryButton.setTextColor(getResources().getColorStateList(R.color.button_color));
+                        categoryButton.setTextSize(12);
+                        categoryButton.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pretendardmedium));
+
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                210,
+                                105
+                        );
+                        params.setMargins(0, 0, 25, 0);
+                        categoryButton.setLayoutParams(params);
+
+                        categoryButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // 현재 선택된 버튼이 있는 경우
+                                if (selectedButton != null) {
+                                    selectedButton.setSelected(false);
+                                }
+                                // 새로 클릭된 버튼을 selected 상태로 변경
+                                categoryButton.setSelected(true);
+                                selectedButton = categoryButton;
+
+                                // 선택된 카테고리 텍스트 저장
+                                selectedCategory = categoryButton.getText().toString(); // 버튼 텍스트 저장
+                            }
+                        });
+
+                        // 카테고리 버튼 리스트에 추가하고 레이아웃에 추가
+                        categoryButtons.add(categoryButton);
+                        ((LinearLayout) getView().findViewById(R.id.linearLayout)).addView(categoryButton);
                     }
-                    // 어댑터에 변경 사항을 알림
                     adapter.notifyDataSetChanged();
                 });
             }
 
             @Override
             public void onListGetFailure(String errorMessage) {
-                Log.e("Error", "방명록 조회 실패: " + errorMessage);
+                Log.e("Error", "위시 조회 실패: " + errorMessage);
             }
         });
     }

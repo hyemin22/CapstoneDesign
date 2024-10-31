@@ -19,7 +19,7 @@ public class GuestBookRepository {
 
     public GuestBookRepository() {
         // Retrofit 클라이언트 초기화
-        this.guestBookApiService = RetrofitClient.getClient("http://172.19.14.35:8080")
+        this.guestBookApiService = RetrofitClient.getClient()
                 .create(GuestBookApiService.class);
     }
 
@@ -35,7 +35,7 @@ public class GuestBookRepository {
 
     public void sendGuestBookDataToServer(GuestBook guestBook, GuestBookCallback callback) {
         //Retrofit 클라이언트 생성, api 서비스 생성
-        GuestBookApiService guestBookApiService = RetrofitClient.getClient("http://172.19.14.35:8080").create(GuestBookApiService.class);
+        GuestBookApiService guestBookApiService = RetrofitClient.getClient().create(GuestBookApiService.class);
 
         //방명록 데이터 post 요청
         Call<Void> call = guestBookApiService.saveGuestBook(guestBook);

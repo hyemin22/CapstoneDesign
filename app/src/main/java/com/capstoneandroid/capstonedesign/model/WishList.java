@@ -38,9 +38,4 @@ public class WishList {
         this.memo = memo;
     }
 
-    public void WishListCategory(Long userId, String name) {
-        this.userId = userId;
-        this.name = name;
-    }
-
 }

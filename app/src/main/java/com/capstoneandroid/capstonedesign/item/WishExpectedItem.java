@@ -12,11 +12,15 @@ public class WishExpectedItem {
         this.date = date;
     }
 
-    public WishExpectedItem(String emoji, String title, String date) {
-        this.emoji = emoji;
-        this.title = title;
-        this.date = date;
-    }
+//    public WishExpectedItem(String emoji, String title, String date) {
+//        this.emoji = emoji;
+//        this.title = title;
+//        this.dday = "dday";
+//        this.date = date;
+//    }
+
+    // 예정 날짜 - 오늘 날짜 뺀 값을 dday에 넣어주는 코드
+    //계산
 
     public WishExpectedItem(String category) {
         this.category = category;

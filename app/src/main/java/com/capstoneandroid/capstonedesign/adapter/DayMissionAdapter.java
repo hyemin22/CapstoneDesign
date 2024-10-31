@@ -106,6 +106,7 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
                         titleTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
                         progressStaticTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
                         progressTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
+                        progressTextView.setText("100%");
 
                     } else {
                         parentLayout.setBackgroundResource(R.drawable.unchecked_background);

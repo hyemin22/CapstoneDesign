@@ -25,6 +25,7 @@
         <activity android:name=".activity.PostCheckActivity" />
         <activity android:name=".activity.AlarmActivity" />
         <activity android:name=".activity.WishCreateActivity" />
+        <activity android:name=".activity.WishCategoryCreateActivity" />
         <activity android:name=".activity.MissionActivity" />
         <activity android:name=".activity.MissionCreateActivity" />
         <activity android:name=".activity.SignUpFamilyIdActivity" />
