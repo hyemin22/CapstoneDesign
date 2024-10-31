@@ -35,7 +35,7 @@ import java.util.List;
 public class WishExpectedFragment extends Fragment {
 
     private Button selectedButton;
-    private String selectedCategory;
+    private Integer selectedCategory;
     private static final int REQUEST_CODE = 100;  // 요청 코드
     private ArrayList<WishExpectedItem> items = new ArrayList<>(); // 위시리시트 아이템 추가
     private ArrayList<WishCategory> categories = new ArrayList<>(); // 위시리시트 아이템 추가
@@ -165,7 +165,7 @@ public class WishExpectedFragment extends Fragment {
                                 selectedButton = categoryButton;
 
                                 // 선택된 카테고리 텍스트 저장
-                                selectedCategory = categoryButton.getText().toString(); // 버튼 텍스트 저장
+                                selectedCategory = 1; // 버튼 텍스트 저장
                             }
                         });
 

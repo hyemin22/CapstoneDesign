@@ -76,7 +76,7 @@ public class WishListRepository {
         });
     }
 
-    public void getFamilyExpectedWishList(Long userId, String category, WishListRepository.GetListCallback callback) {
+    public void getFamilyExpectedWishList(Long userId, Integer category, WishListRepository.GetListCallback callback) {
         // 인스턴스의 wishListApiService 통해 호출
         // get요청
         Call<List<WishExpectedItem>> call = wishListApiService.getFamilyWishListExpected(userId, category);

@@ -25,7 +25,7 @@ public interface WishListApiService {
 
     // WishList 카테고리 작성한 가족 번호로 접근
     @GET("/wish/expected")
-    Call<List<WishExpectedItem>> getFamilyWishListExpected(@Query("userId") Long userId, @Query("category") String category);
+    Call<List<WishExpectedItem>> getFamilyWishListExpected(@Query("userId") Long userId, @Query("category") Integer category);
 
     // WishList 카테고리 작성한 가족 번호로 접근
     @GET("/wish/completed")

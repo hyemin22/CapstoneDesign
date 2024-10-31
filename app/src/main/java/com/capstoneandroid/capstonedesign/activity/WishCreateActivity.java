@@ -37,6 +37,7 @@ import com.kakao.sdk.user.UserApiClient;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class WishCreateActivity extends BaseActivity {
@@ -52,6 +53,7 @@ public class WishCreateActivity extends BaseActivity {
 
     private static final int REQUEST_CODE = 100;  // 요청 코드
     private ArrayList<WishExpectedItem> items = new ArrayList<>(); // 위시리시트 아이템 추가
+    private HashMap<String, Integer> categoryMap = new HashMap<>();
 
 
     @Override
@@ -263,9 +265,10 @@ public class WishCreateActivity extends BaseActivity {
                         Integer spinnerValue = Integer.parseInt(selectedItem); // 문자열을 정수로 변환
                         String emoji = emojiEdit.getText().toString(); // wishlist 이모지 입력한 내용
                         Boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부 선택한 내용
+                        Integer categoryId = categoryMap.get(selectedItem);
 
                         // POJO 클래스를 사용하여 방명록 데이터 생성
-                        WishList wishList = new WishList(user_id, title, startday, endday, spinnerValue, emoji, alarmswitch, memo);
+                        WishList wishList = new WishList(user_id, title, startday, endday, categoryId, emoji, alarmswitch, memo, false);
 
                         // 서버로 POST 요청 보내기
                         sendWishListData(wishList);
@@ -342,7 +345,12 @@ public class WishCreateActivity extends BaseActivity {
         items.add("선택해주세요.");
         items.add("맛집");
         items.add("여행");
-        items.add("기타");
+        items.add("카테고리");
+
+        // 각 카테고리와 ID를 맵핑
+        categoryMap.put("맛집", 1);
+        categoryMap.put("여행", 2);
+        categoryMap.put("카테고리", 3);
 
         // 스피너 어댑터에 아이템 추가
         adapter.clear();
