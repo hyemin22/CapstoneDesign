@@ -133,19 +133,6 @@ public class FeedCalMonthFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                if (firstVisibleItemPosition < 7) {
-                    previousMonth();
-                } else if (firstVisibleItemPosition >= layoutManager.getItemCount() - 7) {
-                    nextMonth();
-                }
-            }
-        });
     }
 
     // 화면 설정(주간 달력)
@@ -166,19 +153,6 @@ public class FeedCalMonthFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                if (firstVisibleItemPosition < 7) {
-                    previousWeek();
-                } else if (firstVisibleItemPosition >= layoutManager.getItemCount() - 7) {
-                    nextWeek();
-                }
-            }
-        });
     }
 
     private ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
