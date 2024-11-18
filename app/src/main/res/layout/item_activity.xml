@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="40dp">
+    android:layout_marginBottom="30dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="260dp"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@id/profile"
@@ -46,7 +46,7 @@
         android:layout_toEndOf="@id/type"
         android:layout_marginTop="3dp"
         android:fontFamily="@font/pretendardregular"
-        android:text=" · 블로그 리뷰 "
+        android:text=" · "
         android:textColor="@color/gray"
         android:textSize="16dp" />
 
@@ -76,11 +76,11 @@
 
     <ImageView
         android:id="@+id/heart"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/ic_heart"
         android:layout_toEndOf="@id/title"
-        android:layout_marginTop="18dp" />
+        android:layout_marginTop="13dp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/images"
@@ -116,47 +116,4 @@
 
         </GridLayout>
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/tag1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="8dp"
-        android:layout_below="@id/images"
-        android:text="음식이 맛있어요"
-        android:background="@drawable/rounded_tag"
-        android:textColor="@color/blue"
-        android:fontFamily="@font/pretendardbold"
-        android:textSize="14dp" />
-
-    <TextView
-        android:id="@+id/tag2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_below="@id/images"
-        android:layout_toRightOf="@id/tag1"
-        android:text="친절해요"
-        android:background="@drawable/rounded_tag"
-        android:textColor="@color/blue"
-        android:fontFamily="@font/pretendardbold"
-        android:textSize="14dp" />
-
-    <TextView
-        android:id="@+id/tag3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_below="@id/images"
-        android:layout_toRightOf="@id/tag2"
-        android:text="부모님이 좋아하세요"
-        android:background="@drawable/rounded_tag"
-        android:textColor="@color/blue"
-        android:fontFamily="@font/pretendardbold"
-        android:textSize="14dp" />
-
 </RelativeLayout>

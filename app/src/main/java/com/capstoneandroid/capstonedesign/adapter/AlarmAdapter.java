@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign.adapter;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.item.AlarmItem;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.item.PostItem;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
 
     private ArrayList<AlarmItem> items = new ArrayList<AlarmItem>();
     private static OnItemClickListener listener;
+    private Context context;
 
     // 클릭 리스너 인터페이스
     public interface OnItemClickListener {
@@ -26,6 +33,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
     // 클릭 리스너 설정 메서드
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    // 생성자에서 Context 전달받음
+    public AlarmAdapter(Context context) {
+        this.context = context;
     }
 
     //뷰홀더 새로 생성
@@ -93,8 +105,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
         public void setItem(AlarmItem item) {
             emojiTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
-            dateTextView.setText(item.getDate());
+            dateTextView.setText(item.getCreated_at());
         }
-
     }
 }

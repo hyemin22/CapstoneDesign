@@ -1,15 +1,16 @@
 package com.capstoneandroid.capstonedesign.activity;
 
-import static android.app.PendingIntent.getActivity;
 import static android.content.ContentValues.TAG;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,7 +18,6 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -25,36 +25,29 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.capstoneandroid.capstonedesign.EmojiFilter;
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.adapter.GuestbookAdapter;
-import com.capstoneandroid.capstonedesign.adapter.WishExpectedAdapter;
-import com.capstoneandroid.capstonedesign.item.GuestbookItem;
-import com.capstoneandroid.capstonedesign.item.WishExpectedItem;
+import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
+import com.capstoneandroid.capstonedesign.item.WishListItem;
 import com.capstoneandroid.capstonedesign.model.WishList;
-import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
 import com.capstoneandroid.capstonedesign.repository.WishListRepository;
 import com.kakao.sdk.user.UserApiClient;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class WishCreateActivity extends BaseActivity {
 
     ImageButton backBtn, hamBtn, spinnerBtn;
-    ImageView iconSelect;
-    EditText titleEdit, memoEdit, emojiEdit;
+    EditText titleEdit, memoEdit, emojiSelect;
     TextView ment, startDay, endDay, plusText;
     Spinner spinner;
     Switch alarmSwitch;
     Button okBtn;
     ArrayAdapter<String> adapter;
-
-    private static final int REQUEST_CODE = 100;  // 요청 코드
-    private ArrayList<WishExpectedItem> items = new ArrayList<>(); // 위시리시트 아이템 추가
-    private HashMap<String, Integer> categoryMap = new HashMap<>();
-
+    Integer categoryId = -1;
+    Long userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,8 +58,7 @@ public class WishCreateActivity extends BaseActivity {
         hamBtn = findViewById(R.id.hamBtn);
         ment = findViewById(R.id.ment);
         spinnerBtn = findViewById(R.id.spinnerBtn);
-        iconSelect = findViewById(R.id.iconSelect);
-        emojiEdit = findViewById(R.id.selectedEmoji);       // 이모지 버튼 클릭 후 키보드에서 이모지 입력 후 보이게 될 화면
+        emojiSelect = findViewById(R.id.emojiSelect);
         titleEdit = findViewById(R.id.titleEdit);
         memoEdit = findViewById(R.id.memoEdit);
         startDay = findViewById(R.id.startDay);
@@ -82,12 +74,9 @@ public class WishCreateActivity extends BaseActivity {
 
         // 어떤 화면에서 넘어왔는지에 따라
         if ("WishExpectedAdapter".equals(source) || "WishCompletedAdapter".equals(source)) {
-            String title = intent.getStringExtra("title");
-            titleEdit.setText(title);
             hamBtn.setVisibility(View.VISIBLE);
             ment.setVisibility(View.GONE);
-            iconSelect.setEnabled(false);
-            emojiEdit.setEnabled(false);
+            emojiSelect.setEnabled(false);
             titleEdit.setEnabled(false);
             memoEdit.setEnabled(false);
             startDay.setEnabled(false);
@@ -116,8 +105,7 @@ public class WishCreateActivity extends BaseActivity {
                         public boolean onMenuItemClick(MenuItem item) {
                             int itemId = item.getItemId();
                             if (itemId == R.id.edit) { // 수정
-                                iconSelect.setEnabled(true);
-                                emojiEdit.setEnabled(false);
+                                emojiSelect.setEnabled(true);
                                 titleEdit.setEnabled(true);
                                 memoEdit.setEnabled(true);
                                 startDay.setEnabled(true);
@@ -127,6 +115,9 @@ public class WishCreateActivity extends BaseActivity {
                                 alarmSwitch.setEnabled(true);
                                 okBtn.setVisibility(View.VISIBLE);
                                 okBtn.setText("수정하기");
+
+                                //수정된사항 DB에 저장!!!
+
                                 return true;
                             } else if (itemId == R.id.delete) { // 삭제
                                 // 삭제!!!!!
@@ -142,20 +133,50 @@ public class WishCreateActivity extends BaseActivity {
                 }
             });
 
-            //백엔드에서 정보 가져와서 내용 채우기!!!!!
-            //제목 채우기
-            //성취 예정일 채우기
-            //카테고리 채우기
-            //아이콘 채우기
-            //메모 채우기
-            //알림 채우기
+            //정보 채우기
+            Long idNum = intent.getLongExtra("id", -1L);
+            String titleText = intent.getStringExtra("title");
+            String startDateText = intent.getStringExtra("start_date");
+            String endDateText = intent.getStringExtra("end_date");
+            categoryId = intent.getIntExtra("category", -1); //카테고리 스피너 초기화 (setCategorySelection)
+            String iconText = intent.getStringExtra("icon");
+            String memoText = intent.getStringExtra("memo");
+            boolean alarm = intent.getBooleanExtra("alarm", false);
+
+            titleEdit.setText(titleText); //제목 채우기
+            startDay.setText(startDateText); //성취 예정일 채우기
+            endDay.setText(endDateText);
+            emojiSelect.setText(iconText); //아이콘 채우기
+            emojiSelect.setBackground(null);
+            memoEdit.setText(memoText); //메모 채우기
+            alarmSwitch.setChecked(alarm); //알림 채우기
+
+            // 수정하기 버튼
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 예정된 위시리스트 목록에 추가
+                    Long id = idNum; // 현재 위시리스트 아이디 조회
+                    String title = titleEdit.getText().toString(); // wishlist 제목
+                    String startday = startDay.getText().toString(); // wishlist 시작날짜
+                    String endday = endDay.getText().toString(); // wishlist 종료날짜
+                    String emoji = emojiSelect.getText().toString(); // wishlist 이모지
+                    String memo = memoEdit.getText().toString(); // wishlist 메모
+                    boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부
+
+                    // POJO 클래스를 사용하여 위시 데이터 생성
+                    WishListItem wishListItem = new WishListItem(id, title, startday, endday, emoji, memo, categoryId, alarmswitch);
+
+                    // 서버로 PUT 요청 보내기
+                    updateWishListData(wishListItem);
+                }
+            });
 
         } else if ("Fragment2".equals(source)) {
             // Fragment2에서 넘어온 경우 - 작성 화면
             hamBtn.setVisibility(View.INVISIBLE);
             ment.setVisibility(View.VISIBLE);
-            iconSelect.setEnabled(true);
-            emojiEdit.setEnabled(true);
+            emojiSelect.setEnabled(true);
             titleEdit.setEnabled(true);
             memoEdit.setEnabled(true);
             startDay.setEnabled(true);
@@ -165,15 +186,35 @@ public class WishCreateActivity extends BaseActivity {
             alarmSwitch.setEnabled(true);
             okBtn.setVisibility(View.VISIBLE);
             okBtn.setText("등록하기");
+
+            //등록하기 버튼
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // DB에 새로운 위시 저장
+                    String title = titleEdit.getText().toString(); // 제목
+                    String startday = startDay.getText().toString(); // 시작날짜
+                    String endday = endDay.getText().toString(); // 종료날짜
+                    String emoji = emojiSelect.getText().toString(); // 이모지
+                    Boolean alarm = alarmSwitch.isChecked(); // 알람여부
+                    String memo = memoEdit.getText().toString(); // 메모
+
+                    // POJO 클래스를 사용하여 위시 데이터 생성
+                    WishList wishList = new WishList(userId, title, startday, endday, categoryId, emoji, alarm, memo, false);
+
+                    // 서버로 POST 요청 보내기
+                    sendWishListData(wishList);
+                }
+            });
         }
 
         // 스피너와 어댑터 초기화
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = new ArrayAdapter<>(this, R.layout.spinner_item, new ArrayList<>());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adapter);
 
-        // 백엔드에서 아이템 가져오기
-        fetchDataFromBackend();
+        // DB에서 카테고리 데이터 가져오는 요청 보내기
+        fetchCategoryDataFromDB();
 
         //이전버튼
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -209,27 +250,38 @@ public class WishCreateActivity extends BaseActivity {
             }
         });
 
-        //카테고리 스피너
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // 이모지 선택 버튼 설정
+        emojiSelect.setFilters(new InputFilter[]{new EmojiFilter()});
+        emojiSelect.addTextChangedListener(new TextWatcher() {
+            private int previousLength = 0; // 이전 텍스트 길이 저장
+
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // 선택된 항목에 대한 처리
-                String selectedItem = parent.getItemAtPosition(position).toString();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // 선택되지 않은 상태에 대한 처리
-            }
-        });
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 입력 중 작업
+                if (s.length() > 0) {
+                    // 텍스트가 입력되면 배경 제거
+                    emojiSelect.setBackground(null);
 
-        //아이콘 선택
-        iconSelect.setOnClickListener(new View.OnClickListener() {
+                    if (s.length() > previousLength) {
+                        // 텍스트가 길어지면 마지막 이모지만 남기고 나머지를 삭제
+                        String lastEmoji = s.subSequence(s.length() - count, s.length()).toString();
+                        emojiSelect.removeTextChangedListener(this); // 무한 루프 방지를 위해 리스너 제거
+                        emojiSelect.setText(lastEmoji); // 마지막 이모지만 설정
+                        emojiSelect.setSelection(lastEmoji.length()); // 커서를 마지막 위치로 이동
+                        emojiSelect.addTextChangedListener(this); // 리스너 다시 추가
+                    }
+                } else {
+                    // 텍스트가 없으면 아이콘 셀렉트 버튼
+                    emojiSelect.setBackgroundResource(R.drawable.ic_emojiselect);
+                }
+            }
+
             @Override
-            public void onClick(View view) {
-                //아이콘 어떻게 보이도록?
-                InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                manager.showSoftInput(emojiEdit, InputMethodManager.SHOW_IMPLICIT);
+            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -244,39 +296,6 @@ public class WishCreateActivity extends BaseActivity {
                 }
             }
         });
-
-        //등록하기 버튼
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //DB에 내용 저장
-                //예정된 위시리스트 목록에 추가
-                // 로그인한 사용자 정보 조회
-                UserApiClient.getInstance().me((user, error) -> {
-                    if (error != null) {
-                        Log.e(TAG, "사용자 정보 요청 실패", error);
-                    } else if (user != null) {
-                        Long user_id = user.getId(); // 카카오 사용자 고유 ID
-                        String title = titleEdit.getText().toString(); // wishlist 제목 입력한 내용
-                        String memo = memoEdit.getText().toString(); // wishlist 제목 입력한 내용
-                        String startday = startDay.getText().toString(); // wishlist 시작날짜 입력한 내용
-                        String endday = endDay.getText().toString(); // wishlist 종료날짜 입력한 내용
-                        String selectedItem = spinner.getSelectedItem().toString(); // 스피너에서 선택된 항목을 문자열로 가져오기
-                        Integer spinnerValue = Integer.parseInt(selectedItem); // 문자열을 정수로 변환
-                        String emoji = emojiEdit.getText().toString(); // wishlist 이모지 입력한 내용
-                        Boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부 선택한 내용
-                        Integer categoryId = categoryMap.get(selectedItem);
-
-                        // POJO 클래스를 사용하여 방명록 데이터 생성
-                        WishList wishList = new WishList(user_id, title, startday, endday, categoryId, emoji, alarmswitch, memo, false);
-
-                        // 서버로 POST 요청 보내기
-                        sendWishListData(wishList);
-                    }
-                    return null;
-                });
-            }
-        });
     }
 
     private void sendWishListData(WishList wishList) {
@@ -289,11 +308,30 @@ public class WishCreateActivity extends BaseActivity {
                 Log.d("WishListCreateActivity", "위시리스트가 성공적으로 추가되었습니다");
                 finish(); //현재 액티비티 종료
             }
-
             @Override
             public void onFailure(String errorMessage) {
                 // 위시리스트 추가 실패
                 Log.e("WishListCreateActivity", "위시리스트 추가 실패: " + errorMessage);
+            }
+        });
+    }
+
+    // 위시리스트 내용 수정
+    private void updateWishListData(WishListItem wishList) {
+        // 서버로 PUT 요청 보내기
+        WishListRepository wishListRepository = new WishListRepository();
+        wishListRepository.sendWishListUpdateToServer(wishList, new WishListRepository.WishListCallback() {
+            @Override
+            public void onSuccess() {
+                // 위시리스트 추가 성공
+                Log.d("WishListCreateActivity", "위시리스트가 성공적으로 수정되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 위시리스트 추가 실패
+                Log.e("WishListCreateActivity", "위시리스트 수정 실패: " + errorMessage);
             }
         });
     }
@@ -335,26 +373,88 @@ public class WishCreateActivity extends BaseActivity {
         datePickerDialog.show();
     }
 
-    private void fetchDataFromBackend() {
-        // 예를 들어, 백엔드에서 데이터를 가져오는 메서드
-        // 여기에 비동기 네트워크 요청 코드 추가
-        // 데이터가 도착한 후에 다음과 같이 업데이트합니다.
+    // DB에서 카테고리 데이터 가져오는 요청 보내기
+    private void fetchCategoryDataFromDB() {
+        // 유저 아이디 보내서 카테고리 가져오기
+        UserApiClient.getInstance().me((user, error) -> {
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error);
+            } else if (user != null) {
+                userId = user.getId(); // 카카오 사용자 고유 ID
 
-        // 가짜 데이터 예시
-        List<String> items = new ArrayList<>();
-        items.add("선택해주세요.");
-        items.add("맛집");
-        items.add("여행");
-        items.add("카테고리");
+                sendGetWishListCategory(); // 카테고리 요청
+            }
+            return null;
+        });
+    }
 
-        // 각 카테고리와 ID를 맵핑
-        categoryMap.put("맛집", 1);
-        categoryMap.put("여행", 2);
-        categoryMap.put("카테고리", 3);
+    // 위시리스트 카테고리 이름 리스트 가져와서 스피너에 넣기
+    private void sendGetWishListCategory() {
+        WishListRepository wishListRepository = new WishListRepository();
+        wishListRepository.getWishListByCategory(userId, new WishListRepository.GetCategoryListCallback() {
+            @Override
+            public void onListGetSuccess(List<WishCategoryItem> wishCategories) {
+                runOnUiThread(() -> {
+                    // 서버에서 받은 위시리스트 카테고리 응답을 기반으로 스피너에 리스트 넣기
+                    List<String> category = new ArrayList<>();
 
-        // 스피너 어댑터에 아이템 추가
-        adapter.clear();
-        adapter.addAll(items);
-        adapter.notifyDataSetChanged();
+                    // 첫 번째 항목으로 "카테고리를 선택해주세요" 추가
+                    category.add("카테고리를 선택해주세요");
+
+                    // 카테고리 아이템을 리스트에 추가
+                    for (WishCategoryItem wishCategory : wishCategories) {
+                        category.add(wishCategory.getName());
+                    }
+
+                    // 스피너 어댑터에 카테고리 이름 리스트 추가
+                    adapter.clear();
+                    adapter.addAll(category);
+                    adapter.notifyDataSetChanged();
+
+                    // 카테고리 아이디를 기반으로 초기 선택값 설정
+                    setCategorySelection(wishCategories, categoryId);
+
+                    //카테고리 스피너
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            // 선택된 카테고리의 ID를 저장
+                            if (position != 0) {
+                                // 카테고리 아이템을 리스트에서 가져와서 처리
+                                categoryId = wishCategories.get(position - 1).getId();
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // 선택되지 않은 상태에 대한 처리
+                        }
+                    });
+                });
+            }
+
+            @Override
+            public void onListGetFailure(String errorMessage) {
+                Log.e("Error", "위시 카테고리 리스트 조회 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void setCategorySelection(List<WishCategoryItem> wishCategories, int selectedCategoryId) {
+        // 선택할 스피너 위치를 위한 변수
+        int position = 0;
+
+        // categoryId가 -1이 아니면 for문 실행
+        if (selectedCategoryId != -1) {
+            for (int i = 0; i < wishCategories.size(); i++) {
+                if (wishCategories.get(i).getId() == selectedCategoryId) {
+                    position = i + 1; // 첫 번째 항목이 "카테고리를 선택해주세요"이므로 +1
+                    break;
+                }
+            }
+        }
+
+        // 스피너에서 해당 위치 선택
+        spinner.setSelection(position);
     }
 }

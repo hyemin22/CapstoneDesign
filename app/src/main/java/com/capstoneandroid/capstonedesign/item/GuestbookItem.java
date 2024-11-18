@@ -1,14 +1,20 @@
 package com.capstoneandroid.capstonedesign.item;
 
 public class GuestbookItem {
+    Long id;
     String character_choice;
     String content;
     String nickname;
 
-    public GuestbookItem(String character_choice, String content, String nickname) {
+    public GuestbookItem(Long id, String character_choice, String content, String nickname) {
+        this.id = id;
         this.character_choice = character_choice;
         this.content = content;
         this.nickname = nickname;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getCharacter_choice() {
@@ -22,9 +28,6 @@ public class GuestbookItem {
     public String getNickname() {
         return nickname;
     }
-
-
-
 
     public void setCharacter_choice(String character_choice) {
         this.character_choice = character_choice;

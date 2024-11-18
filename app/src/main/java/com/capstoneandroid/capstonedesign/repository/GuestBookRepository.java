@@ -4,7 +4,6 @@ import com.capstoneandroid.capstonedesign.api.GuestBookApiService;
 import com.capstoneandroid.capstonedesign.api.RetrofitClient;
 import com.capstoneandroid.capstonedesign.item.GuestbookItem;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
-import com.capstoneandroid.capstonedesign.model.User;
 
 import java.util.List;
 
@@ -34,9 +33,6 @@ public class GuestBookRepository {
     }
 
     public void sendGuestBookDataToServer(GuestBook guestBook, GuestBookCallback callback) {
-        //Retrofit 클라이언트 생성, api 서비스 생성
-        GuestBookApiService guestBookApiService = RetrofitClient.getClient().create(GuestBookApiService.class);
-
         //방명록 데이터 post 요청
         Call<Void> call = guestBookApiService.saveGuestBook(guestBook);
 
@@ -57,7 +53,6 @@ public class GuestBookRepository {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 // 네트워크 오류 등으로 요청 실패했을 때 처리
-                t.printStackTrace();
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onFailure("네트워크 오류: " + t.getMessage());
             }
@@ -67,7 +62,7 @@ public class GuestBookRepository {
     public void getUsersGuestBook(Long userId, GetIDCallback callback) {
         // 인스턴스의 guestBookApiService를 통해 호출
         // get요청
-        Call<List<GuestbookItem>> call = guestBookApiService.getUsersGuestBook(userId);
+        Call<List<GuestbookItem>> call = guestBookApiService.getGuestBookList(userId);
 
         call.enqueue(new Callback<List<GuestbookItem>>() {
             @Override
@@ -80,7 +75,7 @@ public class GuestBookRepository {
                 } else {
                     // 서버 응답이 있지만 오류가 있을 때 처리
                     System.out.println("방명록 조회 실패: " + response.errorBody().toString());
-                    callback.onIDGetFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                    callback.onIDGetFailure("서버 오류: " + response.message());
                 }
             }
 
@@ -88,7 +83,34 @@ public class GuestBookRepository {
             public void onFailure(Call<List<GuestbookItem>> call, Throwable t) {
                 // 네트워크 오류 등으로 요청 실패했을 때 처리
                 System.out.println("네트워크 오류: " + t.getMessage());
-                callback.onIDGetFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+                callback.onIDGetFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
+    // 방명록 수정
+    public void updateGuestBook(GuestBook guestBook, GuestBookCallback callback) {
+        Call<Void> call = guestBookApiService.updateGuestBook(guestBook);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    System.out.println("방명록 수정 성공");
+                    callback.onSuccess(); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("방명록 수정 실패: " + response.errorBody());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // 네트워크 오류 등으로 요청 실패했을 때 처리
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage());
             }
         });
     }

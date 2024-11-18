@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -12,10 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.repository.UserRepository;
 
 public class GuestBookCheckActivity extends BaseActivity {
+    Long userId = UserInfoManager.getInstance().getUserId();
     ImageButton backBtn, hamBtn;
     TextView name, content;
+    String getNickname, userName;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,14 @@ public class GuestBookCheckActivity extends BaseActivity {
         name = findViewById(R.id.name);
         content = findViewById(R.id.content);
 
+        //작성된 내용 가져오기
+        Intent outIntent = getIntent();
+        Long getId = outIntent.getLongExtra("id", -1L);
+        String getContent = outIntent.getStringExtra("content");
+        getNickname = outIntent.getStringExtra("nickname");
+        content.setText(getContent);
+        name.setText(getNickname);
+
         //이전버튼
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +47,8 @@ public class GuestBookCheckActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+
+        getUserName();
 
         //햄버거버튼(수정및삭제)
         hamBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,9 +64,9 @@ public class GuestBookCheckActivity extends BaseActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int itemId = item.getItemId();
                         if (itemId == R.id.edit) { // 수정
-                            String write = content.getText().toString();
                             Intent intent = new Intent(GuestBookCheckActivity.this, GuestBookCreateActivity.class);
-                            intent.putExtra("content", write);
+                            intent.putExtra("id", getId);
+                            intent.putExtra("content", getContent);
                             intent.putExtra("source_activity", "GuestCheckActivity"); //액티비티 구분 위한 식별자
                             startActivity(intent);
                             finish();
@@ -71,12 +87,27 @@ public class GuestBookCheckActivity extends BaseActivity {
                 popupMenu.show();
             }
         });
+    }
 
-        //사용자 이름 DB에서 가져와서 상단에 띄우기
+    public void getUserName() {
+        UserRepository userRepository = new UserRepository();
+        userRepository.getUserInfo(userId, new UserRepository.GetInfoCallback() {
+            @Override
+            public void onInfoGetSuccess(User user) {
+                userName = user.getNickname();
 
-        //작성된 내용 가져오기
-        Intent outIntent = getIntent();
-        String getContent = outIntent.getStringExtra("content");
-        content.setText(getContent);
+                //내가 쓴 방명록이 아니면 햄버거 버튼 보이지 않음
+                if (getNickname.equals(userName)) { // 서버에서 가져오는 사용자 이름
+                    hamBtn.setVisibility(View.VISIBLE);
+                } else {
+                    hamBtn.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onInfoGetFailure(String errorMessage) {
+                Log.e("Error", "유저 이름 조회 실패: " + errorMessage);
+            }
+        });
     }
 }

@@ -27,6 +27,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.widget.ViewPager2.PageTransformer;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.activity.AlarmActivity;
 import com.capstoneandroid.capstonedesign.activity.GuestBookCreateActivity;
 import com.capstoneandroid.capstonedesign.activity.MissionActivity;
@@ -44,11 +45,8 @@ import java.util.List;
 
 //홈화면
 public class Fragment1 extends Fragment {
-
-    private RelativeLayout missionLayout;
-    private CheckBox missionCheck;
+    Long userId = UserInfoManager.getInstance().getUserId();
     private ImageButton post, guestWrite, imgBtnArrow, imgBtnArrow2;
-    private static final int REQUEST_CODE = 100;  // 요청 코드
     private GuestbookAdapter adapter;  // 어댑터 선언
     private ArrayList<GuestbookItem> items = new ArrayList<>(); //방명록 아이템 추가
 
@@ -108,19 +106,8 @@ public class Fragment1 extends Fragment {
             }
         });
 
-        // 로그인한 사용자 정보 조회
-        UserApiClient.getInstance().me((user, error) -> {
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error);
-            } else if (user != null) {
-                Long user_id = user.getId(); // 카카오 사용자 고유 ID
-
-                // 서버로 get 요청 보내기
-                sendGetGuestBookData(user_id);
-            }
-            return null;
-        });
-
+        // 서버로 방명록 get 요청 보내기
+        sendGetGuestBookData();
 
         adapter = new GuestbookAdapter(items, getContext());
         ViewPager2 viewPager = rootView.findViewById(R.id.guestView);
@@ -226,7 +213,7 @@ public class Fragment1 extends Fragment {
 
     }
 
-    private void sendGetGuestBookData(Long userId) {
+    private void sendGetGuestBookData() {
 
         GuestBookRepository guestBookRepository = new GuestBookRepository();
         // 방명록 데이터 가져오기
@@ -240,9 +227,10 @@ public class Fragment1 extends Fragment {
                     // 서버에서 받은 방명록 응답을 items에 추가
                     for (GuestbookItem guestbookItem : guestbookItems) { // 수정된 부분
                         items.add(new GuestbookItem(
+                                guestbookItem.getId(),
                                 guestbookItem.getCharacter_choice(), // 기본 프로필 이미지
                                 guestbookItem.getContent(), // 방명록 내용
-                                "from. " + guestbookItem.getNickname() // 작성자 이름
+                                guestbookItem.getNickname() // 작성자 이름
                         ));
                     }
 

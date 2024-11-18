@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstoneandroid.capstonedesign.activity.ActivityDetailActivity;
 import com.capstoneandroid.capstonedesign.activity.MissionCreateActivity;
 import com.capstoneandroid.capstonedesign.item.ActivityItem;
 import com.capstoneandroid.capstonedesign.R;
@@ -22,7 +24,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
     ArrayList<ActivityItem> items = new ArrayList<ActivityItem>();
     Context context;
-    public ActivityAdapter(Context context) {
+
+    public ActivityAdapter(ArrayList<ActivityItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -46,21 +50,30 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, MissionCreateActivity.class); //상세페이지 액티비티로 변경!!
+                Intent intent = new Intent(context, ActivityDetailActivity.class); //상세페이지로 이동
+                intent.putExtra("id", item.getId());
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("type", item.getType());
+                intent.putExtra("region", item.getDistrict_id());
+                intent.putExtra("main_photo", item.getMain_photo());
+                intent.putExtra("address", item.getAddress());
+                intent.putExtra("call", item.getPhone_number());
+                intent.putExtra("open_time", item.getOpen_time());
+                intent.putExtra("closed_day", item.getClosed_day());
                 context.startActivity(intent);
             }
         });
 
-        // ViewHolder의 이미지와 텍스트 설정
-        holder.heart.setImageResource(item.isHeartFilled() ? R.drawable.ic_heart_fill : R.drawable.ic_heart);
-
+//        // ViewHolder의 이미지와 텍스트 설정
+//        holder.heart.setImageResource(item.isHeartFilled() ? R.drawable.ic_heart_fill : R.drawable.ic_heart);
+//
         // 하트 클릭 리스너 설정
-        holder.heart.setOnClickListener(new View.OnClickListener() {
+        holder.heartImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isFilled = !item.isHeartFilled();
                 item.setHeartFilled(isFilled);
-                holder.heart.setImageResource(isFilled ? R.drawable.ic_heart_fill : R.drawable.ic_heart);
+                holder.heartImageView.setImageResource(isFilled ? R.drawable.ic_heart_fill : R.drawable.ic_heart);
             }
         });
     }
@@ -88,8 +101,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView profileImageView;
-        TextView titleTextView, typeTextView, numTextView, tag1TextView, tag2TextView, tag3TextView;
-        ImageView imageView1, heart;
+        TextView titleTextView, typeTextView, reviewNumTextView;
+        ImageView imageView1, heartImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,24 +110,32 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             profileImageView = itemView.findViewById(R.id.profile);
             titleTextView = itemView.findViewById(R.id.title);
             typeTextView = itemView.findViewById(R.id.type);
-            numTextView = itemView.findViewById(R.id.num);
-            tag1TextView = itemView.findViewById(R.id.tag1);
-            tag2TextView = itemView.findViewById(R.id.tag2);
-            tag3TextView = itemView.findViewById(R.id.tag3);
+            reviewNumTextView = itemView.findViewById(R.id.num);
             imageView1 = itemView.findViewById(R.id.image1);
-            heart = itemView.findViewById(R.id.heart);
+            heartImageView = itemView.findViewById(R.id.heart);
         }
 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(ActivityItem item) {
-            profileImageView.setImageResource(item.getProfile());
+            int profileId = getDrawableId(item.getProfile());
+            int main_photoId = getDrawableId(item.getMain_photo());
+            profileImageView.setImageResource(profileId);
             titleTextView.setText(item.getTitle());
             typeTextView.setText(item.getType());
-            numTextView.setText(item.getNum());
-            imageView1.setImageResource(item.getImage1());
-            tag1TextView.setText(item.getTag1());
-            tag2TextView.setText(item.getTag2());
-            tag3TextView.setText(item.getTag3());
+            reviewNumTextView.setText(item.getReview_count());
+            imageView1.setImageResource(main_photoId);
+            heartImageView.setImageResource(R.drawable.ic_heart);
+        }
+
+        private int getDrawableId(String mainPhoto) {
+            int drawableId = itemView.getContext().getResources().getIdentifier(mainPhoto, "drawable", itemView.getContext().getPackageName());
+
+            // drawableId가 0이면 해당 drawable이 존재하지 않는 것이므로 예외 처리
+            if (drawableId == 0) {
+                throw new Resources.NotFoundException("Drawable not found for name: " + mainPhoto);
+            }
+
+            return drawableId;
         }
     }
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -45,7 +46,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -62,8 +63,10 @@
                         android:textSize="23dp" />
 
                     <TextView
+                        android:id="@+id/text1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/name"
                         android:fontFamily="@font/pretendardbold"
                         android:text="님의 "
                         android:textColor="@color/black"
@@ -73,6 +76,7 @@
                         android:id="@+id/month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/text1"
                         android:fontFamily="@font/pretendardbold"
                         android:text="5"
                         android:textColor="@color/black"
@@ -81,6 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/month"
                         android:fontFamily="@font/pretendardbold"
                         android:text="월 미션"
                         android:textColor="@color/black"
@@ -88,25 +93,37 @@
 
                     <Button
                         android:id="@+id/addBtn"
-                        android:layout_width="95dp"
+                        android:layout_width="85dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="90dp"
-                        android:background="@drawable/rounded_textbox"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/rounded_missionbutton"
                         android:fontFamily="@font/pretendardbold"
                         android:text="추가하기"
                         android:textColor="@color/blue"
-                        android:textSize="17dp" />
-                </LinearLayout>
+                        android:textSize="16dp" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp">
 
+                    <TextView
+                        android:id="@+id/emptyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="미션이 아직 없어요."
+                        android:fontFamily="@font/pretendardregular"
+                        android:paddingTop="20dp"
+                        android:visibility="visible"
+                        android:textColor="@color/gray"
+                        android:textSize="16dp" />
+
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/daymissionView"
+                        android:id="@+id/myMissionView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
                 </RelativeLayout>
 
                 <TextView
@@ -132,10 +149,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp">
 
+                    <TextView
+                        android:id="@+id/emptyTextView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="추천 미션이 없어요."
+                        android:fontFamily="@font/pretendardregular"
+                        android:paddingTop="20dp"
+                        android:visibility="visible"
+                        android:textColor="@color/gray"
+                        android:textSize="16dp" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recommendView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
                 </RelativeLayout>
 
                 <Button

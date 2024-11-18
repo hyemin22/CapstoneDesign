@@ -1,12 +1,15 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.capstoneandroid.capstonedesign.R;
@@ -41,11 +44,28 @@ public class Fragment3 extends Fragment {
         tabs.addTab(tabs.newTab().setText("이벤트"));
         tabs.addTab(tabs.newTab().setText("지도"));
 
+        // 각 탭의 텍스트 뷰에 직접 폰트 적용
+        tabs.post(() -> {
+            for (int i = 0; i < tabs.getTabCount(); i++) {
+                TabLayout.Tab tab = tabs.getTabAt(i);
+                if (tab != null) {
+                    TextView tabText = (TextView) ((ViewGroup) tab.view).getChildAt(1); // TabLayout의 텍스트 부분
+                    Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendardsemibold);
+                    tabText.setTypeface(typeface);
+                }
+            }
+        });
+
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 Log.d("MainActivity", "선택된 탭: " + position);
+
+                // 탭 텍스트에 폰트 재적용
+                TextView tabText = (TextView) ((ViewGroup) tab.view).getChildAt(1); // TabLayout의 텍스트 부분
+                Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendardsemibold);
+                tabText.setTypeface(typeface);
 
                 Fragment selected = null;
 
@@ -64,7 +84,10 @@ public class Fragment3 extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                // 탭 텍스트에 폰트 재적용
+                TextView tabText = (TextView) ((ViewGroup) tab.view).getChildAt(1); // TabLayout의 텍스트 부분
+                Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendardsemibold);
+                tabText.setTypeface(typeface);
             }
 
             @Override

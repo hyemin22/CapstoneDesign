@@ -1,5 +1,6 @@
 package com.capstoneandroid.capstonedesign.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,13 @@ import java.util.ArrayList;
 public class RecMissionAdapter extends RecyclerView.Adapter<RecMissionAdapter.ViewHolder>{
 
     private ArrayList<RecMissionItem> items = new ArrayList<RecMissionItem>();
+    Context context;
     private OnRecMissionItemClickListener listener;
+
+    public RecMissionAdapter(ArrayList<RecMissionItem> items, Context context) {
+        this.items = items;
+        this.context = context;
+    }
 
     //리스너 인터페이스
     public interface OnRecMissionItemClickListener {
@@ -77,14 +84,14 @@ public class RecMissionAdapter extends RecyclerView.Adapter<RecMissionAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView iconTextView, titleTextView, mentTextView;
+        TextView emojiTextView, titleTextView, descriptionTextView;
         CheckBox plus;
 
         public ViewHolder(@NonNull View itemView, RecMissionAdapter adapter, OnRecMissionItemClickListener listener) {
             super(itemView);
-            iconTextView = itemView.findViewById(R.id.icon);
+            emojiTextView = itemView.findViewById(R.id.icon);
             titleTextView = itemView.findViewById(R.id.title);
-            mentTextView = itemView.findViewById(R.id.ment);
+            descriptionTextView = itemView.findViewById(R.id.ment);
             plus = itemView.findViewById(R.id.plus);
 
             plus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -93,7 +100,12 @@ public class RecMissionAdapter extends RecyclerView.Adapter<RecMissionAdapter.Vi
                     int position = getAdapterPosition();
                     //체크 시 미션 추가 및 해당 아이템 삭제
                     if (position != RecyclerView.NO_POSITION && isChecked && listener != null) {
-                        RecMissionItem item = new RecMissionItem(iconTextView.getText().toString(), titleTextView.getText().toString(), mentTextView.getText().toString());
+                        RecMissionItem item = new RecMissionItem(
+                                adapter.context,
+                                emojiTextView.getText().toString(),
+                                titleTextView.getText().toString(),
+                                descriptionTextView.getText().toString());
+
                         listener.onAddMission(item);
 
                         // 아이템 삭제
@@ -105,9 +117,9 @@ public class RecMissionAdapter extends RecyclerView.Adapter<RecMissionAdapter.Vi
 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(RecMissionItem item) {
-            iconTextView.setText(item.getIcon());
+            emojiTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
-            mentTextView.setText(item.getMent());
+            descriptionTextView.setText(item.getDescription());
         }
     }
 }

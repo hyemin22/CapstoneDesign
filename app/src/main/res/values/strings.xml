@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CapstoneDesign</string>
+    <string name="app_name">기억담아</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="underline_cycleday"><u>반복 요일이 정해져있지 않아요.</u></string>

@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface GuestBookApiService {
@@ -17,8 +18,10 @@ public interface GuestBookApiService {
     @POST("/guestbook")
     Call<Void> saveGuestBook(@Body GuestBook guestBook);
 
-    // 방명록 작성한 유저 id 조회
+    // 우리 가족 방명록 조회
     @GET("/guestbook/family")
-    Call<List<GuestbookItem>> getUsersGuestBook(@Query("writer_id") Long userId);
+    Call<List<GuestbookItem>> getGuestBookList(@Query("user_id") Long userId);
 
+    @PUT("/guestbook")
+    Call<Void> updateGuestBook(@Body GuestBook guestBook);
 }

@@ -2,22 +2,27 @@ package com.capstoneandroid.capstonedesign.item;
 
 import android.content.Context;
 
-public class AlarmItem {
-    String emoji;
-    String title;
-    String date;
+import java.time.LocalDateTime;
 
-    public AlarmItem(Context context, String emoji, String title, String date) {
+public class AlarmItem {
+    String emoji, title, created_at;
+    String sender_name, anonymous_name, receiver_name, content;
+
+    public AlarmItem(Context context, String emoji, String title, String created_at) {
         this.emoji = emoji;
         this.title = title;
-        this.date = date;
+        this.created_at = created_at;
     }
 
-    public String getEmoji() {return emoji;}
-    public String getTitle() {return title;}
-    public String getDate() {return date;}
+    public String getEmoji() {
+        return emoji;
+    }
 
-    public void setEmoji(String emoji) {this.emoji=emoji;}
-    public void setTitle(String title) {this.title=title;}
-    public void setDate(String date) {this.date=date;}
+    public String getTitle() {
+        return title;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
 }

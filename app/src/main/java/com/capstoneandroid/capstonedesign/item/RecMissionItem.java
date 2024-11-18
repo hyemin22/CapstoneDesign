@@ -1,30 +1,23 @@
 package com.capstoneandroid.capstonedesign.item;
 
-public class RecMissionItem {
-    String icon, title, ment;
+import android.content.Context;
 
-    public RecMissionItem(String icon, String title, String ment) {
-        this.icon = icon;
+public class RecMissionItem {
+    String emoji, title, description;
+
+    public RecMissionItem(Context context, String icon, String title, String description) {
+        this.emoji = icon;
         this.title = title;
-        this.ment = ment;
+        this.description = description;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getEmoji() {
+        return emoji;
     }
     public String getTitle() {
         return title;
     }
-    public String getMent() {
-        return ment;
-    }
-    public void setIcon() {
-        this.icon = icon;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setMent(String ment) {
-        this.ment = ment;
+    public String getDescription() {
+        return description;
     }
 }

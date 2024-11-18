@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.repository.UserRepository;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
@@ -43,12 +44,14 @@ public class StartActivity extends BaseActivity {
         // SharedPreferences에서 로그인 상태 확인
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false);
+        kakaoId = sharedPreferences.getLong("kakao_id", -1);
 
-        if (isLoggedIn) {
-            // 로그인된 상태라면 MainActivity로 이동
+        if (isLoggedIn && kakaoId != -1) {
+            // 로그인된 상태이며 카카오 ID가 저장되어 있다면 MainActivity로 이동
+            UserInfoManager.getInstance().setUserId(kakaoId); // 카카오 ID 설정
             navigateToMainActivity();
         } else {
-            // 로그인되지 않은 상태라면 온보딩 화면 보여주기
+            // 로그인되지 않은 상태이거나 카카오 ID가 저장되지 않은 경우 온보딩 화면 보여주기
             setContentView(R.layout.activity_start);
 
             // 카카오 로그인 버튼 클릭 이벤트 설정
@@ -67,6 +70,7 @@ public class StartActivity extends BaseActivity {
                 Log.e(TAG, "사용자 정보 요청 실패", error);
             } else if (user != null) {
                 kakaoId = user.getId(); // 카카오 사용자 고유 ID
+                UserInfoManager.getInstance().setUserId(kakaoId); // UserInfoManager에 저장
                 // 사용자 정보 요청이 완료된 후 로그인 성공 처리
                 onLoginSuccess(token);
             }
@@ -89,7 +93,7 @@ public class StartActivity extends BaseActivity {
             @Override
             public void onExistCheckSuccess() {
                 // 기존 사용자는 로그인 상태를 저장하고 MainActivity로 이동
-                setLoginState(true);
+                setLoginState(true, kakaoId);
                 navigateToMainActivity();
             }
 
@@ -101,7 +105,7 @@ public class StartActivity extends BaseActivity {
                 startActivity(intent);
 
                 // 로그인 상태를 저장하여 재실행 시 StartActivity를 건너뜀
-                setLoginState(true);
+                setLoginState(true, kakaoId);
                 finish();
             }
         });
@@ -130,10 +134,11 @@ public class StartActivity extends BaseActivity {
         });
     }
 
-    private void setLoginState(boolean isLoggedIn) {
+    private void setLoginState(boolean isLoggedIn, long kakaoId) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("is_logged_in", isLoggedIn);
+        editor.putLong("kakao_id", kakaoId);
         editor.apply();
     }
 }

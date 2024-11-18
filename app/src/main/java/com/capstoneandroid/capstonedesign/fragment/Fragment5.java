@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.model.GuestBook;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.model.User;
 import com.capstoneandroid.capstonedesign.repository.UserRepository;
 import com.kakao.sdk.user.UserApiClient;
@@ -24,6 +24,7 @@ import com.kakao.sdk.user.UserApiClient;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Fragment5 extends Fragment {
+    Long userId = UserInfoManager.getInstance().getUserId();
     private TextView nickname1, nickname2, phone_number,
             goToFamilyControl, goToAlarm, goToFamilyScrap, goToMyScrap;
     private CircleImageView profile;
@@ -43,18 +44,8 @@ public class Fragment5 extends Fragment {
         goToMyScrap = view.findViewById(R.id.myScrap);
 
         // 유저 이름, 전화번호, 캐릭터 띄우기
-        // 로그인한 사용자 정보 조회
-        UserApiClient.getInstance().me((user, error) -> {
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error);
-            } else if (user != null) {
-                Long user_id = user.getId(); // 카카오 사용자 고유 ID
-
-                // 서버로 GET 요청 보내기
-                getUserInfoData(user_id);
-            }
-            return null;
-        });
+        // 서버로 GET 요청 보내기
+        getUserInfoData();
 
         // 내 가족관리를 눌렀을 때 AlarmFragment로 이동
         goToFamilyControl.setOnClickListener(new View.OnClickListener() {
@@ -115,10 +106,10 @@ public class Fragment5 extends Fragment {
         return view;
     }
 
-    private void getUserInfoData(Long user_id) {
+    private void getUserInfoData() {
         // 서버로 Get 요청 보내기
         UserRepository userRepository = new UserRepository();
-        userRepository.getUserInfo(user_id, new UserRepository.GetInfoCallback() {
+        userRepository.getUserInfo(userId, new UserRepository.GetInfoCallback() {
             @Override
             public void onInfoGetSuccess(User user) {
                 nickname1.setText(user.getNickname());

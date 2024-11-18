@@ -3,7 +3,6 @@ package com.capstoneandroid.capstonedesign.model;
 public class WishList {
     private Long userId;
     private String title;
-    private String name;
     private String startDate;
     private String endDate;
     private Integer category;
@@ -25,17 +24,4 @@ public class WishList {
         this.memo = memo;
         this.completed = completed;
     }
-    public WishList(Long userId, String title, String startDate,
-                    String endDate, Integer category, String emoji, Boolean alarm,
-                    String memo) {
-        this.userId = userId;
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.category = category;
-        this.emoji = emoji;
-        this.alarm = alarm;
-        this.memo = memo;
-    }
-
 }

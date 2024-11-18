@@ -2,54 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content" >
 
         <ImageButton
             android:id="@+id/backBtn"
             android:layout_width="47dp"
             android:layout_height="43dp"
+            android:layout_alignParentStart="true"
             android:layout_marginLeft="8dp"
             android:backgroundTint="@color/transparent"
             android:scaleType="fitXY"
             android:scaleX="-1"
             android:src="@drawable/ic_chevron_black" />
 
-        <TextView
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="92dp"
-            android:fontFamily="@font/pretendardbold"
-            android:text="아빠"
-            android:textColor="@color/black"
-            android:textSize="23dp" />
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/pretendardbold"
-            android:text="의 방명록"
-            android:textColor="@color/black"
-            android:textSize="23dp" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/pretendardbold"
+                android:text="아빠"
+                android:textColor="@color/black"
+                android:textSize="23dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/pretendardbold"
+                android:text="의 방명록"
+                android:textColor="@color/black"
+                android:textSize="23dp" />
+
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/hamBtn"
             android:layout_width="25dp"
             android:layout_height="38dp"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="center"
-            android:layout_marginStart="100dp"
-            android:src="@drawable/ic_threedot"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/transparent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_threedot" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

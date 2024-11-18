@@ -11,17 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.item.WishCompletedItem;
 import com.capstoneandroid.capstonedesign.activity.WishCreateActivity;
+import com.capstoneandroid.capstonedesign.item.WishListItem;
 
 import java.util.ArrayList;
 
 public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdapter.ViewHolder> {
 
-    ArrayList<WishCompletedItem> items = new ArrayList<WishCompletedItem>();
+    ArrayList<WishListItem> items = new ArrayList<WishListItem>();
     Context context;
 
-    public WishCompletedAdapter(Context context) {
+    public WishCompletedAdapter(ArrayList<WishListItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -38,7 +39,7 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
     //뷰홀더 재사용
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        WishCompletedItem item = items.get(position);
+        WishListItem item = items.get(position);
         holder.setItem(item);
 
         // 위시 아이템 클릭 시 수정/삭제 화면으로 이동
@@ -46,7 +47,14 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, WishCreateActivity.class);
+                intent.putExtra("id", item.getId());
                 intent.putExtra("title", item.getTitle());
+                intent.putExtra("start_date", item.getStartDate());
+                intent.putExtra("end_date", item.getEndDate());
+                intent.putExtra("category", item.getCategory());
+                intent.putExtra("icon", item.getEmoji());
+                intent.putExtra("memo", item.getMemo());
+                intent.putExtra("alarm", item.getAlarm());
                 intent.putExtra("source", "WishCompletedAdapter");
                 context.startActivity(intent);
             }
@@ -58,19 +66,19 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
         return items.size();
     }
 
-    public void addItem(WishCompletedItem item) {
+    public void addItem(WishListItem item) {
         items.add(item);
     }
 
-    public void setItems(ArrayList<WishCompletedItem> items) {
+    public void setItems(ArrayList<WishListItem> items) {
         this.items = items;
     }
 
-    public WishCompletedItem getItem(int position) {
+    public WishListItem getItem(int position) {
         return items.get(position);
     }
 
-    public void setItem(int position, WishCompletedItem item) {
+    public void setItem(int position, WishListItem item) {
         items.set(position, item);
     }
 
@@ -88,10 +96,10 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
         }
 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
-        public void setItem(WishCompletedItem item) {
+        public void setItem(WishListItem item) {
             emojiTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
-            dateTextView.setText(item.getDate());
+            dateTextView.setText(item.getCompletedDate());
         }
 
     }

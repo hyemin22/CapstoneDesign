@@ -36,16 +36,27 @@
                 android:fontFamily="@font/yeongdeoksea" />
 
             <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/username"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="7dp"
+                android:text="from."
+                android:textSize="17dp"
+                android:fontFamily="@font/yeongdeoksea"
+                android:textColor="@color/black" />
+
+            <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="7dp"
-                android:text="from.user"
+                android:text="user"
                 android:textSize="17dp"
                 android:fontFamily="@font/yeongdeoksea"
                 android:textColor="@color/black" />
-
         </RelativeLayout>
 </LinearLayout>

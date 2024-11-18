@@ -52,7 +52,9 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, GuestBookCheckActivity.class);
+                intent.putExtra("id", item.getId());
                 intent.putExtra("content", item.getContent());
+                intent.putExtra("nickname", item.getNickname());
                 intent.putExtra("position", holder.getAdapterPosition());  // position 전달
                 ((Activity) context).startActivityForResult(intent, REQUEST_CODE);
             }
@@ -112,7 +114,6 @@ public class GuestbookAdapter extends RecyclerView.Adapter<GuestbookAdapter.View
 
         private int getDrawableId(String characterChoice) {
             int drawableId = itemView.getContext().getResources().getIdentifier(characterChoice, "drawable", itemView.getContext().getPackageName());
-            System.out.println("Drawable ID: " + drawableId);
 
             // drawableId가 0이면 해당 drawable이 존재하지 않는 것이므로 예외 처리
             if (drawableId == 0) {

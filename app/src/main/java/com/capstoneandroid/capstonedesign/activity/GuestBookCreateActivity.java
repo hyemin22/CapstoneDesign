@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
 import com.kakao.sdk.user.UserApiClient;
@@ -26,6 +27,8 @@ import com.kakao.sdk.user.UserApiClient;
 import org.json.JSONObject;
 
 public class GuestBookCreateActivity extends BaseActivity {
+    GuestBookRepository repository = new GuestBookRepository();
+    Long userId = UserInfoManager.getInstance().getUserId();
     ImageButton backBtn, hamBtn;
     TextView pagename, ment, count;
     EditText contentEdit;
@@ -38,7 +41,6 @@ public class GuestBookCreateActivity extends BaseActivity {
 
         // Fragment1으로부터 방명록 position 받기
         position = getIntent().getIntExtra("position", -1);
-        Log.d("GuestBookActivity", "Received position: " + position);
 
         pagename = findViewById(R.id.pagename);
         backBtn = findViewById(R.id.backBtn);
@@ -107,54 +109,54 @@ public class GuestBookCreateActivity extends BaseActivity {
 
         // 식별자에 따라 다른 동작을 수행
         if ("Fragment1".equals(sourceActivity)) {
-            // 1. 홈화면 - 방명록 추가 버튼 클릭해서 넘어온거면
-            //햄버거버튼 가리기
+            // 1. 홈화면 - 방명록 추가 버튼 클릭해서 넘어온거면 - 새 방명록 작성
+            // 햄버거버튼 가리기
             hamBtn.setVisibility(View.INVISIBLE);
             //텍스트 변경
             pagename.setText("방명록 작성");
             ment.setText("소소한 일상을\n방명록으로 남겨보아요✍🏻");
             okBtn.setText("올리기");
+            // 저장 버튼
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String content = contentEdit.getText().toString(); // 방명록에 입력한 내용
+
+                    // POJO 클래스를 사용하여 방명록 데이터 생성
+                    GuestBook guestBook = new GuestBook(userId, content);
+
+                    // 서버로 POST 요청 보내기
+                    sendGuestBookData(guestBook);
+                }
+            });
         } else if ("GuestCheckActivity".equals(sourceActivity)) {
-            // 2. 방명록 확인 화면에서 넘어온거면
-            //햄버거버튼 보이기
+            // 2. 방명록 확인 화면에서 넘어온거면 - 방명록 수정
+            //작성된 내용 가져오기
+            Intent outIntent = getIntent();
+            Long getId = outIntent.getLongExtra("id", -1L);
+            String getContent = outIntent.getStringExtra("content");
+            contentEdit.setText(getContent);
+            // 햄버거버튼 보이기
             hamBtn.setVisibility(View.VISIBLE);
             //텍스트 변경
             pagename.setText("방명록 수정");
             ment.setText("방명록을\n수정해봐요✍🏻");
             okBtn.setText("수정하기");
-            //작성된 내용 가져오기
-            Intent outIntent = getIntent();
-            String getContent = outIntent.getStringExtra("content");
-            contentEdit.setText(getContent);
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String content = contentEdit.getText().toString(); // 입력한 내용
+
+                    GuestBook guestBook = new GuestBook(getId, content); // 방명록 아이디와 수정된 내용 전송
+
+                    updateGuestBookData(guestBook);
+                }
+            });
         }
-
-        //확인버튼
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 로그인한 사용자 정보 조회
-                UserApiClient.getInstance().me((user, error) -> {
-                    if (error != null) {
-                        Log.e(TAG, "사용자 정보 요청 실패", error);
-                    } else if (user != null) {
-                        Long user_id = user.getId(); // 카카오 사용자 고유 ID
-                        String content = contentEdit.getText().toString(); // 방명록에 입력한 내용
-
-                        // POJO 클래스를 사용하여 방명록 데이터 생성
-                        GuestBook guestBook = new GuestBook(user_id, content);
-
-                        // 서버로 POST 요청 보내기
-                        sendGuestBookData(guestBook);
-                    }
-                    return null;
-                });
-            }
-        });
     }
 
     private void sendGuestBookData(GuestBook guestBook) {
         // 서버로 POST 요청 보내기
-        GuestBookRepository repository = new GuestBookRepository();
         repository.sendGuestBookDataToServer(guestBook, new GuestBookRepository.GuestBookCallback() {
             @Override
             public void onSuccess() {
@@ -167,6 +169,24 @@ public class GuestBookCreateActivity extends BaseActivity {
             public void onFailure(String errorMessage) {
                 // 방명록 추가 실패
                 Log.e("GuestBookCreateActivity", "방명록 추가 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void updateGuestBookData(GuestBook guestBook) {
+        // 서버로 PUT 요청 보내기
+        repository.updateGuestBook(guestBook, new GuestBookRepository.GuestBookCallback() {
+            @Override
+            public void onSuccess() {
+                // 방명록 수정 성공
+                Log.d("GuestBookCreateActivity", "방명록이 성공적으로 수정되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 방명록 수정 실패
+                Log.e("GuestBookCreateActivity", "방명록 수정 실패: " + errorMessage);
             }
         });
     }

@@ -4,6 +4,8 @@ import com.capstoneandroid.capstonedesign.model.User;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -27,4 +29,8 @@ public interface UserApiService {
     // 유저 이름, 캐릭터, 번호 조회
     @GET("/user/info")
     Call<User> getUserInfo(@Query("userId") Long userId);
+
+    // 가족 아이디, 닉네임, 캐릭터 조회
+    @GET("/family/info1")
+    Call<List<User>> getFamilyInfo1(@Query("userId") Long userId);
 }

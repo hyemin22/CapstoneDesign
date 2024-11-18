@@ -1,51 +1,83 @@
 package com.capstoneandroid.capstonedesign.item;
 
-public class MyMissionItem {
-    String emoji, title, cycle, percent, count, goal;
+import android.content.Context;
 
-    public MyMissionItem(String emoji, String title, String cycle, String percent, String count, String goal) {
-        this.emoji = emoji;
+public class MyMissionItem {
+    Long id;
+    String title, emoji, cycle, repeat_day, alarm_time, percent;
+    Integer repeat_time, now_time, goal_time;
+    boolean alarm;
+
+    public MyMissionItem(Context context, Long id,
+                         String title, String emoji, String cycle,
+                         String repeat_day, Integer repeat_time,
+                         Integer now_time, Integer goal_time,
+                         String percent,
+                         boolean alarm, String alarm_time) {
+        this.id = id;
         this.title = title;
+        this.emoji = emoji;
         this.cycle = cycle;
-        this.percent = percent;
-        this.count = count;
-        this.goal = goal;
+        this.repeat_day = repeat_day;
+        this.alarm_time = alarm_time;
+        this.repeat_time = repeat_time;
+        this.now_time = now_time;
+        this.goal_time = goal_time;
+        this.percent = calculatePercent(now_time, goal_time);
+        this.alarm = alarm;
+    }
+
+    public String calculatePercent(Integer now_time, Integer goal_time) {
+        if (now_time != null && goal_time != 0) {
+            double result = (double) now_time / goal_time * 100;
+            String formattedResult = String.format("%.1f", result);
+            return formattedResult;
+        } else {
+            return "0.0";
+        }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getEmoji() {
         return emoji;
     }
-    public String getTitle() {
-        return title;
-    }
+
     public String getCycle() {
         return cycle;
     }
+
+    public String getRepeat_day() {
+        return repeat_day;
+    }
+
+    public String getAlarm_time() {
+        return alarm_time;
+    }
+
+    public Integer getRepeat_time() {
+        return repeat_time;
+    }
+
+    public Integer getNow_time() {
+        return now_time;
+    }
+
+    public Integer getGoal_time() {
+        return goal_time;
+    }
+
     public String getPercent() {
         return percent;
     }
-    public String getCount() {
-        return count;
-    }
-    public String getGoal() {
-        return goal;
-    }
-    public void setEmoji(String emoji) {
-        this.emoji = emoji;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setCycle(String cycle) {
-        this.cycle = cycle;
-    }
-    public void setPercent(String percent) {
-        this.percent = percent;
-    }
-    public void setCount(String count) {
-        this.count = count;
-    }
-    public void setGoal(String goal) {
-        this.goal = goal;
+
+    public boolean getAlarm() {
+        return alarm;
     }
 }

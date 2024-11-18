@@ -21,7 +21,8 @@ public class MyMissionAdapter extends RecyclerView.Adapter<MyMissionAdapter.View
     ArrayList<MyMissionItem> items = new ArrayList<MyMissionItem>();
     Context context;
 
-    public MyMissionAdapter(Context context) {
+    public MyMissionAdapter(ArrayList<MyMissionItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -46,7 +47,14 @@ public class MyMissionAdapter extends RecyclerView.Adapter<MyMissionAdapter.View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MissionCreateActivity.class);
+                intent.putExtra("id", item.getId());
                 intent.putExtra("title", item.getTitle());
+                intent.putExtra("emoji", item.getEmoji());
+                intent.putExtra("cycle", item.getCycle());
+                intent.putExtra("repeat_day", item.getRepeat_day());
+                intent.putExtra("repeat_time", item.getRepeat_time());
+                intent.putExtra("alarm", item.getAlarm());
+                intent.putExtra("alarm_time", item.getAlarm_time());
                 intent.putExtra("source", "MyMissionAdapter");
                 context.startActivity(intent);
             }
@@ -78,6 +86,7 @@ public class MyMissionAdapter extends RecyclerView.Adapter<MyMissionAdapter.View
         TextView emojiTextView, titleTextView, cycleTextView,
                 percentTextView, countTextView, goalTextView;
         ProgressBar progressBar;
+        View progressView, emptyCycleView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,6 +98,8 @@ public class MyMissionAdapter extends RecyclerView.Adapter<MyMissionAdapter.View
             countTextView = itemView.findViewById(R.id.count);
             goalTextView = itemView.findViewById(R.id.goal);
             progressBar = itemView.findViewById(R.id.progress);
+            progressView = itemView.findViewById(R.id.progressView);
+            emptyCycleView = itemView.findViewById(R.id.emptyCycleView);
         }
 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
@@ -97,12 +108,21 @@ public class MyMissionAdapter extends RecyclerView.Adapter<MyMissionAdapter.View
             titleTextView.setText(item.getTitle());
             cycleTextView.setText(item.getCycle());
             percentTextView.setText(item.getPercent());
-            countTextView.setText(item.getCount());
-            goalTextView.setText(item.getGoal());
+            countTextView.setText(item.getNow_time().toString());
+            goalTextView.setText(item.getGoal_time().toString());
 
-            // percentTextView에서 값을 가져와서 ProgressBar의 progress 속성 설정
-            int progress = Integer.parseInt(item.getPercent());
+            // percentTextView에서 값을 가져와서 ProgressBar의 progress 속성 설정 (1000이 max, 75%면 750/1000)
+            int progress = (int) (Double.parseDouble(item.getPercent()) * 10);
             progressBar.setProgress(progress);
+
+            // "아직 목표가 설정되어 있지 않아요." 인지 체크하고 뷰 상태 변경
+            if ("아직 목표가 설정되어 있지 않아요.".equals(item.getCycle())) {
+                emptyCycleView.setVisibility(View.VISIBLE);
+                progressView.setVisibility(View.GONE);
+            } else {
+                emptyCycleView.setVisibility(View.GONE);
+                progressView.setVisibility(View.VISIBLE);
+            }
         }
 
     }

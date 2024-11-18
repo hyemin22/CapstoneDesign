@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:paddingTop="3dp"
+    android:layout_height="75dp"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="5dp"
     android:background="@drawable/rounded_textbox">
@@ -10,71 +9,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="15dp">
+        android:gravity="center_vertical" >
 
         <TextView
-            android:id="@+id/categoryEmoji"
+            android:id="@+id/categoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🌷"
-            android:textSize="35dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="13dp"/>
-
-        <TextView
-            android:id="@+id/categoryTitle"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="20dp"
             android:maxLines="1"
             android:text="categoryTitle"
-            android:textColor="@color/black"
             android:textSize="20dp"
-            android:fontFamily="@font/pretendardsemibold" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/categoryTitle">
-            <TextView
-                android:id="@+id/madeBy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="55dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="3dp"
-                android:text="만든사람: "
-                android:textSize="15dp"
-                android:textColor="@color/gray"
-                android:fontFamily="@font/pretendardregular" />
-
-            <TextView
-                android:id="@+id/categoryName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="@+id/madeBy"
-                android:layout_marginTop="3dp"
-                android:text="이름"
-                android:textSize="15dp"
-                android:textColor="@color/gray"
-                android:fontFamily="@font/pretendardregular" />
-
-        </LinearLayout>
+            android:background="@android:color/transparent"
+            style="@style/edit_default"/>
 
         <ImageButton
-            android:id="@+id/GotoCategorySetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow"
-            android:scaleType="fitXY"
-            android:layout_centerVertical="true"
+            android:id="@+id/hamBtn"
+            android:layout_width="30dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_threedot"
+            android:scaleType="fitCenter"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="10dp"
             android:background="#00ff0000"/>
-
-
 
     </RelativeLayout>
 </RelativeLayout>

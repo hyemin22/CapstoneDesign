@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,46 +13,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.adapter.WishExpectedAdapter;
-import com.capstoneandroid.capstonedesign.item.WishCompletedItem;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.adapter.WishCompletedAdapter;
-import com.capstoneandroid.capstonedesign.item.WishExpectedItem;
+import com.capstoneandroid.capstonedesign.item.WishListItem;
 import com.capstoneandroid.capstonedesign.repository.WishListRepository;
+import com.kakao.sdk.user.UserApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WishCompletedFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
-
-    private static final int REQUEST_CODE = 100;  // 요청 코드
-    private ArrayList<WishCompletedItem> items = new ArrayList<>(); // 위시리시트 아이템 추가
-
-    private WishExpectedAdapter adapter;
+    Long userId = UserInfoManager.getInstance().getUserId();
+    private ArrayList<WishListItem> items = new ArrayList<>(); // 위시리시트 아이템 추가
+    private WishCompletedAdapter adapter;
     public WishCompletedFragment() {
-        // Required empty public constructor
-    }
 
-    public static FeedCalMonthFragment newInstance(String param1, String param2) {
-        FeedCalMonthFragment fragment = new FeedCalMonthFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -63,38 +46,44 @@ public class WishCompletedFragment extends Fragment {
     }
 
     private void initUI(ViewGroup rootView) {
-
-        //위시리스트
         RecyclerView recyclerView1 = rootView.findViewById(R.id.wishCompletedView);
+
+        // 로그인한 사용자 가족 정보 조회 -> 카테고리 리스트 get 요청 보내기
+        // 서버로 카테고리 get 요청 보내기
+        sendGetCompletedWishListData();
+
         LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView1.setLayoutManager(linearManager);
-        WishCompletedAdapter adapter = new WishCompletedAdapter(getContext());
-
-        adapter.addItem(new WishCompletedItem(getContext(),"❤️","다같이 한강 가서 치킨 먹기", "2024년 5월 5일 예정"));
-        adapter.addItem(new WishCompletedItem(getContext(),"🔥","대전 랑골로에서 파스타 먹기", "2024년 5월 11일 예정"));
-        adapter.addItem(new WishCompletedItem(getContext(),"✈️","다같이 한강 가서 치킨 먹기", "2024년 5월 5일 예정"));
-        adapter.addItem(new WishCompletedItem(getContext(),"🖌️","대전 랑골로에서 파스타 먹기", "2024년 5월 11일 예정"));
-        adapter.addItem(new WishCompletedItem(getContext(),"🎧","다같이 한강 가서 치킨 먹기", "2024년 5월 5일 예정"));
+        adapter = new WishCompletedAdapter(items, getContext());
 
         recyclerView1.setAdapter(adapter);
     }
-    private void sendGetCompletedWishListData(Long familyId) {
+    private void sendGetCompletedWishListData() {
         WishListRepository wishListRepository = new WishListRepository();
         // 완료된 위시리스트 데이터 가져오기
-        wishListRepository.getFamilyCompletedWishList(familyId, new WishListRepository.GetCompletedListCallback() {
+        wishListRepository.getFamilyCompletedWishList(userId, new WishListRepository.GetCompletedListCallback() {
             @Override
-            public void onListGetSuccess(List<WishCompletedItem> wishCompletedItems) {
+            public void onListGetSuccess(List<WishListItem> wishCompletedItems) {
                 getActivity().runOnUiThread(() -> {
                     // items 리스트에 서버에서 받아온 응답 데이터 추가
                     items.clear(); // 기존 데이터 초기화 (필요 시)
                     // 서버에서 받은 위시리스트 응답을 items에 추가
-                    for (WishCompletedItem wishCompletedItem : wishCompletedItems) {
-                        items.add(new WishCompletedItem(
-                                wishCompletedItem.getEmoji(), // 이모지
-                                wishCompletedItem.getTitle(), // 제목
-                                wishCompletedItem.getDate() // 날짜
+                    for (WishListItem wishListItem : wishCompletedItems) {
+                        items.add(new WishListItem(
+                                getContext(),
+                                wishListItem.getId(), // 아이디
+                                wishListItem.getTitle(), // 제목
+                                wishListItem.getStartDate(), // 시작날짜
+                                wishListItem.getEndDate(), // 끝 날짜
+                                wishListItem.getCategory(), // 카테고리
+                                wishListItem.getEmoji(), // 이모지
+                                wishListItem.getAlarm(), // 알람 여부
+                                wishListItem.getMemo(), // 메모
+                                wishListItem.getCompletedDate(), // 완료일
+                                wishListItem.getDday() // 디데이
                         ));
                     }
+
                     // 어댑터에 변경 사항을 알림
                     adapter.notifyDataSetChanged();
                 });

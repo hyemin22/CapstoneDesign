@@ -10,6 +10,8 @@ import com.capstoneandroid.capstonedesign.model.User;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,6 +44,11 @@ public class UserRepository {
 
     public interface GetInfoCallback {
         void onInfoGetSuccess(User user);
+        void onInfoGetFailure(String errorMessage);
+    }
+
+    public interface GetFamilyInfoCallback {
+        void onInfoGetSuccess(List<User> familyInfos);
         void onInfoGetFailure(String errorMessage);
     }
 
@@ -128,7 +135,6 @@ public class UserRepository {
 
     // 유저 닉네임, 캐릭터, 전화번호 조회
     public void getUserInfo(Long userId, GetInfoCallback callback) {
-
         // 유저 데이터 get 요청
         Call<User> call = userApiService.getUserInfo(userId);
 
@@ -149,6 +155,33 @@ public class UserRepository {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                // 네트워크 오류 등으로 요청 실패했을 때 처리
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onInfoGetFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    public void getFamilyInfo1(Long userId, GetFamilyInfoCallback callback) {
+        Call<List<User>> call = userApiService.getFamilyInfo1(userId);
+
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<User> familyInfos = response.body();
+                    System.out.println("유저 조회 성공: 200 OK");
+                    callback.onInfoGetSuccess(familyInfos); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("유저 조회 실패: " + response.errorBody().toString());
+                    callback.onInfoGetFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 // 네트워크 오류 등으로 요청 실패했을 때 처리
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onInfoGetFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출

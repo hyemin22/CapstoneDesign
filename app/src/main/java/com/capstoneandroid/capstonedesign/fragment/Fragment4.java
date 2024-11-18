@@ -1,9 +1,13 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.capstoneandroid.capstonedesign.R;
@@ -24,8 +28,8 @@ public class Fragment4 extends Fragment {
         fragment1 = new ActivityFragment("맛집");
         fragment2 = new ActivityFragment("여행");
         fragment3 = new ActivityFragment("이색");
-        fragment4 = new ActivityFragment("야외활동");
-        fragment5 = new ActivityFragment("실내활동");
+        fragment4 = new ActivityFragment("야외");
+        fragment5 = new ActivityFragment("실내");
 
         getChildFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
 
@@ -34,13 +38,31 @@ public class Fragment4 extends Fragment {
         tabs.addTab(tabs.newTab().setText("맛집"));
         tabs.addTab(tabs.newTab().setText("여행"));
         tabs.addTab(tabs.newTab().setText("이색"));
-        tabs.addTab(tabs.newTab().setText("야외활동"));
-        tabs.addTab(tabs.newTab().setText("실내활동"));
+        tabs.addTab(tabs.newTab().setText("야외"));
+        tabs.addTab(tabs.newTab().setText("실내"));
+
+        // 각 탭의 텍스트 뷰에 직접 폰트 적용
+        tabs.post(() -> {
+            for (int i = 0; i < tabs.getTabCount(); i++) {
+                TabLayout.Tab tab = tabs.getTabAt(i);
+                if (tab != null) {
+                    TextView tabText = (TextView) ((ViewGroup) tab.view).getChildAt(1); // TabLayout의 텍스트 부분
+                    Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendardsemibold);
+                    tabText.setTypeface(typeface);
+                }
+            }
+        });
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
+
+                // 탭 텍스트에 폰트 재적용
+                TextView tabText = (TextView) ((ViewGroup) tab.view).getChildAt(1); // TabLayout의 텍스트 부분
+                Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendardsemibold);
+                tabText.setTypeface(typeface);
+
                 Fragment selected = null;
 
                 if(position == 0) {
@@ -65,7 +87,10 @@ public class Fragment4 extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                // 탭 텍스트에 폰트 재적용
+                TextView tabText = (TextView) ((ViewGroup) tab.view).getChildAt(1); // TabLayout의 텍스트 부분
+                Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendardsemibold);
+                tabText.setTypeface(typeface);
             }
 
             @Override

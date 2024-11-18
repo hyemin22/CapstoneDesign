@@ -9,35 +9,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.model.WishCategory;
 import com.capstoneandroid.capstonedesign.model.WishList;
 import com.capstoneandroid.capstonedesign.repository.WishListRepository;
 import com.kakao.sdk.user.UserApiClient;
 
-public class WishCategoryCreateActivity extends AppCompatActivity {
-
+public class WishCategoryCreateActivity extends BaseActivity {
+    Long userId = UserInfoManager.getInstance().getUserId();
     ImageButton backBtn;
-    EditText titleEdit;
+    EditText nameEdit;
+    TextView pageTitle;
     Button okBtn;
-    EditText selectedEmoji;
+    WishListRepository wishListRepository = new WishListRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_wish_category_create);
 
         backBtn = findViewById(R.id.backBtn);
-        titleEdit = findViewById(R.id.titleEdit);
-        selectedEmoji = findViewById(R.id.selectedEmoji);
+        pageTitle = findViewById(R.id.pageTitle);
+        nameEdit = findViewById(R.id.nameEdit);
         okBtn = findViewById(R.id.okBtn);
 
         //이전버튼
@@ -48,34 +52,55 @@ public class WishCategoryCreateActivity extends AppCompatActivity {
             }
         });
 
-        //확인버튼
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 로그인한 사용자 정보 조회
-                UserApiClient.getInstance().me((user, error) -> {
-                    if (error != null) {
-                        Log.e(TAG, "사용자 정보 요청 실패", error);
-                    } else if (user != null) {
-                        Long user_id = user.getId(); // 카카오 사용자 고유 ID
-                        String name = titleEdit.getText().toString();
+        Intent intent = getIntent();
+        String source = intent.getStringExtra("source");
 
-                        // POJO 클래스를 사용하여 위시 데이터 생성
-                        WishCategory wishCategory = new WishCategory(user_id, name);
+        // 어떤 화면에서 넘어왔는지에 따라 보여지는 화면이 다름
+        if ("WishCategoryActivity".equals(source)) { //새로운 카테고리 생성
+            pageTitle.setText("카테고리 추가          ");
+            okBtn.setText("카테고리 추가");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String name = nameEdit.getText().toString();
 
-                        // 서버로 POST 요청 보내기
-                        sendWishListCategory(wishCategory);
-                    }
-                    return null;
-                });
-                finish();
-            }
-        });
+                    // POJO 클래스를 사용하여 위시 데이터 생성
+                    WishCategory wishCategory = new WishCategory(userId, name);
+
+                    // 서버로 POST 요청 보내기
+                    sendWishListCategory(wishCategory);
+
+                    // 화면 종료
+                    finish();
+                }
+            });
+        } else if ("WishCategoryAdapter".equals(source)) {//카테고리 수정
+            pageTitle.setText("카테고리 수정          ");
+            okBtn.setText("카테고리 수정");
+            Integer id = intent.getIntExtra("id", -1);
+            String name = intent.getStringExtra("name");
+            nameEdit.setText(name);
+
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String updateName = nameEdit.getText().toString();
+
+                    // POJO 클래스를 사용하여 위시 데이터 생성
+                    WishCategoryItem wishCategoryItem = new WishCategoryItem(getApplicationContext(), id, updateName);
+
+                    // 서버로 PUT 요청 보내기
+                    updateWishListCategory(wishCategoryItem);
+
+                    finish();
+                }
+            });
+        }
+
     }
 
+    // 서버로 POST 요청 보내기
     private void sendWishListCategory(WishCategory wishCategory) {
-        // 서버로 POST 요청 보내기
-        WishListRepository wishListRepository = new WishListRepository();
         wishListRepository.sendWishListCategoryToServer(wishCategory, new WishListRepository.WishListCallback() {
             @Override
             public void onSuccess() {
@@ -90,5 +115,21 @@ public class WishCategoryCreateActivity extends AppCompatActivity {
                 Log.e("WishListCategoryCreateActivity", "위시리스트 카테고리 추가 실패: " + errorMessage);
             }
         });
+    }
+
+    // 서버로 PUT 요청 보내기
+    private void updateWishListCategory(WishCategoryItem wishCategoryItem) {
+        wishListRepository.updateWishCategoryToServer(wishCategoryItem, new WishListRepository.WishListCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("WishCategoryActivity", "위시 카테고리 이름 변경 성공");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("WishCategoryActivity", "위시 카테고리 이름변경 실패: " + errorMessage);
+            }
+        });
+
     }
 }

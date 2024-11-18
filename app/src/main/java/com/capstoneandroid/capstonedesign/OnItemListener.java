@@ -1,4 +1,4 @@
-package com.capstoneandroid.capstonedesign.fragment;
+package com.capstoneandroid.capstonedesign;
 
 public interface OnItemListener {
     void onItemClick(String dayText);

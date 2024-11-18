@@ -138,13 +138,13 @@ public class FeedCalMonthFragment extends Fragment {
     // 화면 설정(주간 달력)
     private void setWeekView() {
         monthText.setText(monthYearFromDate(CalendarUtil.selecedDate));
-        sundayText.setText("Sun");
-        mondayText.setText("Mon");
-        tuesdayText.setText("Tue");
-        wednesdayText.setText("Wed");
-        thursdayText.setText("Thu");
-        fridayText.setText("Fri");
-        saturdayText.setText("Sat");
+        sundayText.setText("일");
+        mondayText.setText("월");
+        tuesdayText.setText("화");
+        wednesdayText.setText("수");
+        thursdayText.setText("목");
+        fridayText.setText("금");
+        saturdayText.setText("토");
 
         ArrayList<LocalDate> weekList = daysInWeekArray(CalendarUtil.selecedDate);
 

@@ -43,7 +43,6 @@ public class ActivityFragment extends Fragment {
     private TextView ment, region1, region2;
     private String activityType; // Save the tab type
     private int selectedProvinceId = -1; // Variable to store selected provinceId
-    private ButtonPagerAdapter adapter2;
     private ArrayList<ActivityItem> items = new ArrayList<>();
 
     private RegionApiService regionApiService;
@@ -74,7 +73,7 @@ public class ActivityFragment extends Fragment {
         // Set up RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.activityView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new ActivityAdapter(getContext());
+        adapter = new ActivityAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
 
         updateContentBasedOnType(activityType);
@@ -141,9 +140,6 @@ public class ActivityFragment extends Fragment {
             dialog.getWindow().setAttributes(layoutParams);
         } else {
             dialog.setContentView(R.layout.dialog_region2);
-//            ViewPager2 viewPager = dialog.findViewById(R.id.viewPager);
-//            adapter2 = new ButtonPagerAdapter(getContext());
-//            viewPager.setAdapter(adapter2);
 
             // 다이얼로그 위치 조정
             WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
@@ -175,18 +171,17 @@ public class ActivityFragment extends Fragment {
         dialog.show();
     }
 
-
     private Button createButton(String name, int id, Dialog dialog, boolean isProvince) {
         Button button = new Button(getContext());
         button.setText(name);
         button.setBackgroundResource(R.drawable.button_selector);
-        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         button.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pretendardmedium));
 
         GridLayout.LayoutParams params2 = new GridLayout.LayoutParams();
-        params2.width = isProvince ? 175 : 220; // 원하는 너비로 설정
+        params2.width = isProvince ? 165 : 210; // 원하는 너비로 설정
         params2.height = 120; // 높이 설정
-        params2.setMargins(5, 5, 5, 5);
+        params2.setMargins(10, 0, 10, 15);
         button.setLayoutParams(params2); // 설정 후 LayoutParams 적용
 
         button.setOnClickListener(v -> {
@@ -206,60 +201,24 @@ public class ActivityFragment extends Fragment {
         switch (type) {
             case "맛집":
                 ment.setText("가족끼리 먹기 좋은\n근처 맛집");
-                //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.agio1, "아지오", "이탈리아 음식점", "90",
-                        R.drawable.kakao8,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao6, "어글리스토브", "이탈리아 음식점", "40",
-                        R.drawable.kakao6,
-                        "음식이 맛있어요", "친절해요", "부모님이 좋아하세요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao7, "애슐리 퀸즈", "이탈리아 음식점", "10",
-                        R.drawable.kakao13,
-                        "친절해요", "청결해요", "부모님이 좋아하세요"));
+                getActivityFromServer(1);
                 break;
             case "여행":
                 ment.setText("가족과 함께 추억을\n쌓을 수 있는 여행지");
-                //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao2, "롯데월드", "놀이공원", "90",
-                        R.drawable.kakao3,
-                        "아이와 가기 좋아요", "재밌어요", "풍경이 예뻐요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao5, "강릉 1박 2일 여행", "지역 여행", "40",
-                        R.drawable.kakao17,
-                        "음식이 맛있어요", "풍경이 예뻐요", "부모님이 좋아하세요"));
+                getActivityFromServer(2);
                 break;
             case "이색":
                 ment.setText("색다른 경험을 제공하는\n이색 활동");
-                //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao13, "공주경비행기", "비행, 항공레저", "190",
-                        R.drawable.kakao8,
-                        "친절해요", "스릴넘쳐요", "특별한 체험이에요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao15, "포레스트 벨 동물체험", "체험여행", "2787",
-                        R.drawable.kakao13,
-                        "친절해요", "체험 프로그램이 다양해요", "주차하기 편해요"));
+                getActivityFromServer(3);
                 break;
-            case "야외활동":
+            case "야외":
                 ment.setText("가족과 함께하는\n다양한 야외 활동");
-                //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao15, "망원한강공원", "시민공원", "4419",
-                        R.drawable.kakao19,
-                        "뷰가 좋아요", "산책로가 잘 되어있어요", "사진이 잘 나와요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao7, "인왕산", "산", "7655",
-                        R.drawable.kakao4,
-                        "뷰가 좋아요", "사진이 잘 나와요", "산책로가 잘 나와요"));
+                getActivityFromServer(4);
                 break;
-            case "실내활동":
+            case "실내":
                 ment.setText("편안하게 함께 할 수\n있는 실내 활동");
-                //아이템 추가
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao20, "디즈니 100년 특별전", "미술관", "7993",
-                        R.drawable.kakao11,
-                        "사진찍기 좋아요", "친절해요", "혼잡하지 않아요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao9, "격변의 시대, 여성 삶 예술", "미술관", "12990",
-                        R.drawable.kakao17, R.drawable.image3, R.drawable.image4,
-                        "작품이 많아요", "혼잡하지 않아요", "산책하기 좋아요"));
-                adapter.addItem(new ActivityItem(getContext(), R.drawable.kakao14, "머든 수완점", "북카페", "222",
-                        R.drawable.kakao1,
-                        "인테리어가 멋져요", "음료가 맛있어요", "읽을만한 책이 많아요"));
-            default: //디폴트는 어떻게 해야할지 생각
+                getActivityFromServer(5);
+            default:
                 break;
         }
 
@@ -267,9 +226,7 @@ public class ActivityFragment extends Fragment {
     }
 
     private void getActivityFromServer(Integer category) {
-
         ActivityRepository activityRepository = new ActivityRepository();
-
         activityRepository.getActivityDataFromServer(category, new ActivityRepository.GetActivityCallBack() {
             @Override
             public void onSuccess(List<ActivityItem> activityItems) {
@@ -278,20 +235,21 @@ public class ActivityFragment extends Fragment {
 
                     // 서버에서 가져온 활동 응답을 추가
                     for (ActivityItem activityItem : activityItems) {
-//                        items.add(new ActivityItem(
-//                                getContext(),
-//                                activityItem.getProfile(),
-//                                activityItem.getTitle(),
-//                                activityItem.getType(),
-//                                activityItem.getReview_count(),
-//                                activityItem.getMain_photo(),
-//                                activityItem.getFirst_tag(),
-//                                activityItem.getSecond_tag(),
-//                                activityItem.getThird_tag(),
-//                                false
-//                        ));
-
-                        System.out.println("activity: " + activityItem.getTitle());
+                        items.add(new ActivityItem(
+                                getContext(),
+                                activityItem.getId(),
+                                activityItem.getCategory(),
+                                activityItem.getTitle(),
+                                activityItem.getProfile(),
+                                activityItem.getMain_photo(),
+                                activityItem.getType(),
+                                activityItem.getReview_count(),
+                                activityItem.getAddress(),
+                                activityItem.getDistrict_id(),
+                                activityItem.getPhone_number(),
+                                activityItem.getOpen_time(),
+                                activityItem.getClosed_day()
+                        ));
 
                         adapter.notifyDataSetChanged();
                     }

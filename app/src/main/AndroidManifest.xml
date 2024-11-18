@@ -17,7 +17,6 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.AlbumDiaryListActivity" />
         <activity android:name=".activity.AlbumCreateActivity" />
-        <activity android:name=".fragment.FeedEventRootFragment" />
         <activity android:name=".activity.DiaryActivity" />
         <activity android:name=".activity.GuestBookCreateActivity" />
         <activity android:name=".activity.GuestBookCheckActivity" />
@@ -25,10 +24,12 @@
         <activity android:name=".activity.PostCheckActivity" />
         <activity android:name=".activity.AlarmActivity" />
         <activity android:name=".activity.WishCreateActivity" />
+        <activity android:name=".activity.WishCategoryActivity" />
         <activity android:name=".activity.WishCategoryCreateActivity" />
         <activity android:name=".activity.MissionActivity" />
         <activity android:name=".activity.MissionCreateActivity" />
         <activity android:name=".activity.SignUpFamilyIdActivity" />
+        <activity android:name=".activity.ActivityDetailActivity" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -47,7 +48,6 @@
         <activity
             android:name=".activity.StartActivity"
             android:exported="true"
-            android:label="Start 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,23 +56,18 @@
         </activity>
         <activity
             android:name=".activity.SignupNameActivity"
-            android:label="SignupIcon 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.SignupIconActivity"
-            android:label="SignupIcon 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.SignupTermsActivity"
-            android:label="SignupTerms 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.SignupSuccessActivity"
-            android:label="SignupSuccess 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.SignupInviteActivity"
-            android:label="SignupInvite 액티비티"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

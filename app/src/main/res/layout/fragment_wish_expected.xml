@@ -27,8 +27,8 @@
 
         <ImageButton
             android:id="@+id/hamBtn"
-            android:layout_width="45dp"
-            android:layout_height="37dp"
+            android:layout_width="46dp"
+            android:layout_height="43dp"
             android:layout_alignParentRight="true"
             android:backgroundTint="@color/transparent"
             android:scaleType="fitXY"

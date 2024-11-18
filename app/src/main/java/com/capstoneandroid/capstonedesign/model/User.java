@@ -28,6 +28,12 @@ public class User {
         this.phone_number = phone_number;
     }
 
+    public User(Long id, String nickname, String character_choice) {
+        this.id = id;
+        this.nickname = nickname;
+        this.character_choice = character_choice;
+    }
+
     public Long getId() {
         return id;
     }

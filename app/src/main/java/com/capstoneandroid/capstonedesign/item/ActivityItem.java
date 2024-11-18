@@ -3,80 +3,85 @@ package com.capstoneandroid.capstonedesign.item;
 import android.content.Context;
 
 public class ActivityItem {
-    Integer profile, image1;
-    String title, type, num, tag1, tag2, tag3;
-    private boolean isHeartFilled;
-
-    public ActivityItem(Context context, Integer profile, String title,
-                        String type, String num,
-                        Integer image1,
-                        String tag1, String tag2, String tag3) {
-        this.profile = profile;
-        this.title = title;
-        this.type = type;
-        this.num = num;
-        this.image1 = image1;
-        this.tag1 = tag1;
-        this.tag2 = tag2;
-        this.tag3 = tag3;
-        this.isHeartFilled = false;
-    }
-
-    public Integer getProfile() {
-        return profile;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public String getType() {
-        return type;
-    }
-    public String getNum() {
-        return num;
-    }
-    public Integer getImage1() {
-        return image1;
-    }
-
-    public String getTag1() {
-        return tag1;
-    }
-    public String getTag2() {
-        return tag2;
-    }
-    public String getTag3() {
-        return tag3;
-    }
+    Long id;
+    Integer category, district_id;
+    String title, profile, main_photo, type, review_count,
+            address, phone_number, open_time, closed_day;
+    boolean isHeartFilled = false; //서버에서 가져오기
 
     public boolean isHeartFilled() {
         return isHeartFilled;
-    }
-    public void setProfile(Integer profile) {
-        this.profile = profile;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    public void setNum(String num) {
-        this.num = num;
-    }
-    public void setImage1(Integer image1) {
-        this.image1 = image1;
-    }
-    public void setTag1(String tag1) {
-        this.tag1 = tag1;
-    }
-    public void setTag2(String tag2) {
-        this.tag2 = tag2;
-    }
-    public void setTag3(String tag3) {
-        this.tag3 = tag3;
     }
 
     public void setHeartFilled(boolean heartFilled) {
         isHeartFilled = heartFilled;
     }
+
+    public ActivityItem(Context context, Long id, Integer category,
+                        String title, String profile,
+                        String main_photo, String type, String review_count,
+                        String address, Integer district_id, String phone_number,
+                        String open_time, String closed_day) {
+        this.id = id;
+        this.category = category;
+        this.title = title;
+        this.profile = profile;
+        this.main_photo = main_photo;
+        this.type = type;
+        this.review_count = review_count;
+        this.address = address;
+        this.district_id = district_id;
+        this.phone_number = phone_number;
+        this.open_time = open_time;
+        this.closed_day = closed_day;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public Integer getDistrict_id() {
+        return district_id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public String getMain_photo() {
+        return main_photo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getReview_count() {
+        return review_count;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public String getOpen_time() {
+        return open_time;
+    }
+
+    public String getClosed_day() {
+        return closed_day;
+    }
+
 }
