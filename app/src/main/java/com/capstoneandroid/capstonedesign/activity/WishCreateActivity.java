@@ -38,7 +38,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class WishCreateActivity extends BaseActivity {
-
+    WishListRepository wishListRepository = new WishListRepository();
     ImageButton backBtn, hamBtn, spinnerBtn;
     EditText titleEdit, memoEdit, emojiSelect;
     TextView ment, startDay, endDay, plusText;
@@ -47,7 +47,7 @@ public class WishCreateActivity extends BaseActivity {
     Button okBtn;
     ArrayAdapter<String> adapter;
     Integer categoryId = -1;
-    Long userId;
+    Long userId, idNum; //사용자 아이디, 위시리스트 아이디
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +86,24 @@ public class WishCreateActivity extends BaseActivity {
             alarmSwitch.setEnabled(false);
             okBtn.setVisibility(View.GONE);
 
+            //정보 채우기
+            idNum = intent.getLongExtra("id", -1L);
+            String titleText = intent.getStringExtra("title");
+            String startDateText = intent.getStringExtra("start_date");
+            String endDateText = intent.getStringExtra("end_date");
+            categoryId = intent.getIntExtra("category", -1); //카테고리 스피너 초기화 (setCategorySelection)
+            String iconText = intent.getStringExtra("icon");
+            String memoText = intent.getStringExtra("memo");
+            boolean alarm = intent.getBooleanExtra("alarm", false);
+
+            titleEdit.setText(titleText); //제목 채우기
+            startDay.setText(startDateText); //성취 예정일 채우기
+            endDay.setText(endDateText);
+            emojiSelect.setText(iconText); //아이콘 채우기
+            emojiSelect.setBackground(null);
+            memoEdit.setText(memoText); //메모 채우기
+            alarmSwitch.setChecked(alarm); //알림 채우기
+
             //햄버거 버튼 설정
             hamBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,11 +134,31 @@ public class WishCreateActivity extends BaseActivity {
                                 okBtn.setVisibility(View.VISIBLE);
                                 okBtn.setText("수정하기");
 
-                                //수정된사항 DB에 저장!!!
+                                // 수정하기 버튼
+                                okBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // 예정된 위시리스트 목록에 추가
+                                        String title = titleEdit.getText().toString(); // wishlist 제목
+                                        String startday = startDay.getText().toString(); // wishlist 시작날짜
+                                        String endday = endDay.getText().toString(); // wishlist 종료날짜
+                                        String emoji = emojiSelect.getText().toString(); // wishlist 이모지
+                                        String memo = memoEdit.getText().toString(); // wishlist 메모
+                                        boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부
+
+                                        // POJO 클래스를 사용하여 위시 데이터 생성
+                                        WishListItem wishListItem = new WishListItem(idNum, title, startday, endday, emoji, memo, categoryId, alarmswitch);
+
+                                        // 서버로 PUT 요청 보내기
+                                        updateWishListData(wishListItem);
+                                    }
+                                });
 
                                 return true;
                             } else if (itemId == R.id.delete) { // 삭제
-                                // 삭제!!!!!
+                                // DB에서 현재 위시 삭제
+                                deleteWishData();
+
                                 finish(); // 현재 액티비티 종료
                                 return true;
                             }
@@ -130,45 +168,6 @@ public class WishCreateActivity extends BaseActivity {
 
                     // 팝업 메뉴 보여주기
                     popupMenu.show();
-                }
-            });
-
-            //정보 채우기
-            Long idNum = intent.getLongExtra("id", -1L);
-            String titleText = intent.getStringExtra("title");
-            String startDateText = intent.getStringExtra("start_date");
-            String endDateText = intent.getStringExtra("end_date");
-            categoryId = intent.getIntExtra("category", -1); //카테고리 스피너 초기화 (setCategorySelection)
-            String iconText = intent.getStringExtra("icon");
-            String memoText = intent.getStringExtra("memo");
-            boolean alarm = intent.getBooleanExtra("alarm", false);
-
-            titleEdit.setText(titleText); //제목 채우기
-            startDay.setText(startDateText); //성취 예정일 채우기
-            endDay.setText(endDateText);
-            emojiSelect.setText(iconText); //아이콘 채우기
-            emojiSelect.setBackground(null);
-            memoEdit.setText(memoText); //메모 채우기
-            alarmSwitch.setChecked(alarm); //알림 채우기
-
-            // 수정하기 버튼
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // 예정된 위시리스트 목록에 추가
-                    Long id = idNum; // 현재 위시리스트 아이디 조회
-                    String title = titleEdit.getText().toString(); // wishlist 제목
-                    String startday = startDay.getText().toString(); // wishlist 시작날짜
-                    String endday = endDay.getText().toString(); // wishlist 종료날짜
-                    String emoji = emojiSelect.getText().toString(); // wishlist 이모지
-                    String memo = memoEdit.getText().toString(); // wishlist 메모
-                    boolean alarmswitch = alarmSwitch.isChecked(); // wishlist 알람여부
-
-                    // POJO 클래스를 사용하여 위시 데이터 생성
-                    WishListItem wishListItem = new WishListItem(id, title, startday, endday, emoji, memo, categoryId, alarmswitch);
-
-                    // 서버로 PUT 요청 보내기
-                    updateWishListData(wishListItem);
                 }
             });
 
@@ -300,7 +299,6 @@ public class WishCreateActivity extends BaseActivity {
 
     private void sendWishListData(WishList wishList) {
         // 서버로 POST 요청 보내기
-        WishListRepository wishListRepository = new WishListRepository();
         wishListRepository.sendWishListDataToServer(wishList, new WishListRepository.WishListCallback() {
             @Override
             public void onSuccess() {
@@ -319,7 +317,6 @@ public class WishCreateActivity extends BaseActivity {
     // 위시리스트 내용 수정
     private void updateWishListData(WishListItem wishList) {
         // 서버로 PUT 요청 보내기
-        WishListRepository wishListRepository = new WishListRepository();
         wishListRepository.sendWishListUpdateToServer(wishList, new WishListRepository.WishListCallback() {
             @Override
             public void onSuccess() {
@@ -332,6 +329,21 @@ public class WishCreateActivity extends BaseActivity {
             public void onFailure(String errorMessage) {
                 // 위시리스트 추가 실패
                 Log.e("WishListCreateActivity", "위시리스트 수정 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void deleteWishData() {
+        wishListRepository.deleteWishDataToServer(idNum, new WishListRepository.WishListCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("WishListCreateActivity", "위시리스트가 성공적으로 삭제되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("WishListCreateActivity", "위시리스트 삭제 실패: " + errorMessage);
             }
         });
     }
@@ -390,7 +402,6 @@ public class WishCreateActivity extends BaseActivity {
 
     // 위시리스트 카테고리 이름 리스트 가져와서 스피너에 넣기
     private void sendGetWishListCategory() {
-        WishListRepository wishListRepository = new WishListRepository();
         wishListRepository.getWishListByCategory(userId, new WishListRepository.GetCategoryListCallback() {
             @Override
             public void onListGetSuccess(List<WishCategoryItem> wishCategories) {

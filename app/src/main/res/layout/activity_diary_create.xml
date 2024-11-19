@@ -10,7 +10,7 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/okBtn"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,6 @@
                             android:layout_marginLeft="10dp"
                             android:src="@drawable/ic_calendar"/>
 
-
                         <EditText
                             android:id="@+id/editTextDate"
                             android:layout_width="wrap_content"
@@ -149,16 +148,18 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="250dp"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="250dp"
                                 android:layout_height="250dp"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/picnic1"/>
                             <ImageView
                                 android:layout_width="250dp"
                                 android:layout_height="250dp"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/picnic2"/>
 
                         </LinearLayout>
@@ -187,12 +188,8 @@
                             android:textColor="@color/black"/>
 
                     </ScrollView>
-
                 </LinearLayout>
-
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
     <Button
@@ -201,7 +198,7 @@
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/pretendardsemibold"
         android:text="저장하기"

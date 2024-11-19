@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="130dp"
         android:foreground="@drawable/ic_eventplus"
         android:scaleX="1.5"

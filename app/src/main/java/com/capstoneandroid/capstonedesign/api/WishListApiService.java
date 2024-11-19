@@ -9,6 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -49,6 +50,11 @@ public interface WishListApiService {
     Call<Integer> getWishExpectedCount(@Query("userId") Long userId, @Query("completed") boolean completed);
 
     // 위시 내용 수정
-    @PUT("wish")
+    @PUT("/wish")
     Call<Void> updateWish(@Body WishListItem wishListItem);
+
+    // 위시 삭제
+    @DELETE("/wish")
+    Call<Void> deleteWish(@Query("id") Long id);
+
 }

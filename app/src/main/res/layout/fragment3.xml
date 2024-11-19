@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,9 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -16,6 +19,7 @@
             android:background="@color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+            <!-- 기존 LinearLayout 및 TabLayout 등은 그대로 둡니다 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -24,7 +28,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="26dp"
                 android:gravity="center">
-
                 <ImageView
                     android:id="@+id/Logo"
                     android:layout_width="98dp"
@@ -34,7 +37,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/SearchingBtn"
@@ -42,15 +45,16 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/searching"
                     android:layout_marginRight="12dp"
-                    android:background="#00ff0000"/>
+                    android:background="#00ff0000" />
 
                 <ImageButton
                     android:id="@+id/CalendarBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/calendar"
-                    android:background="#00ff0000"/>
+                    android:background="#00ff0000" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +68,7 @@
                     android:fontFamily="@font/pretendardbold"
                     android:textColor="@color/black"
                     android:textSize="28dp"
-                    android:text="함께 작성한 일기가"/>
+                    android:text="함께 작성한 일기가" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,7 +76,7 @@
                     android:fontFamily="@font/pretendardbold"
                     android:textColor="@color/black"
                     android:textSize="28dp"
-                    android:text="벌써 10개에요!👏"/>
+                    android:text="벌써 10개에요!👏" />
             </LinearLayout>
 
             <com.google.android.material.tabs.TabLayout
@@ -84,7 +88,7 @@
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/blue"
                 app:tabTextColor="@color/gray"
-                app:tabIndicatorColor="@color/blue"/>
+                app:tabIndicatorColor="@color/blue" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -95,7 +99,45 @@
             android:background="@color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </FrameLayout>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</RelativeLayout>
+    <!-- Main FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="130dp"
+        android:foreground="@drawable/ic_eventplus"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:borderWidth="0dp" />
+
+    <!-- Sub FAB 1 -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/sub1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="@+id/fab"
+        android:visibility="invisible"
+        android:foreground="@drawable/ic_write"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        app:borderWidth="0dp" />
+
+    <!-- Sub FAB 2 -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/sub2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="@+id/fab"
+        android:visibility="invisible"
+        android:foreground="@drawable/ic_album"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        app:borderWidth="0dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

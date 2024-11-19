@@ -27,7 +27,7 @@ public class GuestBookRepository {
         void onFailure(String errorMessage);
     }
 
-    public interface GetIDCallback {
+    public interface GetGuestBookCallback {
         void onIDGetSuccess(List<GuestbookItem> guestbookItems);
         void onIDGetFailure(String errorMessage);
     }
@@ -58,8 +58,9 @@ public class GuestBookRepository {
             }
         });
     }
+
     // 방명록 조회
-    public void getUsersGuestBook(Long userId, GetIDCallback callback) {
+    public void getUsersGuestBook(Long userId, GetGuestBookCallback callback) {
         // 인스턴스의 guestBookApiService를 통해 호출
         // get요청
         Call<List<GuestbookItem>> call = guestBookApiService.getGuestBookList(userId);
@@ -102,6 +103,33 @@ public class GuestBookRepository {
                 } else {
                     // 서버 응답이 있지만 오류가 있을 때 처리
                     System.out.println("방명록 수정 실패: " + response.errorBody());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // 네트워크 오류 등으로 요청 실패했을 때 처리
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
+    // 방명록 삭제
+    public void deleteGuestBook(Long id, GuestBookCallback callback) {
+        Call<Void> call = guestBookApiService.deleteGuestBook(id);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    System.out.println("방명록 삭제 성공");
+                    callback.onSuccess(); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("방명록 삭제 실패: " + response.errorBody());
                     callback.onFailure("서버 오류: " + response.message());
                 }
             }

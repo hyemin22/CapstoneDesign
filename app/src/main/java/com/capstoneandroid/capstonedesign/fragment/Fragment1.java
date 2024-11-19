@@ -1,7 +1,5 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,7 +34,6 @@ import com.capstoneandroid.capstonedesign.item.DayMissionItem;
 import com.capstoneandroid.capstonedesign.item.GuestbookItem;
 import com.capstoneandroid.capstonedesign.item.HomeWishItem;
 import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
-import com.kakao.sdk.user.UserApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +44,7 @@ public class Fragment1 extends Fragment {
     private ImageButton post, guestWrite, imgBtnArrow, imgBtnArrow2;
     private GuestbookAdapter adapter;  // 어댑터 선언
     private ArrayList<GuestbookItem> items = new ArrayList<>(); //방명록 아이템 추가
+    private ViewPager2 viewPager;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
@@ -110,7 +106,7 @@ public class Fragment1 extends Fragment {
         sendGetGuestBookData();
 
         adapter = new GuestbookAdapter(items, getContext());
-        ViewPager2 viewPager = rootView.findViewById(R.id.guestView);
+        viewPager = rootView.findViewById(R.id.guestView);
 
         //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
         imgBtnArrow = rootView.findViewById(R.id.imgBtnArrow);
@@ -217,7 +213,7 @@ public class Fragment1 extends Fragment {
 
         GuestBookRepository guestBookRepository = new GuestBookRepository();
         // 방명록 데이터 가져오기
-        guestBookRepository.getUsersGuestBook(userId, new GuestBookRepository.GetIDCallback() {
+        guestBookRepository.getUsersGuestBook(userId, new GuestBookRepository.GetGuestBookCallback() {
             @Override
             public void onIDGetSuccess(List<GuestbookItem> guestbookItems) {
                 getActivity().runOnUiThread(() -> {
@@ -236,6 +232,10 @@ public class Fragment1 extends Fragment {
 
                     // 어댑터에 변경 사항을 알림
                     adapter.notifyDataSetChanged();
+
+                    if (!guestbookItems.isEmpty()) {
+                        viewPager.setCurrentItem(0, false); // 마지막 페이지
+                    }
                 });
             }
 

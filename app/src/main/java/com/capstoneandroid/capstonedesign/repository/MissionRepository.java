@@ -83,6 +83,28 @@ public class MissionRepository {
         });
     }
 
+    public void deleteMissionToServer(Long id, MissionCallback callback) {
+        Call<Void> call = missionApiService.deleteMission(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("미션 삭제 성공");
+                    callback.onSuccess();
+                } else {
+                    System.out.println("미션 삭제 실패: " + response.errorBody());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
     public void getMyMissionFromServer(Long userId, GetMyMissionListCallback callback) {
         Call<List<MyMissionItem>> call = missionApiService.getMyMission(userId);
         call.enqueue(new Callback<List<MyMissionItem>>() {

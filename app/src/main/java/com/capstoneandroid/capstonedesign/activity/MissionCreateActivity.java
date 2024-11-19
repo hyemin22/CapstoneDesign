@@ -45,6 +45,7 @@ import java.util.List;
 
 public class MissionCreateActivity extends BaseActivity {
     Long userId = UserInfoManager.getInstance().getUserId();
+    Long idNum; // 미션 아이디
     ImageButton backBtn, hamBtn;
     TextView pageTitle, ment, cycle, weekmonthText, timeSelect;
     EditText titleEdit, emojiSelect;
@@ -129,7 +130,7 @@ public class MissionCreateActivity extends BaseActivity {
             activityState = 1; // 확인 화면
 
             //백엔드에서 정보 가져와서 내용 채우기
-            Long idNum = intent.getLongExtra("id", -1L);
+            idNum = intent.getLongExtra("id", -1L);
             String titleText = intent.getStringExtra("title");
             String emojiText = intent.getStringExtra("emoji");
             String cycleText = intent.getStringExtra("cycle");
@@ -228,7 +229,9 @@ public class MissionCreateActivity extends BaseActivity {
 
                                 return true;
                             } else if (itemId == R.id.delete) { // 삭제
-                                // 삭제!!!!!
+                                // db에서 현재 미션 삭제
+                                deleteMissionData();
+
                                 finish(); // 현재 액티비티 종료
                                 return true;
                             }
@@ -649,6 +652,22 @@ public class MissionCreateActivity extends BaseActivity {
             @Override
             public void onFailure(String errorMessage) {
                 Log.e("MissionCreateActivity", "미션 수정 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void deleteMissionData() {
+        //서버로 DELETE 요청 보내기
+        MissionRepository missionRepository = new MissionRepository();
+        missionRepository.deleteMissionToServer(idNum, new MissionRepository.MissionCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MissionCreateActivity", "미션이 성공적으로 삭제되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("MissionCreateActivity", "미션 삭제 실패: " + errorMessage);
             }
         });
     }

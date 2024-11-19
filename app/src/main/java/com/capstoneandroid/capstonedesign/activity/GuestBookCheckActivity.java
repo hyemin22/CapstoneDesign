@@ -15,10 +15,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.model.User;
+import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
 import com.capstoneandroid.capstonedesign.repository.UserRepository;
 
 public class GuestBookCheckActivity extends BaseActivity {
     Long userId = UserInfoManager.getInstance().getUserId();
+    Long getId; // 방명록 아이디
     ImageButton backBtn, hamBtn;
     TextView name, content;
     String getNickname, userName;
@@ -34,7 +36,7 @@ public class GuestBookCheckActivity extends BaseActivity {
 
         //작성된 내용 가져오기
         Intent outIntent = getIntent();
-        Long getId = outIntent.getLongExtra("id", -1L);
+        getId = outIntent.getLongExtra("id", -1L);
         String getContent = outIntent.getStringExtra("content");
         getNickname = outIntent.getStringExtra("nickname");
         content.setText(getContent);
@@ -72,6 +74,9 @@ public class GuestBookCheckActivity extends BaseActivity {
                             finish();
                             return true;
                         } else if (itemId == R.id.delete) { // 삭제
+                            // db에서 현재 방명록 삭제
+                            deleteGuestBookData();
+
                             // 삭제할 아이템의 인덱스를 intent로 넘김
                             Intent resultIntent = new Intent("DELETE_GUESTBOOK_ITEM");
                             resultIntent.putExtra("delete_position", getIntent().getIntExtra("position", -1));
@@ -107,6 +112,25 @@ public class GuestBookCheckActivity extends BaseActivity {
             @Override
             public void onInfoGetFailure(String errorMessage) {
                 Log.e("Error", "유저 이름 조회 실패: " + errorMessage);
+            }
+        });
+    }
+
+    public void deleteGuestBookData() {
+        // 서버로 DELETE 요청 보내기
+        GuestBookRepository repository = new GuestBookRepository();
+        repository.deleteGuestBook(getId, new GuestBookRepository.GuestBookCallback() {
+            @Override
+            public void onSuccess() {
+                // 방명록 삭제 성공
+                Log.d("GuestBookCreateActivity", "방명록이 성공적으로 삭제되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 방명록 수정 실패
+                Log.e("GuestBookCreateActivity", "방명록 삭제 실패: " + errorMessage);
             }
         });
     }
