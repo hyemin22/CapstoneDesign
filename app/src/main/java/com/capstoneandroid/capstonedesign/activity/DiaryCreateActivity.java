@@ -39,7 +39,9 @@ public class DiaryCreateActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         // DatePickerDialog 생성 및 표시
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                R.style.CustomDatePickerDialog, // 사용자 정의 테마
+                (view, selectedYear, selectedMonth, selectedDay) -> {
             // 선택된 날짜를 YYYY.MM.DD 형식으로 EditText에 설정
             String selectedDate = selectedYear + "." + (selectedMonth + 1) + "." + selectedDay;
             editTextDate.setText(selectedDate);
