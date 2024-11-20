@@ -1,5 +1,7 @@
 package com.capstoneandroid.capstonedesign.activity;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -52,6 +55,7 @@ public class MissionCreateActivity extends BaseActivity {
     Button okBtn;
     ArrayAdapter<String> adapter, adapter2;
     Integer cycleId, repeatNum = null;
+    Dialog dialogDelete;
     private HashMap<String, Integer> selectedDays = new LinkedHashMap<>();
     private List<Button> dayButtons;
     StringBuilder selectedDaysString = new StringBuilder();
@@ -158,6 +162,11 @@ public class MissionCreateActivity extends BaseActivity {
             timeSelect.setEnabled(false);
             okBtn.setVisibility(View.GONE);
 
+            // 모달창
+            dialogDelete = new Dialog(MissionCreateActivity.this);
+            dialogDelete.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogDelete.setContentView(R.layout.activity_custom_dialog_create);
+
             // 햄버거 버튼 설정
             hamBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -226,8 +235,45 @@ public class MissionCreateActivity extends BaseActivity {
 
                                 return true;
                             } else if (itemId == R.id.delete) { // 삭제
-                                // db에서 현재 미션 삭제
-                                deleteMissionData();
+                                // 모달창에서 미션 삭제할지 질문
+                                dialogDelete.show();
+
+                                // askTextView의 텍스트를 변경
+                                TextView askTextView = dialogDelete.findViewById(R.id.askTextView);
+                                if (askTextView != null) {
+                                    askTextView.setText("미션을 삭제하시겠어요?");
+                                }
+
+                                // explainTextView의 텍스트를 변경
+                                TextView explainTextView = dialogDelete.findViewById(R.id.explainTextView);
+                                if (explainTextView != null) {
+                                    explainTextView.setText("한번 삭제 시 복구가 불가능해요.");
+                                }
+
+                                Button noBtn = dialogDelete.findViewById(R.id.noButton);
+                                noBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialogDelete.dismiss();
+                                    }
+                                });
+
+                                dialogDelete.findViewById(R.id.yesButton).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // MissionActivity로 이동하는 Intent 생성
+                                        Intent intent = new Intent(view.getContext(), MissionActivity.class);
+                                        view.getContext().startActivity(intent);
+
+                                        // db에서 현재 미션 삭제
+                                        deleteMissionData();
+
+                                        // 현재
+                                        if (view.getContext() instanceof Activity) {
+                                            ((Activity) view.getContext()).finish();
+                                        }
+                                    }
+                                });
 
                                 finish(); // 현재 액티비티 종료
                                 return true;
@@ -270,6 +316,19 @@ public class MissionCreateActivity extends BaseActivity {
                         Toast.makeText(MissionCreateActivity.this, "알람 시간을 설정해주세요.", Toast.LENGTH_SHORT).show();
                     } else {
                         Mission mission = new Mission(userId, title, emoji, cycleId, repeat_day, repeatNum, alarm, selectedTime);
+
+                        // MissionCompleteFragment 생성
+                        MissionCompleteFragment fragment = new MissionCompleteFragment();
+
+                        // Activity의 루트 뷰를 숨기기
+                        View mainView = findViewById(R.id.main);
+                        mainView.setVisibility(View.GONE); // 루트 뷰를 GONE 상태로 설정
+
+                        // 프래그먼트를 현재 Activity 화면에 표시
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(android.R.id.content, fragment) // 전체 화면을 프래그먼트로 교체
+                                .commit();
 
                         sendMissionData(mission);
                     }

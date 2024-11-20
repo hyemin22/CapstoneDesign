@@ -2,10 +2,13 @@ package com.capstoneandroid.capstonedesign.activity;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ public class MissionActivity extends BaseActivity {
     TextView name, month, emptyTextView, emptyTextView2;
     Button addBtn, okBtn;
     RecyclerView mymissionView, recommendView;
+    Dialog dialogCreate;
     private ArrayList<MyMissionItem> myMissionItems = new ArrayList<>();
     private ArrayList<RecMissionItem> recMissionItems = new ArrayList<>();
     private MyMissionAdapter adapter;
@@ -72,6 +76,11 @@ public class MissionActivity extends BaseActivity {
         int thisMonth = calendar.get(Calendar.MONTH) + 1;
         month.setText(String.valueOf(thisMonth));
 
+        // 모달창
+        dialogCreate = new Dialog(MissionActivity.this);
+        dialogCreate.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogCreate.setContentView(R.layout.activity_custom_dialog_create);
+
         //추가하기 버튼
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +88,7 @@ public class MissionActivity extends BaseActivity {
                 Intent intent = new Intent(MissionActivity.this, MissionCreateActivity.class);
                 intent.putExtra("source", "MissionActivity");
                 startActivity(intent);
+                showDialogCreate();
             }
         });
 
@@ -89,6 +99,7 @@ public class MissionActivity extends BaseActivity {
                 Intent intent = new Intent(MissionActivity.this, MissionCreateActivity.class);
                 intent.putExtra("source", "MissionActivity");
                 startActivity(intent);
+                showDialogCreate();
             }
         });
 
@@ -235,6 +246,45 @@ public class MissionActivity extends BaseActivity {
             @Override
             public void onFailure(String errorMessage) {
                 Log.e("MissionActivity", "추천 미션 추가 실패: " + errorMessage);
+            }
+        });
+    }
+
+    // 모달창 보이게 설정
+    public void showDialogCreate(){
+        dialogCreate.show();
+
+        // askTextView의 텍스트를 변경
+        TextView askTextView = dialogCreate.findViewById(R.id.askTextView);
+        if (askTextView != null) {
+            askTextView.setText("미션을 추가하시겠어요?");
+        }
+
+        // explainTextView의 텍스트를 변경
+        TextView explainTextView = dialogCreate.findViewById(R.id.explainTextView);
+        if (explainTextView != null) {
+            explainTextView.setText("미션 수정 및 삭제는 언제든지 가능해요.");
+        }
+
+        Button noBtn = dialogCreate.findViewById(R.id.noButton);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogCreate.dismiss();
+            }
+        });
+
+        dialogCreate.findViewById(R.id.yesButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // MissionCreateActivity로 이동하는 Intent 생성
+                Intent intent = new Intent(view.getContext(), MissionCreateActivity.class);
+                view.getContext().startActivity(intent);
+
+                // 현재
+                if (view.getContext() instanceof Activity) {
+                    ((Activity) view.getContext()).finish();
+                }
             }
         });
     }
