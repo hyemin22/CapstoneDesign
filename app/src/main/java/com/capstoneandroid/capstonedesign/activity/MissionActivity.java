@@ -85,9 +85,6 @@ public class MissionActivity extends BaseActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MissionActivity.this, MissionCreateActivity.class);
-                intent.putExtra("source", "MissionActivity");
-                startActivity(intent);
                 showDialogCreate();
             }
         });
@@ -96,9 +93,6 @@ public class MissionActivity extends BaseActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MissionActivity.this, MissionCreateActivity.class);
-                intent.putExtra("source", "MissionActivity");
-                startActivity(intent);
                 showDialogCreate();
             }
         });
@@ -278,7 +272,8 @@ public class MissionActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // MissionCreateActivity로 이동하는 Intent 생성
-                Intent intent = new Intent(view.getContext(), MissionCreateActivity.class);
+                Intent intent = new Intent(MissionActivity.this, MissionCreateActivity.class);
+                intent.putExtra("source", "MissionActivity");
                 view.getContext().startActivity(intent);
 
                 // 현재
