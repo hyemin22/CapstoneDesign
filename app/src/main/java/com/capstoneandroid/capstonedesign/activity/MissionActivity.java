@@ -275,6 +275,7 @@ public class MissionActivity extends BaseActivity {
                 Intent intent = new Intent(MissionActivity.this, MissionCreateActivity.class);
                 intent.putExtra("source", "MissionActivity");
                 view.getContext().startActivity(intent);
+                dialogCreate.dismiss();
 
                 // 현재
                 if (view.getContext() instanceof Activity) {

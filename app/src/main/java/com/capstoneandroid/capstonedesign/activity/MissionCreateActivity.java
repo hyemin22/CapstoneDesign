@@ -267,6 +267,7 @@ public class MissionCreateActivity extends BaseActivity {
 
                                         // db에서 현재 미션 삭제
                                         deleteMissionData();
+                                        finish(); // 현재 액티비티 종료
 
                                         // 현재
                                         if (view.getContext() instanceof Activity) {
@@ -274,8 +275,6 @@ public class MissionCreateActivity extends BaseActivity {
                                         }
                                     }
                                 });
-
-                                finish(); // 현재 액티비티 종료
                                 return true;
                             }
                             return false;
