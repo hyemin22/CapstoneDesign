@@ -210,7 +210,7 @@ public class WishCreateActivity extends BaseActivity {
 
                     // Activity의 루트 뷰를 숨기기
                     View mainView = findViewById(R.id.main);
-                    mainView.setVisibility(View.GONE); // 루트 뷰를 GONE 상태로 설정
+                    mainView.setVisibility(View.INVISIBLE); // 루트 뷰를 INVISIBLE 상태로 설정
 
                     // 프래그먼트를 현재 Activity 화면에 표시
                     getSupportFragmentManager()
