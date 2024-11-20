@@ -20,6 +20,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.fragment.GuestbookCompleteFragment;
+import com.capstoneandroid.capstonedesign.fragment.PostCompleteFragment;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
 import com.kakao.sdk.user.UserApiClient;
@@ -150,6 +152,19 @@ public class GuestBookCreateActivity extends BaseActivity {
                     GuestBook guestBook = new GuestBook(getId, content); // 방명록 아이디와 수정된 내용 전송
 
                     updateGuestBookData(guestBook);
+
+                    // GuestbookCompleteFragment 생성
+                    GuestbookCompleteFragment fragment = new GuestbookCompleteFragment();
+
+                    // Activity의 루트 뷰를 숨기기
+                    View mainView = findViewById(R.id.main);
+                    mainView.setVisibility(View.INVISIBLE); // 루트 뷰를 INVISIBLE 상태로 설정
+
+                    // 프래그먼트를 현재 Activity 화면에 표시
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(android.R.id.content, fragment) // 전체 화면을 프래그먼트로 교체
+                            .commit();
                 }
             });
         }
@@ -180,7 +195,6 @@ public class GuestBookCreateActivity extends BaseActivity {
             public void onSuccess() {
                 // 방명록 수정 성공
                 Log.d("GuestBookCreateActivity", "방명록이 성공적으로 수정되었습니다");
-                finish(); //현재 액티비티 종료
             }
 
             @Override
