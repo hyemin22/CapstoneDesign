@@ -49,10 +49,6 @@ public class GuestbookCompleteFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // GuestBookCheckActivity로 이동
-                Intent intent = new Intent(requireActivity(), GuestBookCheckActivity.class);
-                startActivity(intent);
-
                 // 현재 액티비티 종료
                 requireActivity().finish();
             }
