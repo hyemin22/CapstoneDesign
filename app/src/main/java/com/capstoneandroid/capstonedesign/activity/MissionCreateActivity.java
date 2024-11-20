@@ -1,7 +1,5 @@
 package com.capstoneandroid.capstonedesign.activity;
 
-import static android.content.ContentValues.TAG;
-
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,9 +29,7 @@ import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.model.Mission;
 import com.capstoneandroid.capstonedesign.repository.MissionRepository;
-import com.kakao.sdk.user.UserApiClient;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

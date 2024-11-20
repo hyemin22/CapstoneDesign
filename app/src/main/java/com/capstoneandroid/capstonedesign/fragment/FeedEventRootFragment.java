@@ -1,7 +1,5 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -9,17 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.capstoneandroid.capstonedesign.item.AlbumItem;
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.activity.AlbumCreateActivity;
 import com.capstoneandroid.capstonedesign.adapter.AlbumAdapter;
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.capstoneandroid.capstonedesign.item.AlbumItem;
 
 import java.util.ArrayList;
 
