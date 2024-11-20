@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.capstoneandroid.capstonedesign.R;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -85,15 +86,14 @@ public class FeedMapFragment extends Fragment implements OnMapReadyCallback {
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setLocationButtonEnabled(true);
 
-        // 현재 위치 띄우기
-        //위치 및 각도 조정
-        /*CameraPosition cameraPosition = new CameraPosition(
-                new LatLng(33.38, 126.55),   // 위치 지정
-                9,                                     // 줌 레벨
-                45,                                       // 기울임 각도
-                45                                     // 방향
+        // **카메라 위치 설정**
+        CameraPosition cameraPosition = new CameraPosition(
+                new LatLng(37.628337504787886, 127.09131805304797), // 서울여대 위치로 설정
+                15,  // 줌 레벨
+                0,   // 기울임 각도
+                0    // 방향 각도
         );
-        naverMap.setCameraPosition(cameraPosition);*/
+        mNaverMap.setCameraPosition(cameraPosition);
     }
 
     @Override
