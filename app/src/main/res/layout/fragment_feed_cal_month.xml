@@ -185,57 +185,69 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="13dp"
                     android:fontFamily="@font/pretendardmedium"
                     android:text="드디어 미루고 미루던 한강 피크닉을 했습니다!  근.."
                     android:textSize="16dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="#00ff0000"
-                        app:srcCompat="@drawable/emo1" />
+                        android:background="@drawable/emobackground"/>
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="#00ff0000"
-                        app:srcCompat="@drawable/emo2" />
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginTop="17dp">
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="#00ff0000"
-                        app:srcCompat="@drawable/emo3" />
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="#00ff0000"
-                        app:srcCompat="@drawable/emo3" />
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="#00ff0000"
-                        app:srcCompat="@drawable/emo3" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo1" />
 
-                </LinearLayout>
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo2" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo3" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo4" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo5" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+
 
                 <ImageView
                     android:id="@+id/line"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
                     app:srcCompat="@drawable/line" />
 
                 <ImageView
@@ -267,21 +279,57 @@
                     android:text="뚝섬 근처 이탈리안 레스토랑 ‘볼로냐'. 아빠 입맛.."
                     android:textSize="16dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="#00ff0000"
-                        app:srcCompat="@drawable/emo3" />
+                        android:background="@drawable/emobackground"/>
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginTop="17dp">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo1" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo2" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo3" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo4" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            app:srcCompat="@drawable/emo5" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
             </LinearLayout>
         </LinearLayout>
