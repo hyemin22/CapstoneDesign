@@ -55,17 +55,46 @@
                 android:textColor="@color/green"
                 android:textSize="13dp" />
 
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/wishlistemoji"
+                    android:layout_gravity="end|center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="👍"
+                    android:fontFamily="@font/pretendardregular"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="51dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="0"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:textColor="@color/blue"/>
+
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="13dp"
                 android:fontFamily="@font/pretendardregular"
-                android:text="0000년 00월 00일 예정 "
-                android:textColor="@color/gray"
-                android:textSize="13dp" />
+                android:textColor="@color/gray"/>
         </LinearLayout>
     </RelativeLayout>
 
