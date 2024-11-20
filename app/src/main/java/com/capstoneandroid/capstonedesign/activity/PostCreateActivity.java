@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.fragment.MissionCompleteFragment;
+import com.capstoneandroid.capstonedesign.fragment.PostCompleteFragment;
 import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.model.Post;
@@ -131,6 +133,19 @@ public class PostCreateActivity extends BaseActivity {
 
                 // 서버로 POST 요청 보내기
                 sendPostData(post);
+
+                // PostCompleteFragment 생성
+                PostCompleteFragment fragment = new PostCompleteFragment();
+
+                // Activity의 루트 뷰를 숨기기
+                View mainView = findViewById(R.id.main);
+                mainView.setVisibility(View.INVISIBLE); // 루트 뷰를 INVISIBLE 상태로 설정
+
+                // 프래그먼트를 현재 Activity 화면에 표시
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(android.R.id.content, fragment) // 전체 화면을 프래그먼트로 교체
+                        .commit();
             }
         });
     }
@@ -255,7 +270,6 @@ public class PostCreateActivity extends BaseActivity {
             public void onSuccess() {
                 // 쪽지 추가 성공
                 Log.d("PostCreateActivity", "쪽지가 성공적으로 추가되었습니다");
-                finish(); //현재 액티비티 종료
             }
 
             @Override
