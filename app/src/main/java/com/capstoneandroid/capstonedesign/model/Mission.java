@@ -1,8 +1,5 @@
 package com.capstoneandroid.capstonedesign.model;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 public class Mission {
     private Long id;
     private String title;

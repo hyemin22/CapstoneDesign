@@ -273,19 +273,6 @@ public class MissionCreateActivity extends BaseActivity {
 
                         sendMissionData(mission);
                     }
-
-                    // MissionCompleteFragment 생성
-                    MissionCompleteFragment fragment = new MissionCompleteFragment();
-
-                    // Activity의 루트 뷰를 숨기기
-                    View mainView = findViewById(R.id.main);
-                    mainView.setVisibility(View.GONE); // 루트 뷰를 GONE 상태로 설정
-
-                    // 프래그먼트를 현재 Activity 화면에 표시
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(android.R.id.content, fragment) // 전체 화면을 프래그먼트로 교체
-                            .commit();
                 }
             });
         }

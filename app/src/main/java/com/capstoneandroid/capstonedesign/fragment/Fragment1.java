@@ -152,6 +152,9 @@ public class Fragment1 extends Fragment {
         recyclerView2.setLayoutManager(gridManager);
         DayMissionAdapter adapter3 = new DayMissionAdapter(getContext());
 
+        // 서버로 하루 미션 get 요청 보내기
+        //sendGetTodayMissionData();
+
         adapter3.addItem(new DayMissionItem(R.drawable.ic_hand, "하루 시작 굿모닝 인사 보내기", "0%"));
         adapter3.addItem(new DayMissionItem(R.drawable.ic_moon, "하루 끝 굿나잇 인사 보내기", "0%"));
 
