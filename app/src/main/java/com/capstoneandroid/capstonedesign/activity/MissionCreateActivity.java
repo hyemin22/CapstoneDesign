@@ -688,7 +688,6 @@ public class MissionCreateActivity extends BaseActivity {
             @Override
             public void onSuccess() {
                 Log.d("MissionCreateActivity", "미션이 성공적으로 추가되었습니다");
-                finish(); //현재 액티비티 종료
             }
 
             @Override
