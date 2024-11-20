@@ -318,6 +318,8 @@ public class MissionCreateActivity extends BaseActivity {
                     } else {
                         Mission mission = new Mission(userId, title, emoji, cycleId, repeat_day, repeatNum, alarm, selectedTime);
 
+                        sendMissionData(mission);
+
                         // MissionCompleteFragment 생성
                         MissionCompleteFragment fragment = new MissionCompleteFragment();
 
@@ -328,10 +330,10 @@ public class MissionCreateActivity extends BaseActivity {
                         // 프래그먼트를 현재 Activity 화면에 표시
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(android.R.id.content, fragment) // 전체 화면을 프래그먼트로 교체
+                                .replace(android.R.id.content, fragment) // 전용 컨테이너 사용
+                                .addToBackStack(null) // 프래그먼트를 백 스택에 추가하여 관리
                                 .commit();
 
-                        sendMissionData(mission);
                     }
                 }
             });
