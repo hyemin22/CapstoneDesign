@@ -318,7 +318,7 @@ public class WishCreateActivity extends BaseActivity {
             public void onSuccess() {
                 // 위시리스트 추가 성공
                 Log.d("WishListCreateActivity", "위시리스트가 성공적으로 추가되었습니다");
-                finish(); //현재 액티비티 종료
+
             }
             @Override
             public void onFailure(String errorMessage) {
