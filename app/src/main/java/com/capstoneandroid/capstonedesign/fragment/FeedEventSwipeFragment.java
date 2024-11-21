@@ -50,7 +50,7 @@ public class FeedEventSwipeFragment extends Fragment {
         });
 
         // 커스텀 레이아웃을 사용한 ArrayAdapter 생성
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, getResources().getStringArray(R.array.selectCalender));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, getResources().getStringArray(R.array.selectEvent));
 
         // 드롭다운 항목의 레이아웃 설정
         adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
