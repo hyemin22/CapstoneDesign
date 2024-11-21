@@ -33,6 +33,10 @@ public interface WishListApiService {
     @GET("/wish/expected")
     Call<List<WishListItem>> getFamilyWishListExpected(@Query("userId") Long userId, @Query("category") Integer category);
 
+    // 2주 이내의 위시리스트 get
+    @GET("/wish/recent")
+    Call<List<WishListItem>> getFamilyWishListRecent(@Query("userId") Long userId);
+
     // 완료된 위시 리스트 get
     @GET("/wish/completed")
     Call<List<WishListItem>> getFamilyWishListCompleted(@Query("userId") Long userId);

@@ -147,19 +147,19 @@
         android:fontFamily="@font/pretendardsemibold"
         android:text="위시리스트 등록 시 알림" />
 
-    <Switch
-        android:id="@+id/switch7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:track="@drawable/switch_track_selector"
-        android:thumb="@drawable/switch_thumb"
-        android:textSize="15dp"
-        android:fontFamily="@font/pretendardsemibold"
-        android:text="가족 공동 스크랩 시 알림" />
+<!--    <Switch-->
+<!--        android:id="@+id/switch7"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:track="@drawable/switch_track_selector"-->
+<!--        android:thumb="@drawable/switch_thumb"-->
+<!--        android:textSize="15dp"-->
+<!--        android:fontFamily="@font/pretendardsemibold"-->
+<!--        android:text="가족 공동 스크랩 시 알림" />-->
 
     <Switch
         android:id="@+id/switch8"

@@ -93,37 +93,39 @@ public class WishExpectedFragment extends Fragment {
         wishListRepository.getFamilyExpectedWishList(userId, categoryId, new WishListRepository.GetListCallback() {
             @Override
             public void onListGetSuccess(List<WishListItem> wishListItems) {
-                getActivity().runOnUiThread(() -> {
-                    // items 리스트에 서버에서 받아온 응답 데이터 추가
-                    items.clear(); // 기존 데이터 초기화 (필요 시)
-                    // 서버에서 받은 위시리스트 응답을 items에 추가
-                    for (WishListItem wishListItem : wishListItems) {
-                        items.add(new WishListItem(
-                                getContext(),
-                                wishListItem.getId(), // 아이디
-                                wishListItem.getTitle(), // 제목
-                                wishListItem.getStartDate(), // 시작날짜
-                                wishListItem.getEndDate(), // 끝 날짜
-                                wishListItem.getCategory(), // 카테고리
-                                wishListItem.getEmoji(), // 이모지
-                                wishListItem.getAlarm(), // 알람 여부
-                                wishListItem.getMemo(), // 메모
-                                wishListItem.getCompletedDate(), // 완료일
-                                wishListItem.getDday() // 디데이
-                        ));
-                    }
-                    // 어댑터에 변경 사항을 알림
-                    adapter.notifyDataSetChanged();
+                if (getActivity()!=null && isAdded()) {
+                    getActivity().runOnUiThread(() -> {
+                        // items 리스트에 서버에서 받아온 응답 데이터 추가
+                        items.clear(); // 기존 데이터 초기화 (필요 시)
+                        // 서버에서 받은 위시리스트 응답을 items에 추가
+                        for (WishListItem wishListItem : wishListItems) {
+                            items.add(new WishListItem(
+                                    getContext(),
+                                    wishListItem.getId(), // 아이디
+                                    wishListItem.getTitle(), // 제목
+                                    wishListItem.getStartDate(), // 시작날짜
+                                    wishListItem.getEndDate(), // 끝 날짜
+                                    wishListItem.getCategory(), // 카테고리
+                                    wishListItem.getEmoji(), // 이모지
+                                    wishListItem.getAlarm(), // 알람 여부
+                                    wishListItem.getMemo(), // 메모
+                                    wishListItem.getCompletedDate(), // 완료일
+                                    wishListItem.getDday() // 디데이
+                            ));
+                        }
+                        // 어댑터에 변경 사항을 알림
+                        adapter.notifyDataSetChanged();
 
-                    // 위시리스트 개수 업데이트
-                    int itemCount = items.size();
+                        // 위시리스트 개수 업데이트
+                        int itemCount = items.size();
 
-                    // Fragment2로 count 값 전달
-                    Bundle result = new Bundle();
-                    result.putInt("itemCount", itemCount); // 위시리스트 개수 전달
+                        // Fragment2로 count 값 전달
+                        Bundle result = new Bundle();
+                        result.putInt("itemCount", itemCount); // 위시리스트 개수 전달
 
-                    getParentFragmentManager().setFragmentResult("requestKey", result);
-                });
+                        getParentFragmentManager().setFragmentResult("requestKey", result);
+                    });
+                }
             }
 
             @Override

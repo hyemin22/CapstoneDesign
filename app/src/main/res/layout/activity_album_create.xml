@@ -5,15 +5,32 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/backBtn"
-        android:layout_width="47dp"
-        android:layout_height="43dp"
-        android:layout_marginLeft="8dp"
-        android:backgroundTint="@color/transparent"
-        android:scaleType="fitXY"
-        android:scaleX="-1"
-        android:src="@drawable/ic_chevron_black" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="47dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="8dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="fitXY"
+            android:scaleX="-1"
+            android:src="@drawable/ic_chevron_black" />
+
+        <TextView
+            android:id="@+id/pageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="90dp"
+            android:fontFamily="@font/pretendardbold"
+            android:text="앨범 생성하기"
+            android:textColor="@color/black"
+            android:textSize="23dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,6 +62,10 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/rounded_textbox"
             android:hint="입력..."
+            android:textColorHint="@color/hintgray"
+            android:fontFamily="@font/pretendardsemibold"
+            android:textColor="@color/black"
+            android:textSize="17dp"
             android:paddingLeft="15dp" />
 
         <TextView
@@ -72,35 +93,40 @@
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button" />
+                    android:backgroundTint="@color/album_yellow"
+                    android:background="@drawable/color_button_solid" />
 
                 <Button
                     android:layout_width="80dp"
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"/>
+                    android:backgroundTint="@color/album_red"
+                    android:background="@drawable/color_button_solid"/>
 
                 <Button
                     android:layout_width="80dp"
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"/>
+                    android:backgroundTint="@color/album_blue"
+                    android:background="@drawable/color_button_solid"/>
 
                 <Button
                     android:layout_width="80dp"
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button" />
+                    android:backgroundTint="@color/album_purple"
+                    android:background="@drawable/color_button_solid"/>
 
                 <Button
                     android:layout_width="80dp"
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button" />
+                    android:backgroundTint="@color/album_white"
+                    android:background="@drawable/color_button_solid"/>
 
             </LinearLayout>
 
@@ -116,8 +142,7 @@
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"
-                    android:backgroundTint="@color/album_yellow" />
+                    android:background="@drawable/color_button" />
 
                 <Button
                     android:id="@+id/red"
@@ -125,8 +150,7 @@
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"
-                    android:backgroundTint="@color/album_red" />
+                    android:background="@drawable/color_button" />
 
                 <Button
                     android:id="@+id/blue"
@@ -134,8 +158,7 @@
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"
-                    android:backgroundTint="@color/album_blue" />
+                    android:background="@drawable/color_button" />
 
                 <Button
                     android:id="@+id/purple"
@@ -143,8 +166,7 @@
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"
-                    android:backgroundTint="@color/album_purple" />
+                    android:background="@drawable/color_button" />
 
                 <Button
                     android:id="@+id/white"
@@ -152,8 +174,7 @@
                     android:layout_height="60dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"
-                    android:backgroundTint="@color/album_white" />
+                    android:background="@drawable/color_button" />
 
             </LinearLayout>
         </RelativeLayout>

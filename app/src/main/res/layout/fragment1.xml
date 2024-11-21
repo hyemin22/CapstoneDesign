@@ -13,29 +13,32 @@
         app:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="26dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp">
 
             <ImageView
                 android:id="@+id/Logo"
+                android:layout_centerVertical="true"
                 android:layout_width="98dp"
                 android:layout_height="28dp"
                 app:srcCompat="@drawable/logo" />
 
             <ImageButton
                 android:id="@+id/post"
-                android:layout_width="38dp"
+                android:layout_width="45dp"
                 android:layout_height="33dp"
+                android:scaleType="center"
                 android:src="@drawable/ic_post"
-                android:layout_marginLeft="230dp"
-                android:layout_marginBottom="15dp"
+                android:layout_alignParentEnd="true"
                 android:backgroundTint="@color/transparent"/>
-        </LinearLayout>
+        </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

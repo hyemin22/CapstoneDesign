@@ -111,6 +111,31 @@ public class WishListRepository {
         });
     }
 
+    public void getFamilyRecentWishList(Long userId, WishListRepository.GetListCallback callback) {
+        Call<List<WishListItem>> call = wishListApiService.getFamilyWishListRecent(userId);
+        call.enqueue(new Callback<List<WishListItem>>() {
+            @Override
+            public void onResponse(Call<List<WishListItem>> call, Response<List<WishListItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<WishListItem> wishListItems = response.body();
+                    System.out.println("2주 내의 위시 조회 성공: 200 OK");
+                    callback.onListGetSuccess(wishListItems); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("2주 내의 위시 조회 실패: " + response.errorBody().toString());
+                    callback.onListGetFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<WishListItem>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onListGetFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
     public void getFamilyCompletedWishList(Long userId, GetCompletedListCallback callback) {
         // 인스턴스의 wishListApiService 통해 호출
         // get요청

@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -153,8 +154,53 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
         public void setItem(WishListItem item) {
             emojiTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
-            ddayTextView.setText(item.getDday());
             dateTextView.setText(item.getStartDate());
+
+            String ddayText = item.getDday();  // 예: "D-2", "D-11", "D-day" 등
+            ddayTextView.setText(ddayText);  // Dday를 텍스트로 표시
+
+            // ddayText에서 숫자만 추출
+            int dday = 0;
+            if (ddayText.contains("D-")) {
+                try {
+                    // "D-" 이후의 숫자 부분을 추출
+                    dday = Integer.parseInt(ddayText.substring(2).trim());
+                } catch (NumberFormatException e) {
+                    // 숫자 변환 실패 시 기본값 0 설정
+                    dday = 0;
+                }
+            } else if (ddayText.equals("D-day")) {
+                // "D-day"일 경우 0일로 처리
+                dday = 0;
+            } else { //미정
+                dday = -1;
+            }
+
+            // 배경과 글씨 색상을 변경
+            Context context = ddayTextView.getContext(); // Context 가져오기
+
+            int backgroundColor;
+            int textColor;
+
+            // dday 값에 따라 색상 변경
+            if (dday == -1) {
+                backgroundColor = ContextCompat.getColor(context, R.color.black);
+                textColor = ContextCompat.getColor(context, R.color.gray3);
+            } else if (dday <= 7) {
+                backgroundColor = ContextCompat.getColor(context, R.color.lightPink); // lightPink
+                textColor = ContextCompat.getColor(context, R.color.pink); // pink
+            } else if (dday <= 14) {
+                backgroundColor = ContextCompat.getColor(context, R.color.lightGreen); // lightGreen
+                textColor = ContextCompat.getColor(context, R.color.green); // green
+            } else {
+                // dday 값이 14 이상일 경우 기본 색상 설정
+                backgroundColor = ContextCompat.getColor(context, R.color.lightpurple); // white (예시)
+                textColor = ContextCompat.getColor(context, R.color.purple); // black (예시)
+            }
+
+            // 색상 적용
+            ddayTextView.setBackgroundTintList(ColorStateList.valueOf(backgroundColor));
+            ddayTextView.setTextColor(textColor);
         }
 
     }

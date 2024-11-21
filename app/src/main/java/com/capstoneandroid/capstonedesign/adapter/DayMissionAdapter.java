@@ -18,15 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstoneandroid.capstonedesign.item.DayMissionItem;
 import com.capstoneandroid.capstonedesign.activity.MissionCreateActivity;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.item.MyMissionItem;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.ViewHolder>{
 
-    ArrayList<DayMissionItem> items = new ArrayList<DayMissionItem>();
+    ArrayList<MyMissionItem> items;
     Context context;
 
-    public DayMissionAdapter(Context context) {
+    public DayMissionAdapter(ArrayList<MyMissionItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -43,7 +47,7 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
     //뷰홀더 재사용
     @Override
     public void onBindViewHolder(@NonNull DayMissionAdapter.ViewHolder holder, int position) {
-        DayMissionItem item = items.get(position);
+        MyMissionItem item = items.get(position);
         holder.setItem(item);
 
         // 미션 아이템 클릭 시 수정/삭제 화면으로 이동
@@ -51,7 +55,14 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MissionCreateActivity.class);
+                intent.putExtra("id", item.getId());
                 intent.putExtra("title", item.getTitle());
+                intent.putExtra("emoji", item.getEmoji());
+                intent.putExtra("cycle", item.getCycle());
+                intent.putExtra("repeat_day", item.getRepeat_day());
+                intent.putExtra("repeat_time", item.getRepeat_time());
+                intent.putExtra("alarm", item.getAlarm());
+                intent.putExtra("alarm_time", item.getAlarm_time());
                 intent.putExtra("source", "DayMissionAdapter");
                 context.startActivity(intent);
             }
@@ -63,36 +74,38 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
         return items.size();
     }
 
-    public void addItem(DayMissionItem item) {
+    public void addItem(MyMissionItem item) {
         items.add(item);
     }
 
-    public void setItems(ArrayList<DayMissionItem> items) {
+    public void setItems(ArrayList<MyMissionItem> items) {
         this.items = items;
     }
 
-    public DayMissionItem getItem(int position) {
+    public MyMissionItem getItem(int position) {
         return items.get(position);
     }
 
-    public void setItem(int position, DayMissionItem item) {
+    public void setItem(int position, MyMissionItem item) {
         items.set(position, item);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView iconImageView;
+        TextView iconTextView;
         TextView titleTextView;
         TextView progressStaticTextView;
         TextView progressTextView;
+        TextView textView;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            iconImageView = itemView.findViewById(R.id.missionIcon);
+            iconTextView = itemView.findViewById(R.id.missionIcon);
             titleTextView = itemView.findViewById(R.id.missionTitle);
             progressStaticTextView = itemView.findViewById(R.id.progressText);
             progressTextView = itemView.findViewById(R.id.progress);
+            textView = itemView.findViewById(R.id.text);
             parentLayout = itemView.findViewById(R.id.missionLayout);
             CheckBox checkBox = itemView.findViewById(R.id.check);
 
@@ -106,7 +119,8 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
                         titleTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
                         progressStaticTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
                         progressTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
-                        progressTextView.setText("100%");
+                        textView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
+                        progressTextView.setText("100");
 
                     } else {
                         parentLayout.setBackgroundResource(R.drawable.unchecked_background);
@@ -114,16 +128,17 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
                         titleTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.black));
                         progressStaticTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.gray));
                         progressTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.gray));
+                        textView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.gray));
                     }
                 }
             });
         }
 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
-        public void setItem(DayMissionItem item) {
-            iconImageView.setImageResource(item.getIcon());
+        public void setItem(MyMissionItem item) {
+            iconTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
-            progressTextView.setText(item.getProgress());
+            progressTextView.setText(item.getPercent());
         }
     }
 }

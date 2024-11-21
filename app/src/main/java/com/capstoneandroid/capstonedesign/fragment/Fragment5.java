@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.activity.MainActivity;
+import com.capstoneandroid.capstonedesign.activity.MissionActivity;
 import com.capstoneandroid.capstonedesign.model.User;
 import com.capstoneandroid.capstonedesign.repository.UserRepository;
 import com.kakao.sdk.user.UserApiClient;
@@ -26,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Fragment5 extends Fragment {
     Long userId = UserInfoManager.getInstance().getUserId();
     private TextView nickname1, nickname2, phone_number,
-            goToFamilyControl, goToAlarm, goToFamilyScrap, goToMyScrap;
+            goToFamilyControl, goToAlarm, goToFamilyScrap, goToMyScrap, goToMission;
     private CircleImageView profile;
 ;
     @Nullable
@@ -40,8 +43,9 @@ public class Fragment5 extends Fragment {
         profile = view.findViewById(R.id.profile);
         goToFamilyControl = view.findViewById(R.id.family);
         goToAlarm = view.findViewById(R.id.alarm);
-        goToFamilyScrap = view.findViewById(R.id.familyScrap);
-        goToMyScrap = view.findViewById(R.id.myScrap);
+//        goToFamilyScrap = view.findViewById(R.id.familyScrap);
+//        goToMyScrap = view.findViewById(R.id.myScrap);
+        goToMission = view.findViewById(R.id.mission);
 
         // 유저 이름, 전화번호, 캐릭터 띄우기
         // 서버로 GET 요청 보내기
@@ -61,33 +65,42 @@ public class Fragment5 extends Fragment {
             }
         });
 
-        // 가족 공동 스크랩을 눌렀을 때 AlarmFragment로 이동
-        goToFamilyScrap.setOnClickListener(new View.OnClickListener() {
+        // 미션 관리 페이지를 눌렀을 때 MissionAcitivity로 이동
+        goToMission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // FamilyScrapFragment 전환
-                FamilyScrapFragment familyscrapFragment = new FamilyScrapFragment();
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, familyscrapFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Intent intent = new Intent(requireActivity(), MissionActivity.class);
+                startActivity(intent);
             }
         });
 
-        // 내 스크랩을 눌렀을 때 AlarmFragment로 이동
-        goToMyScrap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // FamilyScrapFragment 전환
-                MyScrapFragment myscrapFragment = new MyScrapFragment();
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, myscrapFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+//        // 가족 공동 스크랩을 눌렀을 때 AlarmFragment로 이동
+//        goToFamilyScrap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // FamilyScrapFragment 전환
+//                FamilyScrapFragment familyscrapFragment = new FamilyScrapFragment();
+//                FragmentManager fragmentManager = getParentFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.container, familyscrapFragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//            }
+//        });
+//
+//        // 내 스크랩을 눌렀을 때 AlarmFragment로 이동
+//        goToMyScrap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // FamilyScrapFragment 전환
+//                MyScrapFragment myscrapFragment = new MyScrapFragment();
+//                FragmentManager fragmentManager = getParentFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.container, myscrapFragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//            }
+//        });
 
         // 알림설정을 눌렀을 때 AlarmFragment로 이동
         goToAlarm.setOnClickListener(new View.OnClickListener() {

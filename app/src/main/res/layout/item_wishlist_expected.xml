@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:padding="10dp">
 
         <LinearLayout
@@ -23,10 +23,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="❤️"
                 android:textColor="@color/black"
-                android:textSize="42dp" />
+                android:textSize="35dp" />
 
             <TextView
                 android:id="@+id/title"
@@ -40,33 +40,35 @@
                 android:text="한강가서 치킨 시켜먹기"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/dday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="@color/lightGreen"
-                android:fontFamily="@font/pretendardsemibold"
-                android:gravity="center"
-                android:text="d-day"
-                android:textColor="@color/green"
-                android:textSize="13dp" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="13dp"
-                android:fontFamily="@font/pretendardregular"
-                android:text="0000년 00월 00일 예정 "
-                android:textColor="@color/gray"
-                android:textSize="13dp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/dday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/date"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/lightGreen"
+            android:fontFamily="@font/pretendardsemibold"
+            android:gravity="center"
+            android:text="d-day"
+            android:textColor="@color/green"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/pretendardregular"
+            android:text="0000년 00월 00일 예정 "
+            android:textColor="@color/gray"
+            android:textSize="13dp" />
     </RelativeLayout>
 
     <CheckBox

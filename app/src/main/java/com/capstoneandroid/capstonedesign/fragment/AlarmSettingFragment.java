@@ -43,7 +43,7 @@ public class AlarmSettingFragment extends Fragment {
         switch4 = view.findViewById(R.id.switch4);
         switch5 = view.findViewById(R.id.switch5);
         switch6 = view.findViewById(R.id.switch6);
-        switch7 = view.findViewById(R.id.switch7);
+//        switch7 = view.findViewById(R.id.switch7);
         switch8 = view.findViewById(R.id.switch8);
 
         // 첫 번째 스위치의 상태가 변경되었을 때 나머지 스위치들도 변경되도록 설정

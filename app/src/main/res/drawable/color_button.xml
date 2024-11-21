@@ -3,6 +3,7 @@
     <!--    눌렀을 때-->
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
+            <solid android:color="@color/transparent" />
             <corners android:radius="100dp" />
             <stroke android:width="2dp" android:color="@color/blue" />
             <size android:width="60dp" android:height="60dp" />
@@ -11,6 +12,7 @@
     <!--    눌렀을 때-->
     <item android:state_selected="true">
         <shape android:shape="rectangle">
+            <solid android:color="@color/transparent" />
             <corners android:radius="100dp" />
             <stroke android:width="2dp" android:color="@color/blue" />
             <size android:width="60dp" android:height="60dp" />
@@ -20,6 +22,7 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="100dp" />
+            <solid android:color="@color/transparent" />
             <stroke android:width="2dp" android:color="@color/transparent" />
             <size android:width="60dp" android:height="60dp" />
         </shape>

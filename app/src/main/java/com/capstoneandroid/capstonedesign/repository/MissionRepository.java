@@ -129,6 +129,30 @@ public class MissionRepository {
         });
     }
 
+    public void getTodayMissionFromServer(Long userId, GetMyMissionListCallback callback) {
+        Call<List<MyMissionItem>> call = missionApiService.getTodayMission(userId);
+        call.enqueue(new Callback<List<MyMissionItem>>() {
+            @Override
+            public void onResponse(Call<List<MyMissionItem>> call, Response<List<MyMissionItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<MyMissionItem> myMissionItems = response.body();
+                    System.out.println("오늘 미션 조회 성공: 200 OK");
+                    callback.onSuccess(myMissionItems); // 성공 시 콜백 호출
+                } else {
+                    System.out.println("오늘 미션 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MyMissionItem>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
     public void getRecMissionFromServer(Long userId, GetRecMissionListCallback callback) {
         Call<List<RecMissionItem>> call = missionApiService.getRecMission(userId);
         call.enqueue(new Callback<List<RecMissionItem>>() {

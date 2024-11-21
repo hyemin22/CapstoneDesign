@@ -33,7 +33,11 @@ import com.capstoneandroid.capstonedesign.adapter.HomeWishAdapter;
 import com.capstoneandroid.capstonedesign.item.DayMissionItem;
 import com.capstoneandroid.capstonedesign.item.GuestbookItem;
 import com.capstoneandroid.capstonedesign.item.HomeWishItem;
+import com.capstoneandroid.capstonedesign.item.MyMissionItem;
+import com.capstoneandroid.capstonedesign.item.WishListItem;
 import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
+import com.capstoneandroid.capstonedesign.repository.MissionRepository;
+import com.capstoneandroid.capstonedesign.repository.WishListRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +47,11 @@ public class Fragment1 extends Fragment {
     Long userId = UserInfoManager.getInstance().getUserId();
     private ImageButton post, guestWrite, imgBtnArrow, imgBtnArrow2;
     private GuestbookAdapter adapter;  // 어댑터 선언
+    private HomeWishAdapter adapter2;
+    private DayMissionAdapter adapter3;
     private ArrayList<GuestbookItem> items = new ArrayList<>(); //방명록 아이템 추가
+    private ArrayList<WishListItem> items2 = new ArrayList<>();
+    private ArrayList<MyMissionItem> items3 = new ArrayList<>();
     private ViewPager2 viewPager;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +65,7 @@ public class Fragment1 extends Fragment {
     //xml 레이아웃 안에 들어 있는 위젯이나 레이아웃을 찾아 변수에 할당하는 코드들을 넣기 위해 만듦
     private void initUI(ViewGroup rootView) {
 
+        //---------------알림 및 쪽지------------------
         //알림 및 쪽지 버튼 클릭 시 동작
         post = rootView.findViewById(R.id.post);
         post.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +98,7 @@ public class Fragment1 extends Fragment {
 //        return super.onOptionsItemSelected(item);
 //    }
 
+        //---------------방명록------------------
         //방명록 추가 버튼 클릭 시 동작
         guestWrite = rootView.findViewById(R.id.guestWrite);
         guestWrite.setOnClickListener(new View.OnClickListener() {
@@ -108,65 +118,10 @@ public class Fragment1 extends Fragment {
         adapter = new GuestbookAdapter(items, getContext());
         viewPager = rootView.findViewById(R.id.guestView);
 
-        //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
-        imgBtnArrow = rootView.findViewById(R.id.imgBtnArrow);
-        imgBtnArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Intent 대신 FragmentTransaction 사용
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                Fragment2 fragment2 = new Fragment2();
-
-                // Fragment2로 전환
-                transaction.replace(R.id.container, fragment2);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-
-        //위시리스트
-        RecyclerView recyclerView1 = rootView.findViewById(R.id.wishlistView);
-        LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView1.setLayoutManager(linearManager);
-        HomeWishAdapter adapter2 = new HomeWishAdapter();
-
-        adapter2.addItem(new HomeWishItem(getContext(),"다같이 한강 가서 치킨 먹기", "2024년 5월 5일 예정", "D-3", R.color.lightPink, R.color.pink));
-        adapter2.addItem(new HomeWishItem(getContext(),"대전 랑골로에서 파스타 먹기", "2024년 5월 11일 예정", "D-6", R.color.lightGreen, R.color.green));
-
-        //위시리스트
-        recyclerView1.setAdapter(adapter2);
-
-        //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
-        imgBtnArrow2 = rootView.findViewById(R.id.imgBtnArrow2);
-        imgBtnArrow2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MissionActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //하루 미션 리사이클러뷰
-        RecyclerView recyclerView2 = rootView.findViewById(R.id.daymissionView);
-        GridLayoutManager gridManager = new GridLayoutManager(getContext(), 2);
-        recyclerView2.setLayoutManager(gridManager);
-        DayMissionAdapter adapter3 = new DayMissionAdapter(getContext());
-
-        // 서버로 하루 미션 get 요청 보내기
-        //sendGetTodayMissionData();
-
-        adapter3.addItem(new DayMissionItem(R.drawable.ic_hand, "하루 시작 굿모닝 인사 보내기", "0%"));
-        adapter3.addItem(new DayMissionItem(R.drawable.ic_moon, "하루 끝 굿나잇 인사 보내기", "0%"));
-
-        //하루 미션
-        recyclerView2.setAdapter(adapter3);
-
-        //방명록
         viewPager.setOffscreenPageLimit(3);
         viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
         viewPager.setAdapter(adapter);
 
-        //방명록
         CompositePageTransformer transform = new CompositePageTransformer();
         transform.addTransformer(new MarginPageTransformer(8));
         transform.addTransformer(new PageTransformer() {
@@ -207,8 +162,57 @@ public class Fragment1 extends Fragment {
             }
         });
 
-        //방명록
         viewPager.setPageTransformer(transform);
+
+        //---------------위시리스트------------------
+        //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
+        imgBtnArrow = rootView.findViewById(R.id.imgBtnArrow);
+        imgBtnArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Intent 대신 FragmentTransaction 사용
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                Fragment2 fragment2 = new Fragment2();
+
+                // Fragment2로 전환
+                transaction.replace(R.id.container, fragment2);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        // 서버로 위시 get 요청 보내기
+        sendGetRecentWishData();
+
+        RecyclerView recyclerView1 = rootView.findViewById(R.id.wishlistView);
+        LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView1.setLayoutManager(linearManager);
+        adapter2 = new HomeWishAdapter(items2, getContext());
+
+        recyclerView1.setAdapter(adapter2);
+
+        //---------------하루 미션------------------
+        //미션 메인 화면으로 넘어가는 > 버튼 클릭 시 동작
+        imgBtnArrow2 = rootView.findViewById(R.id.imgBtnArrow2);
+        imgBtnArrow2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MissionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 서버로 하루 미션 get 요청 보내기
+        sendGetTodayMissionData();
+
+        //하루 미션 리사이클러뷰
+        RecyclerView recyclerView2 = rootView.findViewById(R.id.daymissionView);
+        GridLayoutManager gridManager = new GridLayoutManager(getContext(), 2);
+        recyclerView2.setLayoutManager(gridManager);
+        adapter3 = new DayMissionAdapter(items3, getContext());
+
+        //하루 미션
+        recyclerView2.setAdapter(adapter3);
 
     }
 
@@ -223,8 +227,9 @@ public class Fragment1 extends Fragment {
                     // items 리스트에 서버에서 받아온 응답 데이터 추가
                     items.clear(); // 기존 데이터 초기화 (필요 시)
 
-                    // 서버에서 받은 방명록 응답을 items에 추가
-                    for (GuestbookItem guestbookItem : guestbookItems) { // 수정된 부분
+                    // guestbookItems 리스트를 역순으로 순회하면서 아이템을 추가 - 최신순으로
+                    for (int i = guestbookItems.size() - 1; i >= 0; i--) {
+                        GuestbookItem guestbookItem = guestbookItems.get(i);
                         items.add(new GuestbookItem(
                                 guestbookItem.getId(),
                                 guestbookItem.getCharacter_choice(), // 기본 프로필 이미지
@@ -245,6 +250,78 @@ public class Fragment1 extends Fragment {
             @Override
             public void onIDGetFailure(String errorMessage) {
                 Log.e("Error", "방명록 조회 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void sendGetTodayMissionData() {
+        MissionRepository missionRepository = new MissionRepository();
+        missionRepository.getTodayMissionFromServer(userId, new MissionRepository.GetMyMissionListCallback() {
+            @Override
+            public void onSuccess(List<MyMissionItem> myMissionItems) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        items3.clear();
+                        for (MyMissionItem myMissionItem : myMissionItems) {
+                            items3.add(new MyMissionItem(
+                                    getContext(),
+                                    myMissionItem.getId(),
+                                    myMissionItem.getTitle(),
+                                    myMissionItem.getEmoji(),
+                                    myMissionItem.getCycle(),
+                                    myMissionItem.getRepeat_day(),
+                                    myMissionItem.getRepeat_time(),
+                                    myMissionItem.getNow_time(),
+                                    myMissionItem.getGoal_time(),
+                                    myMissionItem.getPercent(),
+                                    myMissionItem.getAlarm(),
+                                    myMissionItem.getAlarm_time()
+                            ));
+                        }
+
+                        // 어댑터에 변경 사항을 알림
+                        adapter3.notifyDataSetChanged();
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("Error", "하루 미션 조회 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void sendGetRecentWishData() {
+        WishListRepository wishListRepository = new WishListRepository();
+        wishListRepository.getFamilyRecentWishList(userId, new WishListRepository.GetListCallback() {
+            @Override
+            public void onListGetSuccess(List<WishListItem> wishLists) {
+                getActivity().runOnUiThread(() -> {
+                    items2.clear();
+                    for (WishListItem wishListItem : wishLists) {
+                        items2.add(new WishListItem(
+                                getContext(),
+                                wishListItem.getId(), // 아이디
+                                wishListItem.getTitle(), // 제목
+                                wishListItem.getStartDate(), // 시작날짜
+                                wishListItem.getEndDate(), // 끝 날짜
+                                wishListItem.getCategory(), // 카테고리
+                                wishListItem.getEmoji(), // 이모지
+                                wishListItem.getAlarm(), // 알람 여부
+                                wishListItem.getMemo(), // 메모
+                                wishListItem.getCompletedDate(), // 완료일
+                                wishListItem.getDday() // 디데이
+                        ));
+                    }
+                    // 어댑터에 변경 사항을 알림
+                    adapter2.notifyDataSetChanged();
+                });
+            }
+
+            @Override
+            public void onListGetFailure(String errorMessage) {
+                Log.e("Error", "2주 내의 위시 조회 실패: " + errorMessage);
             }
         });
     }

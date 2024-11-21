@@ -21,11 +21,11 @@
         android:icon="@drawable/ic_memory"
         android:title="추억" />
 
-    <item
-        android:id="@+id/tab4"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_activity"
-        android:title="활동" />
+<!--    <item-->
+<!--        android:id="@+id/tab4"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        android:icon="@drawable/ic_activity"-->
+<!--        android:title="활동" />-->
 
     <item
         android:id="@+id/tab5"

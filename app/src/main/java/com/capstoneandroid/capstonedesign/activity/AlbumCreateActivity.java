@@ -6,9 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.capstoneandroid.capstonedesign.R;
 
@@ -64,7 +67,7 @@ public class AlbumCreateActivity extends BaseActivity {
             });
         }
 
-        //확인버튼
+        //일기 등록 버튼
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

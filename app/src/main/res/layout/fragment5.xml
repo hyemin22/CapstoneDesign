@@ -170,46 +170,46 @@
             android:textColor="@color/black"
             android:textSize="20dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#EFEFEF"
-            android:layout_gravity="center"/>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:background="#EFEFEF"-->
+<!--            android:layout_gravity="center"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#B4B4B4"
-            android:fontFamily="@font/pretendardsemibold"
-            android:text="스크랩"
-            android:textSize="15dp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:textColor="#B4B4B4"-->
+<!--            android:fontFamily="@font/pretendardsemibold"-->
+<!--            android:text="스크랩"-->
+<!--            android:textSize="15dp" />-->
 
-        <TextView
-            android:id="@+id/familyScrap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/pretendardsemibold"
-            android:text="가족 공동 스크랩"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/familyScrap"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:fontFamily="@font/pretendardsemibold"-->
+<!--            android:text="가족 공동 스크랩"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="20dp" />-->
 
-        <TextView
-            android:id="@+id/myScrap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/pretendardsemibold"
-            android:text="내 스크랩"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/myScrap"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:fontFamily="@font/pretendardsemibold"-->
+<!--            android:text="내 스크랩"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="20dp" />-->
 
         <View
             android:layout_width="match_parent"
