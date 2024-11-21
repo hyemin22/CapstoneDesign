@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import com.capstoneandroid.capstonedesign.adapter.AlbumAdapter;
 public class FeedEventSwipeFragment extends Fragment {
     private AlbumAdapter adapter;
     private ImageButton toggleBtn;
+    private Spinner spinner;
 
     public FeedEventSwipeFragment() {
         // Required empty public constructor
@@ -32,6 +35,7 @@ public class FeedEventSwipeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_feed_event_swipe, container, false);
         toggleBtn = rootView.findViewById(R.id.toggleBtn);
+        spinner = rootView.findViewById(R.id.spinner);
 
         // 토글 버튼 설정
         toggleBtn.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +49,23 @@ public class FeedEventSwipeFragment extends Fragment {
             }
         });
 
+        // 커스텀 레이아웃을 사용한 ArrayAdapter 생성
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, getResources().getStringArray(R.array.selectCalender));
+
+        // 드롭다운 항목의 레이아웃 설정
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+
+        // 어댑터를 스피너에 적용
+        spinner.setAdapter(adapter);
+
+        // 드롭다운이 스피너 아래에 생성되도록 설정
+        spinner.setDropDownVerticalOffset(100); // 드롭다운이 스피너에서 떨어져서 보이는 오프셋 설정
+
+
+
         initSwipeView(rootView);
         return rootView;
+
     }
 
     private void initSwipeView(View swipeView) {

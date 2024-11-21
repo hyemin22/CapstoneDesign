@@ -5,4 +5,4 @@
     android:textColor="#2B66F6"
     android:textSize="16dp"
     android:gravity="center"
-    android:fontFamily="@font/pretendardsemibold"/>
+    android:fontFamily="@font/pretendardbold"/>
