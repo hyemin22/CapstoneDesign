@@ -61,8 +61,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             if(day.equals(CalendarUtil.selecedDate)) {
                 holder.parentView.setBackgroundResource(R.drawable.my_selector);
                 holder.dayText.setTextColor(Color.WHITE);
+                holder.dateDot.setVisibility(View.VISIBLE); // 점 표시
             }else {
-
+                holder.dateDot.setVisibility(View.GONE); // 점 숨김
             }
 
 
@@ -93,11 +94,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     public class CalendarViewHolder extends RecyclerView.ViewHolder {
         TextView dayText;
         View parentView;
+        View dateDot;
         public CalendarViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dayText = itemView.findViewById(R.id.dayText);
             parentView = itemView.findViewById(R.id.parentView);
+            dateDot = itemView.findViewById(R.id.dateDot);
         }
     }
 }

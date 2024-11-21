@@ -15,4 +15,14 @@
         android:textColor="@color/black"
         android:fontFamily="@font/pretendardregular"/>
 
+    <!-- 점 표시 -->
+    <View
+        android:id="@+id/dateDot"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/circle_shape"
+        android:layout_gravity="bottom|center"
+        android:visibility="gone"/>
+
 </FrameLayout>
