@@ -45,7 +45,7 @@
             android:layout_marginRight="13dp"
             android:layout_marginBottom="40dp"
             android:background="@drawable/rounded_background"
-            android:backgroundTint="@color/lightPurple"
+            android:backgroundTint="@color/lightpurple"
             android:fontFamily="@font/pretendardsemibold"
             android:gravity="center"
             android:text=" 일기 작성 완료 "

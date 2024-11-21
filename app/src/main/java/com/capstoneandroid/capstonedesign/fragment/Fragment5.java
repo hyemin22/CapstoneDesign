@@ -18,11 +18,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
-import com.capstoneandroid.capstonedesign.activity.MainActivity;
 import com.capstoneandroid.capstonedesign.activity.MissionActivity;
 import com.capstoneandroid.capstonedesign.model.User;
 import com.capstoneandroid.capstonedesign.repository.UserRepository;
-import com.kakao.sdk.user.UserApiClient;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

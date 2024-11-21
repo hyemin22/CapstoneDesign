@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.fragment.MissionCompleteFragment;
 import com.capstoneandroid.capstonedesign.fragment.PostCompleteFragment;
 import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
@@ -44,7 +45,8 @@ public class PostCreateActivity extends BaseActivity {
     Spinner spinner;
     Button okBtn;
     ArrayAdapter<String> adapter;
-    Long receiverId, user_id;
+    Long receiverId;
+    Long userId = UserInfoManager.getInstance().getUserId();
     String sender_name, charInfo;
     boolean activityInfo;
 
@@ -129,7 +131,7 @@ public class PostCreateActivity extends BaseActivity {
                 String content = contentEdit.getText().toString();
 
                 // POJO 클래스를 사용하여 쪽지 데이터 생성
-                Post post = new Post(user_id, anonymous, receiverId, content);
+                Post post = new Post(userId, anonymous, receiverId, content);
 
                 // 서버로 POST 요청 보내기
                 sendPostData(post);
@@ -154,7 +156,7 @@ public class PostCreateActivity extends BaseActivity {
     private void getUserInfoData() {
         // 서버로 Get 요청 보내기
         UserRepository userRepository = new UserRepository();
-        userRepository.getUserInfo(user_id, new UserRepository.GetInfoCallback() {
+        userRepository.getUserInfo(userId, new UserRepository.GetInfoCallback() {
             @Override
             public void onInfoGetSuccess(User user) {
                 myName.setText(user.getNickname());
@@ -180,24 +182,14 @@ public class PostCreateActivity extends BaseActivity {
 
     // DB에서 가져온 가족 리스트를 스피너에 넣기, 유저 정보 띄우기
     private void fetchFamilyDataFromDB() {
-        // 유저 아이디 보내서 카테고리 가져오기
-        UserApiClient.getInstance().me((user, error) -> {
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error);
-            } else if (user != null) {
-                user_id = user.getId(); // 카카오 사용자 고유 ID 저장
-
-                sendGetFamilyList(); // 카테고리 요청
-                getUserInfoData(); // 유저 닉네임, 캐릭터 정보 DB에서 받아와서 띄우기
-            }
-            return null;
-        });
+        sendGetFamilyList(); // 카테고리 요청
+        getUserInfoData(); // 유저 닉네임, 캐릭터 정보 DB에서 받아와서 띄우기
     }
 
     // 위시리스트 카테고리 이름 리스트 가져와서 스피너에 넣기
     private void sendGetFamilyList() {
         UserRepository userRepository = new UserRepository();
-        userRepository.getFamilyInfo1(user_id, new UserRepository.GetFamilyInfoCallback() {
+        userRepository.getFamilyInfo1(userId, new UserRepository.GetFamilyInfoCallback() {
             @Override
             public void onInfoGetSuccess(List<User> familyInfos) {
                 runOnUiThread(() -> {

@@ -43,26 +43,43 @@
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
-                <TextView
-                    android:id="@+id/albumPicker"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/pretendardbold"
-                    android:text="앨범 · 선택"
-                    android:textColor="@color/black"
-                    android:textSize="23dp" />
+                    android:gravity="center_vertical"
+                    android:layout_centerInParent="true" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/albumPicker"
-                    android:layout_marginStart="5dp"
-                    android:fontFamily="@font/pretendardbold"
-                    android:text="▼"
-                    android:textColor="@color/black"
-                    android:textSize="10dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/albumPicker"
+                        android:fontFamily="@font/pretendardbold"
+                        android:text="앨범 · "
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
+
+                    <Spinner
+                        android:id="@+id/albumPicker"
+                        style="@style/Widget.AppCompat.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:fontFamily="@font/pretendardbold"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@color/black"
+                        android:textSize="23dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@id/albumPicker"
+                        android:fontFamily="@font/pretendardbold"
+                        android:text="▼"
+                        android:textColor="@color/black"
+                        android:textSize="10dp" />
+                </LinearLayout>
             </RelativeLayout>
 
             <View
@@ -81,12 +98,12 @@
                     android:id="@+id/titleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:background="@color/transparent"
                     android:fontFamily="@font/pretendardsemibold"
-                    android:layout_marginBottom="10dp"
                     android:hint="제목"
-                    android:textColorHint="@color/hintgray"
                     android:textColor="@color/black"
+                    android:textColorHint="@color/hintgray"
                     android:textSize="28dp" />
 
                 <LinearLayout
@@ -114,8 +131,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:background="@color/transparent"
-                            android:focusable="false"
                             android:ems="10"
+                            android:focusable="false"
                             android:fontFamily="@font/pretendardregular"
                             android:hint="YYYY.MM.DD"
                             android:inputType="date"
@@ -177,8 +194,8 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:scaleType="centerCrop"
-                                    android:background="@drawable/ic_imgadd" />
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -195,8 +212,8 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:scaleType="centerCrop"
-                                    android:background="@drawable/ic_imgadd" />
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -213,8 +230,8 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:scaleType="centerCrop"
-                                    android:background="@drawable/ic_imgadd" />
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -231,8 +248,8 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:scaleType="centerCrop"
-                                    android:background="@drawable/ic_imgadd" />
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -249,8 +266,8 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:scaleType="centerCrop"
-                                    android:background="@drawable/ic_imgadd"/>
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
                         </LinearLayout>
@@ -274,8 +291,8 @@
                             android:background="@android:color/transparent"
                             android:fontFamily="@font/pretendardregular"
                             android:hint="가족과의 추억을 작성해주세요 ..."
-                            android:textColorHint="@color/hintgray"
                             android:textColor="@color/black"
+                            android:textColorHint="@color/hintgray"
                             android:textSize="18dp" />
 
                     </ScrollView>
