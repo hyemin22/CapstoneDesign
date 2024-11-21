@@ -71,8 +71,10 @@ public class DiaryActivity extends BaseActivity {
                     "우리 다음은 반포 한강 공원 가자!! ");
             img1.setImageResource(R.drawable.picnic1);
             img2.setImageResource(R.drawable.picnic2);
+        } else if (sourceName.equals("jeju")){
+            date.setText("2023.05.20(월)");
+            img1.setImageResource(R.drawable.diaryimg2);
+            img2.setImageResource(R.drawable.diaryimg1);
         }
-
-
     }
 }

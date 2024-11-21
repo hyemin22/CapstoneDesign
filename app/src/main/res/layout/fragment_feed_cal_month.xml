@@ -187,7 +187,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="13dp"
                     android:fontFamily="@font/pretendardmedium"
-                    android:text="드디어 미루고 미루던 한강 피크닉을 했습니다!  근.."
+                    android:text="돗자리랑 텐트 빌려서 명당에 자리 잡고 치킨이랑 피자 이것.."
                     android:textSize="16dp" />
 
                 <FrameLayout
@@ -264,7 +264,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/pretendardsemibold"
                     android:text="딸들이 사준 저녁"
                     android:textColor="@color/black"
@@ -274,9 +274,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/pretendardmedium"
-                    android:text="뚝섬 근처 이탈리안 레스토랑 ‘볼로냐'. 아빠 입맛.."
+                    android:text="뚝섬 근처 이탈리안 레스토랑 ‘볼로냐'. 아빠 입맛 취향 저격.."
                     android:textSize="16dp" />
 
                 <FrameLayout

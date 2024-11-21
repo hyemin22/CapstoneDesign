@@ -34,8 +34,7 @@ public class FeedEventRootFragment extends Fragment {
         items.add(new AlbumItem("2023\n제주여행", R.drawable.album_blue));
         items.add(new AlbumItem("2022\n하와이 여행", R.drawable.album_white));
         items.add(new AlbumItem("\n첫째 생일", R.drawable.album_red));
-        items.add(new AlbumItem("우리 가족\n나들이", R.drawable.album_yellow));
-        items.add(new AlbumItem("2023\n제주여행", R.drawable.album_blue));
+        items.add(new AlbumItem("서울여대 구경", R.drawable.album_yellow));
 
         adapter = new AlbumAdapter(items, getContext(), false);
         adapter2 = new AlbumAdapter(items, getContext(), true);

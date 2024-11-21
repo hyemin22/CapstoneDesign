@@ -54,9 +54,9 @@
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@id/albumPicker"
                         android:fontFamily="@font/pretendardbold"
-                        android:text="앨범 · "
+                        android:text="앨범| "
                         android:textColor="@color/black"
-                        android:textSize="20dp" />
+                        android:textSize="17dp" />
 
                     <Spinner
                         android:id="@+id/albumPicker"

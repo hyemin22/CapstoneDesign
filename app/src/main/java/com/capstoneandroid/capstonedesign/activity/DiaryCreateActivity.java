@@ -126,7 +126,7 @@ public class DiaryCreateActivity extends AppCompatActivity {
     private void fetchAlbumListFromDB() {
         //앨범 리스트 GET 요청
         List<String> albumList = new ArrayList<>();
-        albumList.add("앨범 · 선택");
+        albumList.add("선택");
         albumList.add("우리가족 나들이");
         albumList.add("2023 제주여행");
         albumList.add("2022 하와이");

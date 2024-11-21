@@ -69,6 +69,7 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
                 public void onClick(View v) {
                     Context context = holder.itemView.getContext();
                     Intent intent = new Intent(context, DiaryActivity.class);
+                    intent.putExtra("source", "jeju");
                     context.startActivity(intent);
                 }
             });
