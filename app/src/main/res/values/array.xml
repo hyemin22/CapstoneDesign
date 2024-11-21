@@ -5,4 +5,10 @@
         <item>이번주</item>
     </string-array>
 
+    <string-array name="selectEvent">
+        <item>최신순</item>
+        <item>오래된순</item>
+        <item>글자순</item>
+    </string-array>
+
 </resources>

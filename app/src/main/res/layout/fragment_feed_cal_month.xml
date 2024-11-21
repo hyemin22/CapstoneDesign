@@ -41,7 +41,7 @@
                     <!-- Spinner -->
                     <Spinner
                         android:id="@+id/spinner"
-                        android:layout_width="70dp"
+                        android:layout_width="80dp"
                         android:layout_height="33dp"
                         android:layout_gravity="bottom"
                         android:layout_marginRight="18dp"
@@ -53,7 +53,7 @@
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        android:layout_marginRight="23dp"
+                        android:layout_marginRight="28dp"
                         android:layout_gravity="end|center_vertical"
                         android:src="@drawable/spinnerdropdown" />
 
@@ -164,7 +164,7 @@
                 <ImageView
                     android:id="@+id/photo1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -253,7 +253,7 @@
                 <ImageView
                     android:id="@+id/photo2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"

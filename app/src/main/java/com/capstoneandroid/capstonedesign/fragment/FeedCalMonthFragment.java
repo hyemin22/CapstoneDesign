@@ -85,9 +85,9 @@ public class FeedCalMonthFragment extends Fragment {
                 // Spinner에서 선택한 항목을 확인하여 달력 전환
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 if (selectedItem.equals("이번주")) {
-                    setWeekView(); // 월간 달력 표시
+                    setWeekView(); // 주간 달력 표시
                 } else if (selectedItem.equals("이번달")) {
-                    setMonthView(); // 주간 달력 표시
+                    setMonthView(); // 월간 달력 표시
                 }
             }
 
