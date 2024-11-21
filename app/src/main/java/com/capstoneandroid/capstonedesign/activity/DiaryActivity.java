@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -13,20 +14,24 @@ import com.capstoneandroid.capstonedesign.R;
 
 public class DiaryActivity extends BaseActivity {
 
-    ImageView img;
+    ImageButton backBtn;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
 
-        img = findViewById(R.id.img);
+        // backBtn 초기화
+        backBtn = findViewById(R.id.backBtn);
 
-        img.setOnClickListener(new View.OnClickListener() {
+        // backBtn 클릭 이벤트
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                onBackPressed(); // 이전 화면으로 이동
+            public void onClick(View v) {
+                finish(); // 현재 액티비티 종료
             }
         });
+
     }
 }
