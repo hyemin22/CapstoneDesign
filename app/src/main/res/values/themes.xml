@@ -26,6 +26,12 @@
         <item name="android:textSize">17dp</item>
     </style>
 
+    <style name="CustomDatePickerDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue2</item>
+        <item name="colorAccent">@color/album_blue</item>
+    </style>
+
 
     <!-- Active Text Appearance -->
     <style name="BottomNavTextAppearanceActive" parent="TextAppearance.AppCompat.Body1">

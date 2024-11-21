@@ -30,7 +30,6 @@ import java.util.Locale;
 public class FeedCalMonthFragment extends Fragment {
 
     TextView monthText; // 월 일 요일 텍스트뷰
-    TextView todayText; // 오늘 날짜 텍스트뷰
     RecyclerView recyclerView;
     private Spinner spinner;
     // 요일 TextView 변수 선언
@@ -52,7 +51,6 @@ public class FeedCalMonthFragment extends Fragment {
 
         // 초기화
         monthText = view.findViewById(R.id.monthText);
-        todayText = view.findViewById(R.id.todayText);
         recyclerView = view.findViewById(R.id.recyclerview);
 
         // 요일 TextView 연결
@@ -66,7 +64,6 @@ public class FeedCalMonthFragment extends Fragment {
 
         // 현재 날짜 설정
         CalendarUtil.selecedDate = LocalDate.now();
-        setTodayDate(); // 오늘 날짜를 텍스트뷰에 설정
         setMonthView(); // 기본적으로 월간 달력을 표시
 
         // 커스텀 레이아웃을 사용한 ArrayAdapter 생성
@@ -87,17 +84,17 @@ public class FeedCalMonthFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Spinner에서 선택한 항목을 확인하여 달력 전환
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                if (selectedItem.equals("이번달")) {
-                    setMonthView(); // 월간 달력 표시
-                } else if (selectedItem.equals("이번주")) {
-                    setWeekView(); // 주간 달력 표시
+                if (selectedItem.equals("이번주")) {
+                    setWeekView(); // 월간 달력 표시
+                } else if (selectedItem.equals("이번달")) {
+                    setMonthView(); // 주간 달력 표시
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // 기본적으로 월간 달력 표시
-                setMonthView();
+                setWeekView();
             }
         });
     }
@@ -106,13 +103,6 @@ public class FeedCalMonthFragment extends Fragment {
     private String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 EEEE", Locale.KOREAN);
         return date.format(formatter);
-    }
-
-    // 오늘 날짜를 텍스트뷰에 설정하는 메서드
-    private void setTodayDate() {
-        LocalDate today = LocalDate.now();
-        String formattedDate = monthYearFromDate(today);
-        todayText.setText(formattedDate);
     }
 
     // 화면 설정(월간 달력)
