@@ -1,28 +1,39 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parentView"
     android:layout_width="50dp"
-    android:layout_height="50dp"
+    android:layout_height="60dp"
     android:layout_gravity="center"
-    android:padding="8dp">
+    android:gravity="center"
+    android:padding="3dp">
 
-    <TextView
-        android:id="@+id/dayText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!-- 날짜 셀 (배경 포함) -->
+    <FrameLayout
+        android:id="@+id/parentView"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
-        android:text="1"
-        android:textSize="17dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/pretendardregular"/>
+        android:gravity="center"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/dayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="20dp"
+            android:fontFamily="@font/pretendardmedium"/>
+
+    </FrameLayout>
+
 
     <!-- 점 표시 -->
     <View
         android:id="@+id/dateDot"
         android:layout_width="5dp"
         android:layout_height="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/circle_shape"
-        android:layout_gravity="bottom|center"
-        android:visibility="gone"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/circle_shape"/>
 
 </FrameLayout>
