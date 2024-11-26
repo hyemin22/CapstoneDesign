@@ -64,7 +64,7 @@ public class FeedCalMonthFragment extends Fragment {
 
         // 현재 날짜 설정
         CalendarUtil.selecedDate = LocalDate.now();
-        setMonthView(); // 기본적으로 월간 달력을 표시
+        setWeekView(); // 기본적으로 월간 달력을 표시
 
         // 커스텀 레이아웃을 사용한 ArrayAdapter 생성
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, getResources().getStringArray(R.array.selectCalender));
