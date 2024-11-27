@@ -17,10 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>{
-
-    public interface OnDateSelectedListener {
-        void onDateSelected(LocalDate date);
-    }
     public ArrayList<LocalDate> dayList;
     private boolean isMonthlyView;  // 월간/주간 뷰 구분을 위한 변수
     private OnDateSelectedListener dateSelectedListener; // 인터페이스 리스너
@@ -85,7 +81,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 // 모든 셀을 다시 그림
                 notifyDataSetChanged();
 
-                // 날짜 선택 처리 (예: 토스트)
+                // 날짜 선택 처리
                 String yearMonDay = String.format("%04d년 %02d월 %02d일", day.getYear(), day.getMonthValue(), day.getDayOfMonth());
                 // 선택된 날짜를 리스너를 통해 전달
                 if (dateSelectedListener != null) {
@@ -97,6 +93,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         }
     }
 
+    public interface OnDateSelectedListener {
+        void onDateSelected(LocalDate date);
+    }
     @Override
     public int getItemCount() {
 

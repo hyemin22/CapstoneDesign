@@ -41,7 +41,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="15dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="30dp"
                     android:backgroundTint="@color/transparent"
                     android:rotation="270"
                     android:scaleType="fitXY"
@@ -81,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:padding="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -343,14 +344,8 @@
                             app:srcCompat="@drawable/emo5" />
 
                     </LinearLayout>
-
                 </FrameLayout>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-
-
-
 </LinearLayout>

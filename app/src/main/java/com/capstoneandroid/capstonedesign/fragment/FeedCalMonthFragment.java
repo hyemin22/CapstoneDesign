@@ -191,13 +191,14 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         YearMonth yearMonth = YearMonth.from(date);
         int lastDay = yearMonth.lengthOfMonth();
         LocalDate firstDay = CalendarUtil.selecedDate.withDayOfMonth(1);
-        int dayOfWeek = firstDay.getDayOfWeek().getValue() % 7; // 일요일 시작 기준
+        int dayofweek = firstDay.get(WeekFields.of(Locale.KOREA).dayOfWeek()) - 1;
 
-        for (int i = 1; i < 42; i++) {
-            if (i <= dayOfWeek || i > lastDay + dayOfWeek) {
-                dayList.add(null);
+        // 정확한 아이템 개수만 추가 (빈 셀은 최소화)
+        for (int i = 1 - dayofweek; i <= lastDay; i++) {
+            if (i < 1) {
+                dayList.add(null); // 첫 주의 빈 칸
             } else {
-                dayList.add(LocalDate.of(date.getYear(), date.getMonth(), i - dayOfWeek));
+                dayList.add(LocalDate.of(CalendarUtil.selecedDate.getYear(), CalendarUtil.selecedDate.getMonth(), i));
             }
         }
         return dayList;
