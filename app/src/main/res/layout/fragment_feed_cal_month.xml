@@ -41,7 +41,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="15dp"
-                    android:layout_marginRight="75dp"
+                    android:layout_marginRight="65dp"
                     android:backgroundTint="@color/transparent"
                     android:rotation="270"
                     android:scaleType="fitXY"
@@ -173,7 +173,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="7dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="20dp"
                     android:background="#EFEFEF"
                     android:layout_gravity="center"/>
 
@@ -182,16 +182,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    app:srcCompat="@drawable/photo1"
-                    android:scaleType="centerCrop"/>
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:clipToOutline="true"
+                    android:background="@drawable/feed_rounded_background"
+                    app:srcCompat="@drawable/photo1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/pretendardsemibold"
                     android:textColor="@color/black"
                     android:text="한강에서 피크닉🧺"
@@ -271,16 +271,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:scaleType="centerCrop"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:clipToOutline="true"
+                    android:background="@drawable/feed_rounded_background"
                     app:srcCompat="@drawable/photo2" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/pretendardsemibold"
                     android:text="딸들이 사준 저녁"
                     android:textColor="@color/black"
