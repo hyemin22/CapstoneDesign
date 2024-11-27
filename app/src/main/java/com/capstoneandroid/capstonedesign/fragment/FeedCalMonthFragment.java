@@ -1,13 +1,11 @@
 package com.capstoneandroid.capstonedesign.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.CalendarUtil;
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.activity.DiaryActivity;
-import com.capstoneandroid.capstonedesign.activity.MainActivity;
 import com.capstoneandroid.capstonedesign.adapter.CalendarAdapter;
 
 import java.time.LocalDate;
@@ -38,7 +34,6 @@ public class FeedCalMonthFragment extends Fragment {
     private Spinner spinner;
     // 요일 TextView 변수 선언
     TextView sundayText, mondayText, tuesdayText, wednesdayText, thursdayText, fridayText, saturdayText;
-    ImageView photo1;
 
     @Nullable
     @Override
@@ -66,17 +61,6 @@ public class FeedCalMonthFragment extends Fragment {
         thursdayText = view.findViewById(R.id.thursdayText);
         fridayText = view.findViewById(R.id.fridayText);
         saturdayText = view.findViewById(R.id.saturdayText);
-
-        // 이미지뷰 !!! 나중에 수정!!!
-        photo1 = view.findViewById(R.id.photo1);
-        photo1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), DiaryActivity.class);
-                intent.putExtra("source", "photo1");
-                startActivity(intent);
-            }
-        });
 
         // 현재 날짜 설정
         CalendarUtil.selecedDate = LocalDate.now();
