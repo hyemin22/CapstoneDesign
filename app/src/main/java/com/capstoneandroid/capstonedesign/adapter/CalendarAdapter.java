@@ -18,12 +18,17 @@ import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>{
 
-    ArrayList<LocalDate> dayList;
-    boolean isMonthlyView;  // 월간/주간 뷰 구분을 위한 변수
+    public interface OnDateSelectedListener {
+        void onDateSelected(LocalDate date);
+    }
+    public ArrayList<LocalDate> dayList;
+    private boolean isMonthlyView;  // 월간/주간 뷰 구분을 위한 변수
+    private OnDateSelectedListener dateSelectedListener; // 인터페이스 리스너
 
     public CalendarAdapter(ArrayList<LocalDate> dayList, boolean isMonthlyView) {
         this.dayList = dayList;
         this.isMonthlyView = isMonthlyView;  // 생성자로 월간/주간 뷰 구분
+        this.dateSelectedListener = dateSelectedListener; // 리스너 초기화
     }
 
     @Override
@@ -47,42 +52,49 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return new CalendarViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         // 날짜 변수에 담기
         LocalDate day = dayList.get(position);
 
-        if(day == null) {
+        if (day == null) {
             holder.dayText.setText("");
+            holder.dateDot.setVisibility(View.GONE); // 점 숨기기
+            holder.parentView.setBackgroundResource(0); // 배경 제거
         } else {
             holder.dayText.setText(String.valueOf(day.getDayOfMonth()));
 
-            // 오늘 날짜 색상 칠하기
-            if(day.equals(CalendarUtil.selecedDate)) {
-                holder.parentView.setBackgroundResource(R.drawable.my_selector);
+            // 오늘 날짜 또는 선택된 날짜 강조
+            if (day.equals(CalendarUtil.selecedDate)) {
+                holder.parentView.setBackgroundResource(R.drawable.selector_background);
                 holder.dayText.setTextColor(Color.WHITE);
                 holder.dateDot.setVisibility(View.VISIBLE); // 점 표시
-            }else {
+            } else {
+                holder.parentView.setBackgroundResource(0); // 배경 제거
                 holder.dateDot.setVisibility(View.GONE); // 점 숨김
+                holder.dayText.setTextColor(Color.BLACK); // 기본 색상
             }
 
+            // 날짜 클릭 이벤트
+            holder.itemView.setOnClickListener(view -> {
+                // 현재 선택된 날짜를 갱신
+                CalendarUtil.selecedDate = day; // 선택된 날짜 업데이트
+                notifyDataSetChanged(); // RecyclerView 갱신
 
+                // 모든 셀을 다시 그림
+                notifyDataSetChanged();
+
+                // 날짜 선택 처리 (예: 토스트)
+                String yearMonDay = String.format("%04d년 %02d월 %02d일", day.getYear(), day.getMonthValue(), day.getDayOfMonth());
+                // 선택된 날짜를 리스너를 통해 전달
+                if (dateSelectedListener != null) {
+                    dateSelectedListener.onDateSelected(day); // 리스너 호출
+                }
+                CalendarUtil.selecedDate = day; // 선택된 날짜 업데이트
+                notifyDataSetChanged(); // RecyclerView 갱신
+            });
         }
-
-
-        // 날짜 클릭 이벤트
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int iYear = day.getYear();   // 년
-                int iMonth = day.getMonthValue();   // 월
-                int iDay = day.getDayOfMonth();    //일
-
-                String yearMonDay = iYear + "년" + iMonth + "월" + iDay + "일";
-
-                Toast.makeText(holder.itemView.getContext(), yearMonDay, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
