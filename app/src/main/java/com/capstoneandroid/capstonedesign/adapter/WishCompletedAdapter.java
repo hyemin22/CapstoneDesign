@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.activity.DiaryActivity;
+import com.capstoneandroid.capstonedesign.activity.DiaryCreateActivity;
 import com.capstoneandroid.capstonedesign.activity.WishCreateActivity;
 import com.capstoneandroid.capstonedesign.item.WishListItem;
 
@@ -42,21 +45,35 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
         WishListItem item = items.get(position);
         holder.setItem(item);
 
-        // 위시 아이템 클릭 시 수정/삭제 화면으로 이동
+        TextView existDiaryTextView = holder.itemView.findViewById(R.id.existDiary);
+
+        // 일기가 작성된 경우
+        if (item.getDiaryId() != null) {
+            existDiaryTextView.setText(" 일기 작성 완료 ");
+            existDiaryTextView.setBackgroundTintList(context.getResources().getColorStateList(R.color.lightpurple));
+            existDiaryTextView.setTextColor(context.getResources().getColor(R.color.purple));
+        } else { // 일기가 작성되지 않은 경우
+            existDiaryTextView.setText(" 일기 작성 미완료 ");
+            existDiaryTextView.setBackgroundTintList(context.getResources().getColorStateList(R.color.lightblue));
+            existDiaryTextView.setTextColor(context.getResources().getColor(R.color.blue));
+        }
+
+        // 위시 아이템 클릭 시 일기 작성 화면 또는 일기 확인 화면으로 이동
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, WishCreateActivity.class);
-                intent.putExtra("id", item.getId());
-                intent.putExtra("title", item.getTitle());
-                intent.putExtra("start_date", item.getStartDate());
-                intent.putExtra("end_date", item.getEndDate());
-                intent.putExtra("category", item.getCategory());
-                intent.putExtra("icon", item.getEmoji());
-                intent.putExtra("memo", item.getMemo());
-                intent.putExtra("alarm", item.getAlarm());
-                intent.putExtra("source", "WishCompletedAdapter");
-                context.startActivity(intent);
+                Log.d("diaryInfo", "diaryId??" + item.getDiaryId());
+                if (item.getDiaryId() != null) { //만약, 작성된 일기가 있는 경우
+                    Intent intent = new Intent(context, DiaryActivity.class);
+                    intent.putExtra("id", item.getDiaryId());
+                    context.startActivity(intent);
+                } else { // 작성된 일기가 없는 경우
+                    Intent intent = new Intent(context, DiaryCreateActivity.class);
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("title", item.getTitle());
+                    intent.putExtra("date", item.getStartDate());
+                    context.startActivity(intent);
+                }
             }
         });
     }

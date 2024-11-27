@@ -3,7 +3,7 @@ package com.capstoneandroid.capstonedesign.item;
 import android.content.Context;
 
 public class WishListItem {
-    Long id;
+    Long id, diaryId;
     String title, startDate, endDate, emoji, memo, completedDate, dday;
     Integer category;
     boolean alarm;
@@ -22,6 +22,23 @@ public class WishListItem {
         this.memo = memo;
         this.completedDate = completedDate;
         this.dday = dday;
+    }
+
+    public WishListItem(Context context, Long id, String title,
+                        String startDate, String endDate,
+                        Integer category, String emoji, boolean alarm,
+                        String memo, String completedDate, String dday, Long diaryId) {
+        this.id = id;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.category = category;
+        this.emoji = emoji;
+        this.alarm = alarm;
+        this.memo = memo;
+        this.completedDate = completedDate;
+        this.dday = dday;
+        this.diaryId = diaryId;
     }
 
     public WishListItem(Long id, String title, String startDate,
@@ -75,5 +92,8 @@ public class WishListItem {
 
     public boolean getAlarm() {
         return alarm;
+    }
+    public Long getDiaryId() {
+        return diaryId;
     }
 }

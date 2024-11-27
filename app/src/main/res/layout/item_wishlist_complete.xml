@@ -35,7 +35,7 @@
             android:fontFamily="@font/pretendardsemibold" />
 
         <TextView
-            android:id="@+id/diaryOX"
+            android:id="@+id/existDiary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

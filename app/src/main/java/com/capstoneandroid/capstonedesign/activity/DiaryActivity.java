@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.item.DiaryLikeItem;
+import com.capstoneandroid.capstonedesign.item.DiaryListItem;
 import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 import java.util.ArrayList;
@@ -169,53 +170,59 @@ public class DiaryActivity extends BaseActivity {
         // 일기 내용 채우기
         Intent intent = getIntent();
         diaryId = intent.getLongExtra("id", -1L);
-        String diary_title = intent.getStringExtra("title");
-        String diary_date = intent.getStringExtra("diary_date");
-        ArrayList<String> imagePaths = intent.getStringArrayListExtra("imagePaths");
-        String diary_content = intent.getStringExtra("content");
-        String address = intent.getStringExtra("address");
-        String album_title = intent.getStringExtra("album_title");
-        String user_character = intent.getStringExtra("user_character");
-        String user_nickname = intent.getStringExtra("user_nickname");
-
-        albumname.setText(album_title);
-        nickname.setText(user_nickname);
-
-        // 이미지 크기에 맞게 카드뷰 보기 설정
-        for (int i = 1; i < imagePaths.size(); i++) {
-            cardViews[i].setVisibility(View.VISIBLE);
-        }
-
-        // 작성자 캐릭터
-        int drawableId = getResources().getIdentifier(user_character, "drawable", this.getPackageName());
-        System.out.println("drawable??!!" + drawableId);
-
-        if (drawableId != 0) {
-            profile.setImageResource(drawableId);
-        } else {
-            profile.setImageResource(R.drawable.ic_my);
-        }
-
-        date.setText(diary_date);
-        place.setText(address);
-        title.setText(diary_title);
-        content.setText(diary_content);
-
-        // Glide를 사용하여 이미지 로드
-        if (imagePaths != null && !imagePaths.isEmpty()) {
-            for (int i = 0; i < imagePaths.size(); i++) {
-                if (i < imageViews.length) {
-                    Glide.with(this)
-                            .load(imagePaths.get(i)) // 이미지 경로 또는 URL을 사용
-                            .into(imageViews[i]); // 해당 ImageView에 로드
-                }
-            }
-        }
+        getDiaryInfo();
 
         // DB에서 공감 버튼 리스트 가져오기
         getLikeList();
     }
 
+    private void getDiaryInfo() {
+        diaryRepository.getDiary(diaryId, new DiaryRepository.GetDiaryCallback() {
+            @Override
+            public void onSuccess(DiaryListItem diary) {
+                albumname.setText(diary.getAlbum_title());
+                nickname.setText(diary.getUser_nickname());
+
+                List<String> imagePaths = diary.getImagePaths();
+
+                // 이미지 크기에 맞게 카드뷰 보기 설정
+                for (int i = 1; i < imagePaths.size(); i++) {
+                    cardViews[i].setVisibility(View.VISIBLE);
+                }
+
+                // 작성자 캐릭터
+                int drawableId = getResources().getIdentifier(diary.getUser_character(), "drawable", getApplicationContext().getPackageName());
+                System.out.println("drawable??!!" + drawableId);
+
+                if (drawableId != 0) {
+                    profile.setImageResource(drawableId);
+                } else {
+                    profile.setImageResource(R.drawable.ic_my);
+                }
+
+                date.setText(diary.getDiary_date());
+                place.setText(diary.getAddress());
+                title.setText(diary.getTitle());
+                content.setText(diary.getContent());
+
+                // Glide를 사용하여 이미지 로드
+                if (imagePaths != null && !imagePaths.isEmpty()) {
+                    for (int i = 0; i < imagePaths.size(); i++) {
+                        if (i < imageViews.length) {
+                            Glide.with(getApplicationContext())
+                                    .load(imagePaths.get(i)) // 이미지 경로 또는 URL을 사용
+                                    .into(imageViews[i]); // 해당 ImageView에 로드
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+            }
+        });
+    }
     private void saveLikeToServer(Integer type) {
         // 서버로 POST 요청 보내기
         diaryRepository.saveLike(diaryId, type, userId, new DiaryRepository.DiaryCallback() {

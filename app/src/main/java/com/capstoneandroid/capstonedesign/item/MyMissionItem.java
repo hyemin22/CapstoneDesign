@@ -30,6 +30,9 @@ public class MyMissionItem {
     public String calculatePercent(Integer now_time, Integer goal_time) {
         if (now_time != null && goal_time != 0) {
             double result = (double) now_time / goal_time * 100;
+            if (result > 100) { // 100 이상일 경우 100으로 설정
+                return "100.0";
+            }
             String formattedResult = String.format("%.1f", result);
             return formattedResult;
         } else {

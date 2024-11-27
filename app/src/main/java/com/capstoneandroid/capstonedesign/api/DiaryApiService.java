@@ -33,12 +33,25 @@ public interface DiaryApiService {
     @Multipart
     @POST("/diary")
     Call<Void> saveDiary(@PartMap Map<String, RequestBody> data, // 일반 데이터
-                         @Part List<MultipartBody.Part> files   // 파일 데이터
+                         @Part List<MultipartBody.Part> files,   // 파일 데이터
+                         @Part("wishId") Long wishId
     );
 
     // 일기 조회(앨범별)
     @GET("/diary/album")
     Call<List<DiaryListItem>> getDiaryInAlbum(@Query("userId") Long userId, @Query("albumId") Long albumId);
+
+    // 일기 조회(날짜별)
+    @GET("/diary/date")
+    Call<List<DiaryListItem>> getDiaryInDate(@Query("userId") Long userId, @Query("date") String date);
+
+    // 일기 조회(장소별)
+    @GET("/diary/address")
+    Call<List<DiaryListItem>> getDiaryInAddress(@Query("userId") Long userId);
+
+    // 일기 조회(개별)
+    @GET("/diary")
+    Call<DiaryListItem> getDiary(@Query("id") Long id);
 
     // 일기 삭제
     @DELETE("/diary")

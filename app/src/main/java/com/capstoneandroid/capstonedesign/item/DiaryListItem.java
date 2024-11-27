@@ -9,12 +9,14 @@ public class DiaryListItem {
     Long id;
     String title, diary_date, content, address, album_title, user_character, user_nickname;
     String photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10;
+    Double latitude, longitude;
 
     public DiaryListItem(Context context, Long id, String title, String diary_date,
                          String photo1, String photo2, String photo3, String photo4,
                          String photo5, String photo6, String photo7, String photo8,
                          String photo9, String photo10,
-                         String content, String address, String album_title,
+                         String content, String address,
+                         Double latitude, Double longitude, String album_title,
                          String user_character, String user_nickname) {
         this.id = id;
         this.title = title;
@@ -31,9 +33,18 @@ public class DiaryListItem {
         this.photo10 = photo10;
         this.content = content;
         this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.album_title = album_title;
         this.user_character = user_character;
         this.user_nickname = user_nickname;
+    }
+
+    public DiaryListItem(Context context, Long id, Double latitude, Double longitude, String photo1) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.photo1 = photo1;
     }
 
     public Long getId() {
@@ -54,6 +65,14 @@ public class DiaryListItem {
 
     public String getAddress() {
         return address;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     public String getAlbum_title() {

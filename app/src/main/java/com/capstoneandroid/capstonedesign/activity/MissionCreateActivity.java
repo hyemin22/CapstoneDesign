@@ -261,14 +261,9 @@ public class MissionCreateActivity extends BaseActivity {
                                 dialogDelete.findViewById(R.id.yesButton).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        // MissionActivity로 이동하는 Intent 생성
-                                        Intent intent = new Intent(MissionCreateActivity.this, MissionActivity.class);
-                                        intent.putExtra("source", "MissionActivity");
-                                        view.getContext().startActivity(intent);
-                                        dialogDelete.dismiss();
-
                                         // db에서 현재 미션 삭제
                                         deleteMissionData();
+                                        dialogDelete.dismiss();
                                         finish(); // 현재 액티비티 종료
 
                                         // 현재

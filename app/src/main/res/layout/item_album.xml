@@ -20,7 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="67dp"
             android:layout_marginTop="35dp"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:ellipsize="end"
             android:fontFamily="@font/yeongdeoksea"
             android:maxLines="2"

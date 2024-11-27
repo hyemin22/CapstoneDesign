@@ -80,7 +80,8 @@ public class WishCompletedFragment extends Fragment {
                                 wishListItem.getAlarm(), // 알람 여부
                                 wishListItem.getMemo(), // 메모
                                 wishListItem.getCompletedDate(), // 완료일
-                                wishListItem.getDday() // 디데이
+                                wishListItem.getDday(), // 디데이
+                                wishListItem.getDiaryId() //일기 아이디
                         ));
                     }
 

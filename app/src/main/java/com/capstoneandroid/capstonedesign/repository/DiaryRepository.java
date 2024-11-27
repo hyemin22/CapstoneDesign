@@ -33,11 +33,16 @@ public class DiaryRepository {
         void onFailure(String errorMessage);
     }
 
-    public interface GetDiaryCallback {
+    public interface GetDiaryListCallback {
         void onSuccess(List<DiaryListItem> diaries);
         void onFailure(String errorMessage);
     }
 
+
+    public interface GetDiaryCallback {
+        void onSuccess(DiaryListItem diary);
+        void onFailure(String errorMessage);
+    }
     public interface GetLikeCallback {
         void onSuccess(List<DiaryLikeItem> likes);
         void onFailure(String errorMessage);
@@ -102,8 +107,8 @@ public class DiaryRepository {
     }
 
     // 일기 저장
-    public void saveDiary(Map<String, RequestBody> dataMap, List<MultipartBody.Part> fileParts, DiaryRepository.DiaryCallback callback) {
-        Call<Void> call = diaryApiService.saveDiary(dataMap, fileParts); // 매개변수로 이미지 외 데이터, 이미지 데이터
+    public void saveDiary(Map<String, RequestBody> dataMap, List<MultipartBody.Part> fileParts, Long wishId, DiaryRepository.DiaryCallback callback) {
+        Call<Void> call = diaryApiService.saveDiary(dataMap, fileParts, wishId); // 매개변수로 이미지 외 데이터, 이미지 데이터
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -127,7 +132,7 @@ public class DiaryRepository {
     }
 
     // 앨범별 일기 조회
-    public void getDiaryInAlbum(Long userId, Long albumId, DiaryRepository.GetDiaryCallback callback) {
+    public void getDiaryInAlbum(Long userId, Long albumId, GetDiaryListCallback callback) {
         Call<List<DiaryListItem>> call = diaryApiService.getDiaryInAlbum(userId, albumId);
         call.enqueue(new Callback<List<DiaryListItem>>() {
             @Override
@@ -146,6 +151,84 @@ public class DiaryRepository {
 
             @Override
             public void onFailure(Call<List<DiaryListItem>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    // 날짜별 일기 조회
+    public void getDiaryInDate(Long userId, String date, GetDiaryListCallback callback) {
+        Call<List<DiaryListItem>> call = diaryApiService.getDiaryInDate(userId, date);
+        call.enqueue(new Callback<List<DiaryListItem>>() {
+            @Override
+            public void onResponse(Call<List<DiaryListItem>> call, Response<List<DiaryListItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<DiaryListItem> diaries = response.body();
+                    System.out.println("일자별 일기 조회 성공: 200 OK");
+                    callback.onSuccess(diaries); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("일자별 일기 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DiaryListItem>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    // 장소별 일기 조회
+    public void getDiaryInAddress(Long userId, GetDiaryListCallback callback) {
+        Call<List<DiaryListItem>> call = diaryApiService.getDiaryInAddress(userId);
+        call.enqueue(new Callback<List<DiaryListItem>>() {
+            @Override
+            public void onResponse(Call<List<DiaryListItem>> call, Response<List<DiaryListItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<DiaryListItem> diaries = response.body();
+                    System.out.println("장소별 일기 조회 성공: 200 OK");
+                    callback.onSuccess(diaries); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("장소별 일기 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DiaryListItem>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    // 일기 개별 조회
+    public void getDiary(Long id, DiaryRepository.GetDiaryCallback callback) {
+        Call<DiaryListItem> call = diaryApiService.getDiary(id);
+        call.enqueue(new Callback<DiaryListItem>() {
+            @Override
+            public void onResponse(Call<DiaryListItem> call, Response<DiaryListItem> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    DiaryListItem diary = response.body();
+                    System.out.println("일기 조회 성공: 200 OK");
+                    callback.onSuccess(diary); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("일기 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DiaryListItem> call, Throwable t) {
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
             }

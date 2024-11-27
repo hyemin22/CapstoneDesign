@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +18,6 @@ import com.capstoneandroid.capstonedesign.adapter.DiaryListAdapter;
 import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AlbumDiaryListActivity extends BaseActivity {
@@ -76,7 +74,7 @@ public class AlbumDiaryListActivity extends BaseActivity {
 
     private void sendGetDiaryInAlbum() {
         DiaryRepository diaryRepository = new DiaryRepository();
-        diaryRepository.getDiaryInAlbum(userId, albumId, new DiaryRepository.GetDiaryCallback() {
+        diaryRepository.getDiaryInAlbum(userId, albumId, new DiaryRepository.GetDiaryListCallback() {
             @Override
             public void onSuccess(List<DiaryListItem> diaries) {
                 runOnUiThread(() -> {
@@ -99,6 +97,8 @@ public class AlbumDiaryListActivity extends BaseActivity {
                                 diary.getPhoto10(),
                                 diary.getContent(),
                                 diary.getAddress(),
+                                diary.getLatitude(),
+                                diary.getLongitude(),
                                 diary.getAlbum_title(),
                                 diary.getUser_character(),
                                 diary.getUser_nickname()

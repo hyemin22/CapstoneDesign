@@ -102,6 +102,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/pretendardsemibold"
                     android:hint="제목"
+                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textColorHint="@color/hintgray"
                     android:textSize="28dp" />
@@ -113,9 +114,8 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -141,9 +141,8 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -154,13 +153,25 @@
 
                         <EditText
                             android:id="@+id/editPlace"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:maxLines="1"
                             android:ems="10"
+                            android:inputType="text"
                             android:fontFamily="@font/pretendardregular"
                             android:hint="장소를 입력해주세요"
                             android:textSize="15dp" />
+
+                        <TextView
+                            android:id="@+id/search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="검색"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/pretendardsemibold"
+                            android:textColor="@color/blue" />
 
                     </LinearLayout>
                 </LinearLayout>

@@ -33,6 +33,7 @@
         <activity android:name=".activity.MissionCreateActivity" />
         <activity android:name=".activity.SignUpFamilyIdActivity" />
         <activity android:name=".activity.ActivityDetailActivity" />
+        <activity android:name=".activity.AddressSearchActivity" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

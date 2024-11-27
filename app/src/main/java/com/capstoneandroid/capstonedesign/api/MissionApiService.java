@@ -35,6 +35,10 @@ public interface MissionApiService {
     @PUT("/mission")
     Call<Void> updateMission(@Body Mission mission);
 
+    // 미션 진행률 수정
+    @PUT("/mission/progress")
+    Call<Void> updateMissionProgress(@Query("missionId") Long missionId);
+
     // 미션 삭제
     @DELETE("/mission")
     Call<Void> deleteMission(@Query("id") Long id);

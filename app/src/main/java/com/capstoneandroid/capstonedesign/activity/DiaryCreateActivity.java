@@ -39,13 +39,14 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class DiaryCreateActivity extends AppCompatActivity {
+public class DiaryCreateActivity extends BaseActivity {
     private Long userId = UserInfoManager.getInstance().getUserId();
     private String title, diary_date, diary_content, address;
-    private Long albumId;
+    private Long albumId, wishId;
+    private Double latitude, longitude;
     DiaryRepository diaryRepository = new DiaryRepository();
     private EditText titleEdit, editTextDate, editPlace, content;
-    private TextView backBtn;
+    private TextView backBtn, search;
     private Button okBtn;
     private Spinner albumPicker;
     ArrayAdapter<String> adapter;
@@ -55,6 +56,7 @@ public class DiaryCreateActivity extends AppCompatActivity {
     private ImageView[] imageViews;
     private CardView[] cardViews;
     private List<Uri> selectedImageUris = new ArrayList<>(); // 선택한 이미지 URI를 저장할 리스트
+    private static final int REQUEST_CODE_ADDRESS_SEARCH = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class DiaryCreateActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_diary_create);
 
-        // XML에서 EditText 참조
+        // XML에서 참조
         backBtn = findViewById(R.id.backBtn);
         okBtn = findViewById(R.id.okBtn);
         titleEdit = findViewById(R.id.titleEdit);
@@ -70,6 +72,13 @@ public class DiaryCreateActivity extends AppCompatActivity {
         editPlace = findViewById(R.id.editPlace);
         albumPicker = findViewById(R.id.albumPicker);
         content = findViewById(R.id.content);
+        search = findViewById(R.id.search);
+
+        // 위시에서 넘어온 경우, 제목과 날짜를 자동으로 입력
+        Intent intent = getIntent();
+        wishId = intent.getLongExtra("id", -1);
+        titleEdit.setText(intent.getStringExtra("title"));
+        editTextDate.setText(intent.getStringExtra("date"));
 
         // 이미지뷰 배열 초기화
         imageViews = new ImageView[]{
@@ -128,12 +137,22 @@ public class DiaryCreateActivity extends AppCompatActivity {
 
                 // 서버로 POST 요청 보내기
                 saveDiaryData();
+
                 finish();
             }
         });
 
         // EditText 클릭 시 DatePickerDialog 표시
         editTextDate.setOnClickListener(v -> showDatePickerDialog());
+
+        // 검색 버튼 클릭시 검색창으로 이동
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiaryCreateActivity.this, AddressSearchActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ADDRESS_SEARCH);
+            }
+        });
     }
 
     private void fetchAlbumListFromDB() {
@@ -234,6 +253,7 @@ public class DiaryCreateActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
+        // 사진 처리
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == PICK_IMAGE) {
                 // 선택한 이미지를 담을 리스트
@@ -274,6 +294,12 @@ public class DiaryCreateActivity extends AppCompatActivity {
                 if (currentImageIndex < MAX_IMAGES) {
                     cardViews[currentImageIndex].setVisibility(View.VISIBLE);
                 }
+            } else if (requestCode == REQUEST_CODE_ADDRESS_SEARCH) {
+                address = data.getStringExtra("placeName");
+                latitude = data.getDoubleExtra("latitude", 0.0);
+                longitude = data.getDoubleExtra("longitude", 0.0);
+
+                editPlace.setText(address);
             }
         }
     }
@@ -287,6 +313,8 @@ public class DiaryCreateActivity extends AppCompatActivity {
         dataMap.put("content", RequestBody.create(MediaType.parse("text/plain"), diary_content));
         dataMap.put("address", RequestBody.create(MediaType.parse("text/plain"), address));
         dataMap.put("album_id", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(albumId)));
+        dataMap.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latitude)));
+        dataMap.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longitude)));
 
         // 이미지 파일 리스트
         List<MultipartBody.Part> files = new ArrayList<>();
@@ -297,7 +325,7 @@ public class DiaryCreateActivity extends AppCompatActivity {
             files.add(part);
         }
 
-        diaryRepository.saveDiary(dataMap, files, new DiaryRepository.DiaryCallback() {
+        diaryRepository.saveDiary(dataMap, files, wishId, new DiaryRepository.DiaryCallback() {
             @Override
             public void onSuccess() {
                 // 일기 추가 성공

@@ -57,10 +57,6 @@ public class MissionCompleteFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // MissionActivity로 이동
-                Intent intent = new Intent(requireActivity(), MissionActivity.class);
-                startActivity(intent);
-
                 // 현재 액티비티 종료
                 requireActivity().finish();
             }

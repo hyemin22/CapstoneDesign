@@ -83,6 +83,28 @@ public class MissionRepository {
         });
     }
 
+    public void updateMissionProgress(Long missionId, MissionCallback callback) {
+        Call<Void> call = missionApiService.updateMissionProgress(missionId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("미션 진행률 수정 성공");
+                    callback.onSuccess();
+                } else {
+                    System.out.println("미션 진행률 수정 실패: " + response.errorBody());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
     public void deleteMissionToServer(Long id, MissionCallback callback) {
         Call<Void> call = missionApiService.deleteMission(id);
         call.enqueue(new Callback<Void>() {
