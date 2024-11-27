@@ -25,8 +25,10 @@
             android:id="@+id/spinner"
             android:layout_width="95dp"
             android:layout_height="33dp"
-            android:layout_marginRight="18dp"
-            android:layout_margin="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
             android:layout_gravity="bottom"
             android:fontFamily="@font/pretendardbold"
             android:background="@drawable/spinner_bg"
@@ -36,6 +38,7 @@
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="35dp"
             android:layout_gravity="end|center_vertical"
             android:src="@drawable/spinnerdropdown" />
@@ -48,7 +51,8 @@
         android:layout_height="30dp"
         android:layout_gravity="end|top"
         android:layout_alignParentEnd="true"
-        android:layout_margin="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
         android:backgroundTint="@color/transparent"
         android:src="@drawable/ic_event_swipe"/>
 

@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.repository;
 
 import com.capstoneandroid.capstonedesign.api.RetrofitClient;
 import com.capstoneandroid.capstonedesign.api.WishListApiService;
+import com.capstoneandroid.capstonedesign.fragment.WishExpectedFragment;
 import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
 import com.capstoneandroid.capstonedesign.item.WishListItem;
 import com.capstoneandroid.capstonedesign.model.WishCategory;
@@ -353,6 +354,33 @@ public class WishListRepository {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 // 네트워크 오류 등으로 요청 실패했을 때 처리
+                t.printStackTrace();
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
+    // 위시 카테고리 삭제
+    public void deleteWishCategoryDataToServer(Integer id, WishListRepository.WishListCallback callback) {
+        // 위시 카테고리 데이터 DELETE 요청
+        Call<Void> call = wishListApiService.deleteWishCategory(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    System.out.println("위시 카테고리 삭제 성공");
+                    callback.onSuccess(); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("위시 카테고리 삭제 실패: " + response.errorBody());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 t.printStackTrace();
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onFailure("네트워크 오류: " + t.getMessage());

@@ -1,7 +1,5 @@
 package com.capstoneandroid.capstonedesign.activity;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,23 +13,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
-import com.capstoneandroid.capstonedesign.fragment.MissionCompleteFragment;
 import com.capstoneandroid.capstonedesign.fragment.PostCompleteFragment;
-import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
-import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.model.Post;
 import com.capstoneandroid.capstonedesign.model.User;
-import com.capstoneandroid.capstonedesign.model.WishList;
 import com.capstoneandroid.capstonedesign.repository.PostRepository;
 import com.capstoneandroid.capstonedesign.repository.UserRepository;
-import com.capstoneandroid.capstonedesign.repository.WishListRepository;
-import com.kakao.sdk.user.UserApiClient;
 
 import java.util.ArrayList;
 import java.util.List;

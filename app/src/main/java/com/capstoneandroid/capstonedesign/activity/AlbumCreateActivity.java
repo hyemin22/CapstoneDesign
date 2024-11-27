@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.item.AlbumItem;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 public class AlbumCreateActivity extends BaseActivity {
 
@@ -23,6 +27,7 @@ public class AlbumCreateActivity extends BaseActivity {
     Button[] colorPicks = new Button[5]; //5개 컬러 선택 버튼 배열
     Integer[] colorBtnIds = {R.id.yellow, R.id.red, R.id.blue, R.id.purple, R.id.white}; //5개 컬러 버튼 id값 배열
     private Button selectedColorButton;
+    Long userId = UserInfoManager.getInstance().getUserId();
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,19 +72,37 @@ public class AlbumCreateActivity extends BaseActivity {
             });
         }
 
-        //일기 등록 버튼
+        //앨범 등록 버튼
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //DB에 새로운 앨범 저장
                 String title = titleEdit.getText().toString();
-                // 앨범명, 선택된 색상과 함께 다음 화면으로 이동
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("albumTitle", title);
-                if(selectedColorButton != null) {
-                    resultIntent.putExtra("selectedColor", (Integer)selectedColorButton.getTag());
-                }
-                setResult(RESULT_OK, resultIntent);
+                Integer color = (Integer)selectedColorButton.getTag();
+
+                AlbumItem album = new AlbumItem(userId, title, color);
+
+                saveAlbum(album);
+
                 finish();
+            }
+        });
+    }
+
+    private void saveAlbum(AlbumItem album) {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        // 각 속성 로그로 출력
+        Log.d("AlbumCreateActivity", "Album Name: " + album.getTitle());
+        Log.d("AlbumCreateActivity", "Album ID: " + album.getId());
+        diaryRepository.saveAlbumDataToServer(album, new DiaryRepository.DiaryCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("AlbumCreateActivity", "앨범이 성공적으로 추가되었습니다");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("AlbumCreateActivity", "앨범 추가 실패: " + errorMessage);
             }
         });
     }

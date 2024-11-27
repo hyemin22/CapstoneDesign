@@ -2,9 +2,11 @@ package com.capstoneandroid.capstonedesign.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,29 +22,39 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.capstoneandroid.capstonedesign.R;
-import com.capstoneandroid.capstonedesign.model.WishList;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.item.AlbumItem;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class DiaryCreateActivity extends AppCompatActivity {
-
-    private EditText editTextDate, editPlace, content;
+    private Long userId = UserInfoManager.getInstance().getUserId();
+    private String title, diary_date, diary_content, address;
+    private Long albumId;
+    DiaryRepository diaryRepository = new DiaryRepository();
+    private EditText titleEdit, editTextDate, editPlace, content;
     private TextView backBtn;
     private Button okBtn;
     private Spinner albumPicker;
     ArrayAdapter<String> adapter;
-    private CardView card1, card2, card3, card4, card5;
-    private ImageView img1, img2, img3, img4, img5;
     private static final int PICK_IMAGE = 100; //갤러리에서 이미지 선택할 때 사용하는 요청 코드
     private int currentImageIndex = 0; // 현재 이미지가 추가될 이미지뷰의 인덱스
-    private static final int MAX_IMAGES = 5; // 이미지뷰 최대 개수
+    private static final int MAX_IMAGES = 10; // 이미지뷰 최대 개수
+    private ImageView[] imageViews;
+    private CardView[] cardViews;
+    private List<Uri> selectedImageUris = new ArrayList<>(); // 선택한 이미지 URI를 저장할 리스트
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +65,40 @@ public class DiaryCreateActivity extends AppCompatActivity {
         // XML에서 EditText 참조
         backBtn = findViewById(R.id.backBtn);
         okBtn = findViewById(R.id.okBtn);
+        titleEdit = findViewById(R.id.titleEdit);
         editTextDate = findViewById(R.id.editTextDate);
         editPlace = findViewById(R.id.editPlace);
         albumPicker = findViewById(R.id.albumPicker);
-        card1 = findViewById(R.id.card1);
-        card2 = findViewById(R.id.card2);
-        card3 = findViewById(R.id.card3);
-        card4 = findViewById(R.id.card4);
-        card5 = findViewById(R.id.card5);
-        img1 = findViewById(R.id.img1);
-        img2 = findViewById(R.id.img2);
-        img3 = findViewById(R.id.img3);
-        img4 = findViewById(R.id.img4);
-        img5 = findViewById(R.id.img5);
         content = findViewById(R.id.content);
+
+        // 이미지뷰 배열 초기화
+        imageViews = new ImageView[]{
+                findViewById(R.id.img1), findViewById(R.id.img2), findViewById(R.id.img3),
+                findViewById(R.id.img4), findViewById(R.id.img5), findViewById(R.id.img6),
+                findViewById(R.id.img7), findViewById(R.id.img8), findViewById(R.id.img9),
+                findViewById(R.id.img10)
+        };
+
+        // 카드뷰 배열 초기화
+        cardViews = new CardView[] {
+                findViewById(R.id.card1), findViewById(R.id.card2), findViewById(R.id.card3),
+                findViewById(R.id.card4), findViewById(R.id.card5), findViewById(R.id.card6),
+                findViewById(R.id.card7), findViewById(R.id.card8), findViewById(R.id.card9),
+                findViewById(R.id.card10)
+        };
+
+        // 초기 이미지뷰 설정 (첫 번째 이미지만 활성화)
+        for (int i = 1; i < imageViews.length; i++) {
+            cardViews[i].setVisibility(View.GONE);
+        }
+
+        // 모든 이미지뷰에 클릭 리스너 설정
+        for (int i = 0; i < imageViews.length; i++) {
+            final int index = i; // 클릭한 이미지뷰의 인덱스를 기억하도록 final 변수 사용
+            imageViews[i].setOnClickListener(v -> {
+                openGalleryForImageView(index); // 클릭된 이미지뷰 인덱스 전달
+            });
+        }
 
         // 스피너와 어댑터 초기화
         adapter = new ArrayAdapter<>(this, R.layout.spinner_item, new ArrayList<>());
@@ -89,63 +121,61 @@ public class DiaryCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // DB에 새로운 일기 저장
-//                String title = titleEdit.getText().toString(); // 제목
-//                String startday = startDay.getText().toString(); // 시작날짜
-//                String endday = endDay.getText().toString(); // 종료날짜
-//                String emoji = emojiSelect.getText().toString(); // 이모지
-//                Boolean alarm = alarmSwitch.isChecked(); // 알람여부
-//                String memo = memoEdit.getText().toString(); // 메모
-//
-//                // POJO 클래스를 사용하여 위시 데이터 생성
-//                WishList wishList = new WishList(userId, title, startday, endday, categoryId, emoji, alarm, memo, false);
-//
-//                // 서버로 POST 요청 보내기
-//                sendWishListData(wishList);
+                title = titleEdit.getText().toString(); // 제목
+                diary_date = editTextDate.getText().toString(); // 날짜
+                diary_content = content.getText().toString(); // 글
+                address = editPlace.getText().toString(); // 장소
+
+                // 서버로 POST 요청 보내기
+                saveDiaryData();
                 finish();
             }
         });
 
         // EditText 클릭 시 DatePickerDialog 표시
         editTextDate.setOnClickListener(v -> showDatePickerDialog());
-
-        // 이미지뷰 초기화
-        ImageView[] imageViews = {img1, img2, img3, img4, img5};
-        for (int i = 1; i < imageViews.length; i++) {
-            imageViews[i].setVisibility(View.GONE);
-        }
-
-        // 모든 이미지뷰에 클릭 리스너 설정
-        for (int i = 0; i < imageViews.length; i++) {
-            final int index = i; // 클릭한 이미지뷰의 인덱스를 기억하도록 final 변수 사용
-            imageViews[i].setOnClickListener(v -> {
-                openGalleryForImageView(index); // 클릭된 이미지뷰 인덱스 전달
-            });
-        }
     }
 
     private void fetchAlbumListFromDB() {
         //앨범 리스트 GET 요청
-        List<String> albumList = new ArrayList<>();
-        albumList.add("선택");
-        albumList.add("우리가족 나들이");
-        albumList.add("2023 제주여행");
-        albumList.add("2022 하와이");
-        albumList.add("첫째딸 생일");
-
-        adapter.clear();
-        adapter.addAll(albumList);
-        adapter.notifyDataSetChanged();
-
-        albumPicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        diaryRepository.getAlbumList(userId, new DiaryRepository.GetAlbumCallback() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // 선택된 앨범 아이디 저장
-                // albumId = albumInfos.get(position - 1).getId();
+            public void onSuccess(List<AlbumItem> albums) {
+                runOnUiThread(() -> {
+                    // 서버에서 받은 앨범 리스트 응답 기반으로 스피너에 리스트 넣기
+                    List<String> albumList = new ArrayList<>();
+
+                    albumList.add("앨범 선택");
+
+                    // 앨범명 리스트에 추가
+                    for (AlbumItem album : albums) {
+                        albumList.add(album.getTitle());
+                    }
+
+                    adapter.clear();
+                    adapter.addAll(albumList);
+                    adapter.notifyDataSetChanged();
+
+                    albumPicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            // 선택된 앨범 아이디 저장
+                            if (position != 0) {
+                                albumId = albums.get(position - 1).getId();
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // 선택되지 않은 상태에 대한 처리
+                        }
+                    });
+                });
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onFailure(String errorMessage) {
+                Log.e("Error", "앨범 리스트 조회 실패: " + errorMessage);
             }
         });
     }
@@ -188,8 +218,8 @@ public class DiaryCreateActivity extends AppCompatActivity {
     }
 
     private void openGalleryForImageView(int imageViewIndex) {
-        Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);
-        gallery.setType("image/*");
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //gallery.setType("image/*");
         gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         try {
             startActivityForResult(gallery, PICK_IMAGE);
@@ -207,31 +237,95 @@ public class DiaryCreateActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == PICK_IMAGE) {
                 // 선택한 이미지를 담을 리스트
-                ImageView[] imageViews = {img1, img2, img3, img4, img5};
+                int remainingSlots = MAX_IMAGES - currentImageIndex; // 남은 추가 가능한 이미지 슬롯
 
                 if (data.getClipData() != null) { // 다중 선택된 경우
                     int count = data.getClipData().getItemCount();
 
+                    if (count > remainingSlots) { // 선택한 이미지 개수가 제한을 초과할 경우
+                        Toast.makeText(this, "이미지는 최대 " + MAX_IMAGES + "개까지 선택할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                        count = remainingSlots; // 남은 슬롯까지만 처리
+                    }
+
                     for (int i = 0; i < count && i < imageViews.length; i++) {
                         if (currentImageIndex >= MAX_IMAGES) break; // 최대 이미지 개수 초과 시 중단
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        selectedImageUris.add(imageUri); // 서버로 보낼 이미지 URI 리스트에 저장
                         imageViews[currentImageIndex].setImageURI(imageUri);
-                        imageViews[currentImageIndex].setVisibility(View.VISIBLE);
+                        cardViews[currentImageIndex].setVisibility(View.VISIBLE);
                         currentImageIndex++; // 다음 이미지뷰로 이동
+
+                        System.out.println("imageUri1:" + imageUri);
                     }
                 } else if (data.getData() != null) { // 단일 선택된 경우
                     if (currentImageIndex < MAX_IMAGES) {
                         Uri imageUri = data.getData();
+                        selectedImageUris.add(imageUri); // 서버로 보낼 이미지 URI 리스트에 저장
                         imageViews[currentImageIndex].setImageURI(imageUri);
-                        imageViews[currentImageIndex].setVisibility(View.VISIBLE);
+                        cardViews[currentImageIndex].setVisibility(View.VISIBLE);
                         currentImageIndex++; // 다음 이미지뷰로 이동
+
+                        System.out.println("imageUri2:" + imageUri);
+                    } else {
+                        Toast.makeText(this, "이미지는 최대 " + MAX_IMAGES + "개까지 추가할 수 있습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 // 다음 빈 이미지뷰를 보이도록 설정
                 if (currentImageIndex < MAX_IMAGES) {
-                    imageViews[currentImageIndex].setVisibility(View.VISIBLE);
+                    cardViews[currentImageIndex].setVisibility(View.VISIBLE);
                 }
             }
         }
+    }
+
+    private void saveDiaryData() {
+        // 서버로 POST 요청 보내기
+        Map<String, RequestBody> dataMap = new HashMap<>();
+        dataMap.put("id", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userId)));
+        dataMap.put("title", RequestBody.create(MediaType.parse("text/plain"), title));
+        dataMap.put("diary_date", RequestBody.create(MediaType.parse("text/plain"), diary_date));
+        dataMap.put("content", RequestBody.create(MediaType.parse("text/plain"), diary_content));
+        dataMap.put("address", RequestBody.create(MediaType.parse("text/plain"), address));
+        dataMap.put("album_id", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(albumId)));
+
+        // 이미지 파일 리스트
+        List<MultipartBody.Part> files = new ArrayList<>();
+        for (Uri uri : selectedImageUris) { // files는 File 객체의 리스트
+            File file = new File(uriToFilePath(uri));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
+            files.add(part);
+        }
+
+        diaryRepository.saveDiary(dataMap, files, new DiaryRepository.DiaryCallback() {
+            @Override
+            public void onSuccess() {
+                // 일기 추가 성공
+                Log.d("DiaryCreateActivity", "일기가 성공적으로 추가되었습니다");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 일기 추가 실패
+                Log.e("DiaryCreateActivity", "일기 추가 실패: " + errorMessage);
+            }
+        });
+    }
+
+    // URI를 FILE path로 변환
+    private String uriToFilePath(Uri uri) {
+        String filePath = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            if (cursor.moveToFirst()) {
+                filePath = cursor.getString(columnIndex);
+            }
+            cursor.close();
+        }
+
+        return filePath;
     }
 }

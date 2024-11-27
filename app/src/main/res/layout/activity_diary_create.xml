@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@id/albumPicker"
                         android:fontFamily="@font/pretendardbold"
-                        android:text="앨범| "
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="17dp" />
 
@@ -166,7 +166,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
@@ -263,6 +263,96 @@
 
                                 <ImageView
                                     android:id="@+id/img5"
+                                    android:layout_width="210dp"
+                                    android:layout_height="250dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card6"
+                                android:layout_width="210dp"
+                                android:layout_height="250dp"
+                                android:layout_marginEnd="5dp"
+                                android:scaleType="centerCrop"
+                                app:cardCornerRadius="8dp"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:id="@+id/img6"
+                                    android:layout_width="210dp"
+                                    android:layout_height="250dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card7"
+                                android:layout_width="210dp"
+                                android:layout_height="250dp"
+                                android:layout_marginEnd="5dp"
+                                android:scaleType="centerCrop"
+                                app:cardCornerRadius="8dp"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:id="@+id/img7"
+                                    android:layout_width="210dp"
+                                    android:layout_height="250dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card8"
+                                android:layout_width="210dp"
+                                android:layout_height="250dp"
+                                android:layout_marginEnd="5dp"
+                                android:scaleType="centerCrop"
+                                app:cardCornerRadius="8dp"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:id="@+id/img8"
+                                    android:layout_width="210dp"
+                                    android:layout_height="250dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card9"
+                                android:layout_width="210dp"
+                                android:layout_height="250dp"
+                                android:layout_marginEnd="5dp"
+                                android:scaleType="centerCrop"
+                                app:cardCornerRadius="8dp"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:id="@+id/img9"
+                                    android:layout_width="210dp"
+                                    android:layout_height="250dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:background="@drawable/ic_imgadd"
+                                    android:scaleType="centerCrop" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card10"
+                                android:layout_width="210dp"
+                                android:layout_height="250dp"
+                                android:layout_marginEnd="5dp"
+                                android:scaleType="centerCrop"
+                                app:cardCornerRadius="8dp"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:id="@+id/img10"
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"

@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,16 +12,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.item.DiaryListItem;
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.adapter.DiaryListAdapter;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AlbumDiaryListActivity extends BaseActivity {
+    Long userId = UserInfoManager.getInstance().getUserId();
+    Long albumId; // 현재 선택된 앨범 아이디
     Button backBtn, editBtn;
     TextView albumname;
     boolean isEditMode = false;
+    private DiaryListAdapter adapter;
+    private ArrayList<DiaryListItem> items = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,23 +40,17 @@ public class AlbumDiaryListActivity extends BaseActivity {
         editBtn = findViewById(R.id.album_edit);
         albumname = findViewById(R.id.albumname);
 
+        Intent intent = getIntent();
+        albumId = intent.getLongExtra("albumId", -1);
+
+        // 서버로 일기 get 요청 보내기
+        sendGetDiaryInAlbum();
+
         RecyclerView recyclerView = findViewById(R.id.diarylistView);
         GridLayoutManager gridManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridManager);
-        DiaryListAdapter adapter = new DiaryListAdapter();
+        adapter = new DiaryListAdapter(items, this);
 
-        Intent intent = getIntent();
-        String source = intent.getStringExtra("source");
-
-        if(source.equals("제주")) {
-            adapter.addItem(new DiaryListItem(this, Arrays.asList(R.drawable.diaryimg2), "협재바다에서 피크닉", "2023.05.20"));
-            adapter.addItem(new DiaryListItem(this, Arrays.asList(R.drawable.i1, R.drawable.i2, R.drawable.i3), "오늘의 제주 먹부림!", "2023.05.21"));
-            adapter.addItem(new DiaryListItem(this, Arrays.asList(R.drawable.i4), "아빠 생신파티", "2023.05.21"));
-            adapter.addItem(new DiaryListItem(this, Arrays.asList(R.drawable.i5, R.drawable.i6, R.drawable.i7, R.drawable.i8), "제주 마지막 날", "2023.05.23"));
-        } else if (source.equals("서울여대")) {
-            albumname.setText("  서울여대 구경");
-            adapter.addItem(new DiaryListItem(this, Arrays.asList(R.drawable.k1, R.drawable.k2, R.drawable.k3, R.drawable.k4), "서울여대에서 단풍 구경한 날", "2024.11.21"));
-        }
         recyclerView.setAdapter(adapter);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +70,52 @@ public class AlbumDiaryListActivity extends BaseActivity {
                 } else {
                     editBtn.setText("편집"); // 버튼 텍스트 원래대로
                 }
+            }
+        });
+    }
+
+    private void sendGetDiaryInAlbum() {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.getDiaryInAlbum(userId, albumId, new DiaryRepository.GetDiaryCallback() {
+            @Override
+            public void onSuccess(List<DiaryListItem> diaries) {
+                runOnUiThread(() -> {
+                    items.clear();
+                    for (DiaryListItem diary : diaries) {
+                        items.add(new DiaryListItem(
+                                getApplicationContext(),
+                                diary.getId(),
+                                diary.getTitle(),
+                                diary.getDiary_date(),
+                                diary.getPhoto1(),
+                                diary.getPhoto2(),
+                                diary.getPhoto3(),
+                                diary.getPhoto4(),
+                                diary.getPhoto5(),
+                                diary.getPhoto6(),
+                                diary.getPhoto7(),
+                                diary.getPhoto8(),
+                                diary.getPhoto9(),
+                                diary.getPhoto10(),
+                                diary.getContent(),
+                                diary.getAddress(),
+                                diary.getAlbum_title(),
+                                diary.getUser_character(),
+                                diary.getUser_nickname()
+                        ));
+
+                        // 앨범명 업데이트
+                        albumname.setText(diary.getAlbum_title());
+                    }
+
+                    // 어댑터에 변경 사항을 알림
+                    adapter.notifyDataSetChanged();
+                });
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("Error", "앨범별 일기 조회 실패: " + errorMessage);
             }
         });
     }

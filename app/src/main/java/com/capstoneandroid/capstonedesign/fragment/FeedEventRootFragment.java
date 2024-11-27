@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.adapter.AlbumAdapter;
 import com.capstoneandroid.capstonedesign.item.AlbumItem;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeedEventRootFragment extends Fragment {
-    private ArrayList<AlbumItem> items;
+    Long userId = UserInfoManager.getInstance().getUserId();
+    private ArrayList<AlbumItem> items = new ArrayList<>();
     private AlbumAdapter adapter, adapter2;
     private static final int REQUEST_CODE_ADD_ALBUM = 1;
 
@@ -28,13 +33,8 @@ public class FeedEventRootFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_feed_event_root, container, false);
 
-        // 아이템 추가
-        items = new ArrayList<>();
-        items.add(new AlbumItem("우리 가족\n나들이", R.drawable.album_yellow));
-        items.add(new AlbumItem("2023\n제주여행", R.drawable.album_blue));
-        items.add(new AlbumItem("2022\n하와이 여행", R.drawable.album_white));
-        items.add(new AlbumItem("\n첫째 생일", R.drawable.album_red));
-        items.add(new AlbumItem("서울여대 구경", R.drawable.album_yellow));
+        // 서버로 앨범 get 요청 보내기
+        getAlbumList();
 
         adapter = new AlbumAdapter(items, getContext(), false);
         adapter2 = new AlbumAdapter(items, getContext(), true);
@@ -89,6 +89,35 @@ public class FeedEventRootFragment extends Fragment {
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.container, listFragment)
                 .commit();
+    }
+
+    private void getAlbumList() {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.getAlbumList(userId, new DiaryRepository.GetAlbumCallback() {
+            @Override
+            public void onSuccess(List<AlbumItem> albums) {
+                getActivity().runOnUiThread(() -> {
+                    items.clear();
+
+                    for (int i = albums.size() - 1; i >= 0; i--) {
+                        AlbumItem albumItem = albums.get(i);
+                        items.add(new AlbumItem(
+                                albumItem.getId(),
+                                albumItem.getTitle(),
+                                albumItem.getColor()
+                        ));
+
+                        Log.d("album", "앨범조회" + albumItem.getId() + "," + albumItem.getTitle() + "," + albumItem.getColor());
+                    }
+                    adapter.notifyDataSetChanged();
+                });
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("Error", "앨범 조회 실패: " + errorMessage);
+            }
+        });
     }
 }
 

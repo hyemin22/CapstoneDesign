@@ -129,7 +129,7 @@ public class GuestBookCheckActivity extends BaseActivity {
 
             @Override
             public void onFailure(String errorMessage) {
-                // 방명록 수정 실패
+                // 방명록 삭제 실패
                 Log.e("GuestBookCreateActivity", "방명록 삭제 실패: " + errorMessage);
             }
         });

@@ -76,7 +76,7 @@
                     android:fontFamily="@font/pretendardbold"
                     android:textColor="@color/black"
                     android:textSize="28dp"
-                    android:text="벌써 10개에요!👏" />
+                    android:text="벌써 10개에요! 👏" />
             </LinearLayout>
 
             <com.google.android.material.tabs.TabLayout

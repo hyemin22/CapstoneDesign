@@ -194,7 +194,6 @@ public class WishExpectedFragment extends Fragment {
                             updateItemsBasedOnCategory(selectedCategory); // 첫 번째 버튼에 해당하는 데이터 로드
                         }
                     }
-
                     adapter.notifyDataSetChanged();
                 });
             }

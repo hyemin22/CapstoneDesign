@@ -2,6 +2,8 @@ package com.capstoneandroid.capstonedesign.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.capstoneandroid.capstonedesign.activity.DiaryActivity;
 import com.capstoneandroid.capstonedesign.item.DiaryListItem;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +31,13 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
 
     //객체 리스트
     ArrayList<DiaryListItem> items = new ArrayList<DiaryListItem>();
+    Context context;
     boolean isEditMode = false; //편집 모드인가?
+
+    public DiaryListAdapter(ArrayList<DiaryListItem> items, Context context) {
+        this.items = items;
+        this.context = context;
+    }
 
     public void setEditMode(boolean isEditMode) {
         this.isEditMode = isEditMode;
@@ -46,14 +60,16 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
         DiaryListItem item = items.get(pos);
         holder.setItem(item); //아이템 데이터 바인딩
 
-        // 편집모드일 때 삭제버튼 표시, 버튼 클릭 시 아이템 삭제
         if(isEditMode) {
             holder.deleteButton.setVisibility(View.VISIBLE);
             // position을 final로 저장
             final int position = pos;
-            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() { // 편집모드일 때: 삭제버튼 표시, 버튼 클릭 시 아이템 삭제
                 @Override
                 public void onClick(View view) {
+                    // DB에서 일기 삭제
+                    deleteDiaryData(item.getId());
+
                     items.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, items.size());
@@ -63,17 +79,43 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
             holder.itemView.setOnClickListener(null);
         } else {
             holder.deleteButton.setVisibility(View.INVISIBLE);
-            // 편집모드 아닐 때는 클릭 시 특정 일기 화면으로 넘어감
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() { // 편집모드 아닐 때: 클릭 시 특정 일기 화면으로 넘어감
                 @Override
                 public void onClick(View v) {
-                    Context context = holder.itemView.getContext();
                     Intent intent = new Intent(context, DiaryActivity.class);
-                    intent.putExtra("source", "jeju");
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("title", item.getTitle());
+                    intent.putExtra("diary_date", item.getDiary_date());
+                    ArrayList<String> imagePaths = new ArrayList<>(item.getImagePaths());  // List<String>을 ArrayList<String>으로 변환하여 전달
+                    intent.putStringArrayListExtra("imagePaths", imagePaths);  // imagePaths 전달
+                    intent.putExtra("content", item.getContent());
+                    intent.putExtra("address", item.getAddress());
+                    intent.putExtra("album_title", item.getAlbum_title());
+                    intent.putExtra("user_character", item.getUser_character());
+                    intent.putExtra("user_nickname", item.getUser_nickname());
+
                     context.startActivity(intent);
                 }
             });
         }
+    }
+
+    private void deleteDiaryData(Long diaryId) {
+        // 서버로 DELETE 요청 보내기
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.deleteDiary(diaryId, new DiaryRepository.DiaryCallback() {
+            @Override
+            public void onSuccess() {
+                // 일기 삭제 성공
+                Log.d("DiaryListAdapter", "일기가 성공적으로 삭제되었습니다");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 일기 삭제 실패
+                Log.e("DiaryListAdapter", "일기 삭제 실패: " + errorMessage);
+            }
+        });
     }
 
     @Override
@@ -114,8 +156,8 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(DiaryListItem item) {
-            List<Integer> imageIds = item.getImageIds();
-            int imageNum = imageIds.size();
+            List<String> imagePaths = item.getImagePaths();
+            int imageNum = imagePaths.size();
 
             //기존 이미지뷰들 초기화
             gridLayout.removeAllViews();
@@ -131,14 +173,38 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
                 gridLayout.setColumnCount(2); // 3개일 때는 2열
                 gridLayout.setRowCount(2);
             } else if (imageNum >= 4) {
-                gridLayout.setColumnCount(2); // 4개일 때는 2열
-                gridLayout.setRowCount(2);
+                gridLayout.setColumnCount(2); // 4개 이상일 때는 2열
+                gridLayout.setRowCount(2);    // 2행
             }
 
             //이미지뷰 동적 생성 및 배치
             for (int i = 0; i < imageNum; i++) {
+                // 5개 이상의 이미지는 첫 4개만 표시하도록 처리
+                if (i >= 4) {
+                    break;  // 5번째 이미지부터는 처리하지 않음
+                }
+
                 ImageView imageView = new ImageView(itemView.getContext());
-                imageView.setImageResource(imageIds.get(i));
+
+                // 이미지 로드
+                // Glide.with(itemView.getContext()).load(imagePaths.get(i)).into(imageView);
+                Glide.with(itemView.getContext())
+                        .load(imagePaths.get(i))
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                Log.e("Glide Error", e.getMessage()); //
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                Log.d("Glide Success", "Image loaded: " + imagePaths);
+                                return false;
+                            }
+                        })
+                        .into(imageView);
+                System.out.println("imagePath:" + imagePaths.get(i));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -163,8 +229,8 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
                         params.rowSpec = GridLayout.spec(1, 1f);
                         params.columnSpec = GridLayout.spec(0, 2,1f); // 마지막 이미지가 2열을 차지하게 설정
                     }
-                } else if (imageNum == 4) {
-                    // 4개의 이미지는 2x2로 배치
+                } else {
+                    // 4개 이상의 이미지는 2x2로 배치
                     params.rowSpec = GridLayout.spec(i / 2, 1f);
                     params.columnSpec = GridLayout.spec(i % 2, 1f);
                 }
@@ -176,8 +242,9 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
                 gridLayout.addView(imageView);
             }
             titleTextView.setText(item.getTitle());
-            dateTextView.setText(item.getDate());
+            dateTextView.setText(item.getDiary_date());
         }
-
     }
+
+
 }

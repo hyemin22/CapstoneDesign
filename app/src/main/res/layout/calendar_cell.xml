@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentView"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
     android:layout_gravity="center"
+    android:layout_marginBottom="10dp"
     android:padding="8dp">
 
     <TextView
@@ -20,7 +21,7 @@
         android:id="@+id/dateDot"
         android:layout_width="5dp"
         android:layout_height="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/circle_shape"
         android:layout_gravity="bottom|center"
         android:visibility="gone"/>

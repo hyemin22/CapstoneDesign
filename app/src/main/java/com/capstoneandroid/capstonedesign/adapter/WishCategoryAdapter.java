@@ -3,6 +3,7 @@ package com.capstoneandroid.capstonedesign.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.capstoneandroid.capstonedesign.activity.MissionCreateActivity;
 import com.capstoneandroid.capstonedesign.activity.WishCategoryActivity;
 import com.capstoneandroid.capstonedesign.activity.WishCategoryCreateActivity;
 import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
+import com.capstoneandroid.capstonedesign.repository.WishListRepository;
 
 import java.util.ArrayList;
 
@@ -101,7 +103,7 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
                                 context.startActivity(intent);
                                 return true;
                             } else if (itemId == R.id.delete) { // 삭제
-                                // 카테고리 삭제
+                                deleteWishCategory(item);
                                 return true;
                             }
                             return false;
@@ -110,6 +112,22 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
 
                     // 팝업 메뉴 보여주기
                     popupMenu.show();
+                }
+            });
+        }
+        private void deleteWishCategory(WishCategoryItem item) {
+            WishListRepository wishListRepository = new WishListRepository();
+
+            wishListRepository.deleteWishCategoryDataToServer(item.getId(), new WishListRepository.WishListCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d("WishListCreateActivity", "위시 카테고리가 성공적으로 삭제되었습니다");
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    Log.e("WishListCreateActivity", "위시 카테고리 삭제 실패: " + errorMessage);
+
                 }
             });
         }

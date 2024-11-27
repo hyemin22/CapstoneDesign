@@ -29,6 +29,10 @@ public interface WishListApiService {
     @PUT("/wish/category")
     Call<Void> updateWishListCategory(@Body WishCategoryItem wishCategoryItem);
 
+    // 위시 카테고리 삭제
+    @DELETE("/wish/category")
+    Call<Void> deleteWishCategory(@Query("id") Integer id);
+
     // 예정된 위시 리스트 get
     @GET("/wish/expected")
     Call<List<WishListItem>> getFamilyWishListExpected(@Query("userId") Long userId, @Query("category") Integer category);

@@ -1,7 +1,5 @@
 package com.capstoneandroid.capstonedesign.activity;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,12 +19,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.capstoneandroid.capstonedesign.R;
 import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.fragment.GuestbookCompleteFragment;
-import com.capstoneandroid.capstonedesign.fragment.PostCompleteFragment;
 import com.capstoneandroid.capstonedesign.model.GuestBook;
 import com.capstoneandroid.capstonedesign.repository.GuestBookRepository;
-import com.kakao.sdk.user.UserApiClient;
-
-import org.json.JSONObject;
 
 public class GuestBookCreateActivity extends BaseActivity {
     GuestBookRepository repository = new GuestBookRepository();

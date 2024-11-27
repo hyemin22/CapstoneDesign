@@ -172,30 +172,31 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             } else if (ddayText.equals("D-day")) {
                 // "D-day"일 경우 0일로 처리
                 dday = 0;
-            } else { //미정
+            } else if (ddayText.contains("D+")){ // 날짜 넘어간 경우
                 dday = -1;
+            } else { // 미정
+                dday = -2;
             }
 
             // 배경과 글씨 색상을 변경
             Context context = ddayTextView.getContext(); // Context 가져오기
 
-            int backgroundColor;
-            int textColor;
+            int backgroundColor = ContextCompat.getColor(context, R.color.lightGray);;
+            int textColor = ContextCompat.getColor(context, R.color.gray);;
 
             // dday 값에 따라 색상 변경
-            if (dday == -1) {
-                backgroundColor = ContextCompat.getColor(context, R.color.black);
-                textColor = ContextCompat.getColor(context, R.color.gray3);
-            } else if (dday <= 7) {
-                backgroundColor = ContextCompat.getColor(context, R.color.lightPink); // lightPink
-                textColor = ContextCompat.getColor(context, R.color.pink); // pink
+            if (dday <= 7) { // 날짜 넘어가거나, 7일 이하인 경우
+                backgroundColor = ContextCompat.getColor(context, R.color.lightPink);
+                textColor = ContextCompat.getColor(context, R.color.pink);
             } else if (dday <= 14) {
                 backgroundColor = ContextCompat.getColor(context, R.color.lightGreen); // lightGreen
                 textColor = ContextCompat.getColor(context, R.color.green); // green
-            } else {
-                // dday 값이 14 이상일 경우 기본 색상 설정
-                backgroundColor = ContextCompat.getColor(context, R.color.lightpurple); // white (예시)
-                textColor = ContextCompat.getColor(context, R.color.purple); // black (예시)
+            } else if (dday > 14) {
+                backgroundColor = ContextCompat.getColor(context, R.color.lightpurple);
+                textColor = ContextCompat.getColor(context, R.color.purple);
+            } else if (dday == -2){ // 미정인 경우
+                backgroundColor = ContextCompat.getColor(context, R.color.lightGray);
+                textColor = ContextCompat.getColor(context, R.color.gray);
             }
 
             // 색상 적용

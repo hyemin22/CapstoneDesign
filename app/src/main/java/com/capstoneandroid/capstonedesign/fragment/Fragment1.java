@@ -217,7 +217,6 @@ public class Fragment1 extends Fragment {
     }
 
     private void sendGetGuestBookData() {
-
         GuestBookRepository guestBookRepository = new GuestBookRepository();
         // 방명록 데이터 가져오기
         guestBookRepository.getUsersGuestBook(userId, new GuestBookRepository.GetGuestBookCallback() {

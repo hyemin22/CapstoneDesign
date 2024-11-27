@@ -61,8 +61,6 @@ public class FeedEventSwipeFragment extends Fragment {
         // 드롭다운이 스피너 아래에 생성되도록 설정
         spinner.setDropDownVerticalOffset(100); // 드롭다운이 스피너에서 떨어져서 보이는 오프셋 설정
 
-
-
         initSwipeView(rootView);
         return rootView;
 

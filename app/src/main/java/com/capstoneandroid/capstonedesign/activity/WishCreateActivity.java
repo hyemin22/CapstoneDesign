@@ -27,6 +27,8 @@ import androidx.annotation.Nullable;
 
 import com.capstoneandroid.capstonedesign.EmojiFilter;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.fragment.WishExpectedFragment;
 import com.capstoneandroid.capstonedesign.fragment.WishlistCompleteFragment;
 import com.capstoneandroid.capstonedesign.item.WishCategoryItem;
 import com.capstoneandroid.capstonedesign.item.WishListItem;
@@ -48,7 +50,8 @@ public class WishCreateActivity extends BaseActivity {
     Button okBtn;
     ArrayAdapter<String> adapter;
     Integer categoryId = -1;
-    Long userId, idNum; //사용자 아이디, 위시리스트 아이디
+    Long userId = UserInfoManager.getInstance().getUserId();
+    Long idNum; //사용자 아이디, 위시리스트 아이디
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -318,7 +321,6 @@ public class WishCreateActivity extends BaseActivity {
             public void onSuccess() {
                 // 위시리스트 추가 성공
                 Log.d("WishListCreateActivity", "위시리스트가 성공적으로 추가되었습니다");
-
             }
             @Override
             public void onFailure(String errorMessage) {
@@ -401,17 +403,7 @@ public class WishCreateActivity extends BaseActivity {
 
     // DB에서 카테고리 데이터 가져오는 요청 보내기
     private void fetchCategoryDataFromDB() {
-        // 유저 아이디 보내서 카테고리 가져오기
-        UserApiClient.getInstance().me((user, error) -> {
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error);
-            } else if (user != null) {
-                userId = user.getId(); // 카카오 사용자 고유 ID
-
-                sendGetWishListCategory(); // 카테고리 요청
-            }
-            return null;
-        });
+        sendGetWishListCategory(); // 카테고리 요청
     }
 
     // 위시리스트 카테고리 이름 리스트 가져와서 스피너에 넣기

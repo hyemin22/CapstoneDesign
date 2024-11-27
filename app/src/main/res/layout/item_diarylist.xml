@@ -37,6 +37,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/pretendardsemibold"
         android:text="새별오름 간 날"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="20dp" />
 

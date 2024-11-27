@@ -56,12 +56,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AlbumDiaryListActivity.class);
-
-                if(position==1) {
-                    intent.putExtra("source", "제주");
-                } else if (position==4) {
-                    intent.putExtra("source", "서울여대");
-                }
+                intent.putExtra("albumId", item.getId());
                 context.startActivity(intent);
             }
         });
@@ -102,7 +97,32 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(AlbumItem item) {
             albumTitleView.setText(item.getTitle());
-            albumBack.setBackgroundResource(item.getAlbumColor());
+
+            // 서버에서 가져온 색 ID 값을 얻음 (예: 2131099677)
+            int colorId = item.getColor();
+
+            // 색 ID 값에 해당하는 Drawable 리소스를 매핑
+            switch (colorId) {
+                case 2131099677: // album_red
+                    albumBack.setBackgroundResource(R.drawable.album_red);
+                    break;
+                case 2131099675: // album_blue
+                    albumBack.setBackgroundResource(R.drawable.album_blue);
+                    break;
+                case 2131099679: // album_yellow
+                    albumBack.setBackgroundResource(R.drawable.album_yellow);
+                    break;
+                case 2131099676: // album_purple
+                    albumBack.setBackgroundResource(R.drawable.album_purple);
+                    break;
+                case 2131099678: // album_white
+                    albumBack.setBackgroundResource(R.drawable.album_white);
+                    break;
+                default:
+                    // 기본 배경 처리 (예: 흰색)
+                    albumBack.setBackgroundResource(R.drawable.album_yellow);
+                    break;
+            }
         }
     }
 }
