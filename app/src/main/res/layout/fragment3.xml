@@ -44,14 +44,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/searching"
-                    android:layout_marginRight="12dp"
-                    android:background="#00ff0000" />
-
-                <ImageButton
-                    android:id="@+id/CalendarBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/calendar"
                     android:background="#00ff0000" />
             </LinearLayout>
 

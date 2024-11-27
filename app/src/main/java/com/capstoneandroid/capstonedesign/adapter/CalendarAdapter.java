@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>{
+
     public ArrayList<LocalDate> dayList;
     private boolean isMonthlyView;  // 월간/주간 뷰 구분을 위한 변수
     private OnDateSelectedListener dateSelectedListener; // 인터페이스 리스너
@@ -61,14 +62,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         } else {
             holder.dayText.setText(String.valueOf(day.getDayOfMonth()));
 
-            // 오늘 날짜 또는 선택된 날짜 강조
+            // 오늘 날짜 강조
+            if (day.equals(LocalDate.now())) { // 오늘 날짜만 강조
+                holder.dateDot.setVisibility(View.VISIBLE); // 점 표시
+            } else {
+                holder.dateDot.setVisibility(View.GONE); // 점 숨김
+            }
+
+            // 선택된 날짜 강조 (배경 색 및 텍스트 색 변경)
             if (day.equals(CalendarUtil.selecedDate)) {
                 holder.parentView.setBackgroundResource(R.drawable.selector_background);
                 holder.dayText.setTextColor(Color.WHITE);
-                holder.dateDot.setVisibility(View.VISIBLE); // 점 표시
             } else {
                 holder.parentView.setBackgroundResource(0); // 배경 제거
-                holder.dateDot.setVisibility(View.GONE); // 점 숨김
                 holder.dayText.setTextColor(Color.BLACK); // 기본 색상
             }
 
@@ -78,17 +84,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 CalendarUtil.selecedDate = day; // 선택된 날짜 업데이트
                 notifyDataSetChanged(); // RecyclerView 갱신
 
-                // 모든 셀을 다시 그림
-                notifyDataSetChanged();
-
-                // 날짜 선택 처리
-                String yearMonDay = String.format("%04d년 %02d월 %02d일", day.getYear(), day.getMonthValue(), day.getDayOfMonth());
                 // 선택된 날짜를 리스너를 통해 전달
                 if (dateSelectedListener != null) {
                     dateSelectedListener.onDateSelected(day); // 리스너 호출
                 }
-                CalendarUtil.selecedDate = day; // 선택된 날짜 업데이트
-                notifyDataSetChanged(); // RecyclerView 갱신
             });
         }
     }
@@ -96,6 +95,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     public interface OnDateSelectedListener {
         void onDateSelected(LocalDate date);
     }
+
     @Override
     public int getItemCount() {
 
