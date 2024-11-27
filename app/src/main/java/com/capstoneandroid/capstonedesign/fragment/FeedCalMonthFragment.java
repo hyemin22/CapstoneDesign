@@ -2,6 +2,7 @@ package com.capstoneandroid.capstonedesign.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.CalendarUtil;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
 import com.capstoneandroid.capstonedesign.adapter.CalendarAdapter;
+import com.capstoneandroid.capstonedesign.adapter.DiaryAdapter;
+import com.capstoneandroid.capstonedesign.item.DiaryListItem;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -28,13 +33,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.OnDateSelectedListener {
-
+    Long userId = UserInfoManager.getInstance().getUserId();
     TextView monthText; // 월 일 요일 텍스트뷰
-    RecyclerView recyclerView;
+    RecyclerView recyclerView, recyclerView2;
+    private DiaryAdapter adapter;
     private Spinner spinner;
+    private ArrayList<DiaryListItem> diaryListItems = new ArrayList<>();
     ImageButton dateSpinnerBtn;
     // 요일 TextView 변수 선언
     TextView sundayText, mondayText, tuesdayText, wednesdayText, thursdayText, fridayText, saturdayText;
@@ -58,6 +66,7 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         // 초기화
         monthText = view.findViewById(R.id.monthText);
         recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView2 = view.findViewById(R.id.recyclerview2);
         dateSpinnerBtn = view.findViewById(R.id.dateSpinnerBtn);
 
         // 요일 TextView 연결
@@ -81,10 +90,61 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         dateSpinnerBtn.setOnClickListener(v -> showDatePickerDialog(monthText));
 
         // 날짜 설정 데이트픽커
-        monthText.setOnClickListener(new View.OnClickListener() {
+        monthText.setOnClickListener(view1 -> showDatePickerDialog(monthText));
+
+        // 일기 불러오기
+        getDiaryList();
+
+        LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView2.setLayoutManager(linearManager);
+        adapter = new DiaryAdapter(diaryListItems, getContext());
+
+        recyclerView2.setAdapter(adapter);
+    }
+
+    private void getDiaryList() {
+        // 서버로 날짜를 전송하기 위한 포맷
+        String date = CalendarUtil.selecedDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd(EEE)", Locale.KOREA));
+
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.getDiaryInDate(userId, date, new DiaryRepository.GetDiaryListCallback() {
             @Override
-            public void onClick(View view) {
-                showDatePickerDialog(monthText);
+            public void onSuccess(List<DiaryListItem> diaries) {
+                getActivity().runOnUiThread(() -> {
+                    diaryListItems.clear();
+                    for (DiaryListItem diaryListItem : diaries) {
+                        Log.d("DiaryData", "Diary Item: " + diaryListItem.getPhoto1());  // 각 아이템의 제목 확인
+                        diaryListItems.add(new DiaryListItem(
+                                getContext(),
+                                diaryListItem.getId(),
+                                diaryListItem.getTitle(),
+                                diaryListItem.getDiary_date(),
+                                diaryListItem.getPhoto1(),
+                                diaryListItem.getPhoto2(),
+                                diaryListItem.getPhoto3(),
+                                diaryListItem.getPhoto4(),
+                                diaryListItem.getPhoto5(),
+                                diaryListItem.getPhoto6(),
+                                diaryListItem.getPhoto7(),
+                                diaryListItem.getPhoto8(),
+                                diaryListItem.getPhoto9(),
+                                diaryListItem.getPhoto10(),
+                                diaryListItem.getContent(),
+                                diaryListItem.getAddress(),
+                                diaryListItem.getLatitude(),
+                                diaryListItem.getLongitude(),
+                                diaryListItem.getAlbum_title(),
+                                diaryListItem.getUser_character(),
+                                diaryListItem.getUser_nickname()
+                        ));
+                    }
+                    adapter.notifyDataSetChanged();
+                });
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("Error", "일자별 일기 조회 실패: " + errorMessage);
             }
         });
     }

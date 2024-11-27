@@ -222,28 +222,30 @@ public class Fragment1 extends Fragment {
         guestBookRepository.getUsersGuestBook(userId, new GuestBookRepository.GetGuestBookCallback() {
             @Override
             public void onIDGetSuccess(List<GuestbookItem> guestbookItems) {
-                getActivity().runOnUiThread(() -> {
-                    // items 리스트에 서버에서 받아온 응답 데이터 추가
-                    items.clear(); // 기존 데이터 초기화 (필요 시)
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        // items 리스트에 서버에서 받아온 응답 데이터 추가
+                        items.clear(); // 기존 데이터 초기화 (필요 시)
 
-                    // guestbookItems 리스트를 역순으로 순회하면서 아이템을 추가 - 최신순으로
-                    for (int i = guestbookItems.size() - 1; i >= 0; i--) {
-                        GuestbookItem guestbookItem = guestbookItems.get(i);
-                        items.add(new GuestbookItem(
-                                guestbookItem.getId(),
-                                guestbookItem.getCharacter_choice(), // 기본 프로필 이미지
-                                guestbookItem.getContent(), // 방명록 내용
-                                guestbookItem.getNickname() // 작성자 이름
-                        ));
-                    }
+                        // guestbookItems 리스트를 역순으로 순회하면서 아이템을 추가 - 최신순으로
+                        for (int i = guestbookItems.size() - 1; i >= 0; i--) {
+                            GuestbookItem guestbookItem = guestbookItems.get(i);
+                            items.add(new GuestbookItem(
+                                    guestbookItem.getId(),
+                                    guestbookItem.getCharacter_choice(), // 기본 프로필 이미지
+                                    guestbookItem.getContent(), // 방명록 내용
+                                    guestbookItem.getNickname() // 작성자 이름
+                            ));
+                        }
 
-                    // 어댑터에 변경 사항을 알림
-                    adapter.notifyDataSetChanged();
+                        // 어댑터에 변경 사항을 알림
+                        adapter.notifyDataSetChanged();
 
-                    if (!guestbookItems.isEmpty()) {
-                        viewPager.setCurrentItem(0, false); // 마지막 페이지
-                    }
-                });
+                        if (!guestbookItems.isEmpty()) {
+                            viewPager.setCurrentItem(0, false); // 마지막 페이지
+                        }
+                    });
+                }
             }
 
             @Override
@@ -358,7 +360,6 @@ public class Fragment1 extends Fragment {
             isReceiverRegistered = false;
             Log.d("Fragment1", "Receiver unregistered");
         }
-        //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
     }
 
 }
