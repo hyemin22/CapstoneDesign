@@ -135,7 +135,6 @@
                         android:id="@+id/place"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="10"
                         android:fontFamily="@font/pretendardregular"
                         android:hint="제주 협재해수욕장"
                         android:textSize="15dp" />
@@ -361,7 +360,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp">
+                        android:layout_marginTop="20dp">
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"

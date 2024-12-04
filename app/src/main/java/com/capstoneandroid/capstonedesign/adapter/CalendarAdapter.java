@@ -1,50 +1,53 @@
 package com.capstoneandroid.capstonedesign.adapter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.capstonedesign.CalendarUtil;
 import com.capstoneandroid.capstonedesign.R;
+import com.capstoneandroid.capstonedesign.UserInfoManager;
+import com.capstoneandroid.capstonedesign.fragment.FeedCalMonthFragment;
+import com.capstoneandroid.capstonedesign.model.DiaryNum;
+import com.capstoneandroid.capstonedesign.repository.DiaryRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>{
 
+    private FeedCalMonthFragment fragment;
+    Long userId = UserInfoManager.getInstance().getUserId();
+    Long diaryCount; //일기 개수 저장
     public ArrayList<LocalDate> dayList;
-    private boolean isMonthlyView;  // 월간/주간 뷰 구분을 위한 변수
+    private Set<LocalDate> diaryDates; // 일기 데이터
     private OnDateSelectedListener dateSelectedListener; // 인터페이스 리스너
 
-    public CalendarAdapter(ArrayList<LocalDate> dayList, boolean isMonthlyView) {
+    public CalendarAdapter(ArrayList<LocalDate> dayList, OnDateSelectedListener dateSelectedListener) {
         this.dayList = dayList;
-        this.isMonthlyView = isMonthlyView;  // 생성자로 월간/주간 뷰 구분
         this.dateSelectedListener = dateSelectedListener; // 리스너 초기화
+        this.diaryDates = new HashSet<>(); // 초기화
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        // 월간 뷰일 때는 기본 뷰 타입, 주간 뷰일 때는 다른 뷰 타입을 반환
-        return isMonthlyView ? 1 : 2;
+    public void setDiaryDates(Set<LocalDate> diaryDates) {
+        this.diaryDates = diaryDates;
+        notifyDataSetChanged(); // 데이터 갱신
     }
+
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view;
-
-        // 월간 뷰와 주간 뷰의 레이아웃을 다르게 설정
-        if(viewType == 1) {  // 월간 뷰
-            view = inflater.inflate(R.layout.calendar_cell, parent, false);
-        } else {  // 주간 뷰
-            view = inflater.inflate(R.layout.calendar_cell, parent, false);
-        }
+        View view = inflater.inflate(R.layout.calendar_cell, parent, false);
 
         return new CalendarViewHolder(view);
     }
@@ -57,19 +60,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
         if (day == null) {
             holder.dayText.setText("");
-            holder.dateDot.setVisibility(View.GONE); // 점 숨기기
+            holder.onedot.setVisibility(View.INVISIBLE); // 점 숨기기
+            holder.twodot.setVisibility(View.INVISIBLE); // 점 숨기기
             holder.parentView.setBackgroundResource(0); // 배경 제거
         } else {
             holder.dayText.setText(String.valueOf(day.getDayOfMonth()));
 
-            // 오늘 날짜 강조
-            if (day.equals(LocalDate.now())) { // 오늘 날짜만 강조
-                holder.dateDot.setVisibility(View.VISIBLE); // 점 표시
-            } else {
-                holder.dateDot.setVisibility(View.GONE); // 점 숨김
-            }
+            // 일기 개수에 따라 점 표시
+            getDiaryCountForDate(day, holder);
 
-            // 선택된 날짜 강조 (배경 색 및 텍스트 색 변경)
+            // 클릭한 날짜 강조 (배경 색 및 텍스트 색 변경)
             if (day.equals(CalendarUtil.selecedDate)) {
                 holder.parentView.setBackgroundResource(R.drawable.selector_background);
                 holder.dayText.setTextColor(Color.WHITE);
@@ -92,6 +92,46 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         }
     }
 
+    // Helper 메서드: 특정 날짜의 일기 개수 반환
+    private void getDiaryCountForDate(LocalDate date, CalendarViewHolder holder) {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.getDiaryNum(userId, new DiaryRepository.GetDiaryNumCallback() {
+            @Override
+            public void onSuccess(List<DiaryNum> diaryNums) {
+                // 일기 목록에서 해당 날짜에 맞는 개수 찾기
+                diaryCount = 0L; // 일기 개수 기본값을 0으로 설정
+                for (DiaryNum diaryNum : diaryNums) {
+                    if (diaryNum.getDate().equals(date.toString())) {
+                        // diaryCount 값이 null일 경우 0L로 처리
+                        diaryCount = (diaryNum.getCount() != null) ? diaryNum.getCount() : 0L;
+                    }
+                }
+
+                // 점 표시 업데이트
+                updateDots(holder);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("CalendarAdapter", "Error fetching diary count: " + errorMessage);
+            }
+        });
+    }
+
+    // 점 표시 업데이트 메서드
+    private void updateDots(CalendarViewHolder holder) {
+        if (diaryCount == 1) {
+            holder.onedot.setVisibility(View.VISIBLE);
+            holder.twodot.setVisibility(View.INVISIBLE);
+        } else if (diaryCount == 2) {
+            holder.onedot.setVisibility(View.INVISIBLE);
+            holder.twodot.setVisibility(View.VISIBLE);
+        } else {
+            holder.onedot.setVisibility(View.INVISIBLE);
+            holder.twodot.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public interface OnDateSelectedListener {
         void onDateSelected(LocalDate date);
     }
@@ -105,13 +145,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     public class CalendarViewHolder extends RecyclerView.ViewHolder {
         TextView dayText;
         View parentView;
-        View dateDot;
+        View onedot, twodot;
         public CalendarViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dayText = itemView.findViewById(R.id.dayText);
             parentView = itemView.findViewById(R.id.parentView);
-            dateDot = itemView.findViewById(R.id.dateDot);
+            onedot = itemView.findViewById(R.id.onedot);
+            twodot = itemView.findViewById(R.id.twodot);
         }
     }
 }

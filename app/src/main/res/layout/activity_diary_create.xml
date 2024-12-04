@@ -114,7 +114,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="150dp"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -153,11 +153,10 @@
 
                         <EditText
                             android:id="@+id/editPlace"
-                            android:layout_width="150dp"
+                            android:layout_width="170dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:maxLines="1"
-                            android:ems="10"
                             android:inputType="text"
                             android:fontFamily="@font/pretendardregular"
                             android:hint="장소를 입력해주세요"

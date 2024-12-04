@@ -40,6 +40,7 @@ public class AlbumDiaryListActivity extends BaseActivity {
 
         Intent intent = getIntent();
         albumId = intent.getLongExtra("albumId", -1);
+        albumname.setText(intent.getStringExtra("albumname"));
 
         // 서버로 일기 get 요청 보내기
         sendGetDiaryInAlbum();
@@ -103,9 +104,6 @@ public class AlbumDiaryListActivity extends BaseActivity {
                                 diary.getUser_character(),
                                 diary.getUser_nickname()
                         ));
-
-                        // 앨범명 업데이트
-                        albumname.setText(diary.getAlbum_title());
                     }
 
                     // 어댑터에 변경 사항을 알림

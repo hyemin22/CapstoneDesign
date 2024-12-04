@@ -38,21 +38,18 @@ import java.util.Locale;
 
 public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.OnDateSelectedListener {
     Long userId = UserInfoManager.getInstance().getUserId();
-    TextView monthText; // 월 일 요일 텍스트뷰
-    RecyclerView recyclerView, recyclerView2;
-    private DiaryAdapter adapter;
-    private Spinner spinner;
-    private ArrayList<DiaryListItem> diaryListItems = new ArrayList<>();
-    ImageButton dateSpinnerBtn;
-    // 요일 TextView 변수 선언
-    TextView sundayText, mondayText, tuesdayText, wednesdayText, thursdayText, fridayText, saturdayText;
-
-    boolean isMonthlyView = true; // 현재 달력 모드 (월간 뷰 기본값)
+    TextView monthText; // 날짜 텍스트뷰
+    ImageButton dateSpinnerBtn; // 날짜 버튼(드롭다운)
+    RecyclerView recyclerView, recyclerView2; // 달력, 일기 리사이클러뷰
+    private DiaryAdapter diaryAdapter; // 일기 어댑터
+    private Spinner spinner; // 월간 주간 스피너
+    private ArrayList<DiaryListItem> diaryListItems = new ArrayList<>(); // 일기 리스트 아이템
+    TextView sundayText, mondayText, tuesdayText, wednesdayText, thursdayText, fridayText, saturdayText;  // 요일 TextView
+    boolean isMonthlyView = true; // 현재 달력 모드 저장 (월간 뷰 기본값)
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // fragment_calendar.xml 레이아웃을 인플레이트
         return inflater.inflate(R.layout.fragment_feed_cal_month, container, false);
     }
 
@@ -78,15 +75,14 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         fridayText = view.findViewById(R.id.fridayText);
         saturdayText = view.findViewById(R.id.saturdayText);
 
-        // 현재 날짜 설정
-        CalendarUtil.selecedDate = LocalDate.now();
-        updateMonthText();
+        CalendarUtil.selecedDate = LocalDate.now(); // 표시할 날짜를 오늘 날짜로 저장
+        updateMonthText(); // 날짜 텍스트뷰를 오늘 날짜로
         setWeekView(); // 기본적으로 주간 달력을 표시
 
-        // 스피너 설정
+        // 주간-월간 스피너 설정
         setupSpinner();
 
-        // 날짜 변경 버튼 클릭 이벤트
+        // 날짜 변경 드롭다운 버튼 클릭 이벤트
         dateSpinnerBtn.setOnClickListener(v -> showDatePickerDialog(monthText));
 
         // 날짜 설정 데이트픽커
@@ -95,11 +91,11 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         // 일기 불러오기
         getDiaryList();
 
+        // 불러온 일기를 리사이클러뷰 안에 표시
         LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView2.setLayoutManager(linearManager);
-        adapter = new DiaryAdapter(diaryListItems, getContext());
-
-        recyclerView2.setAdapter(adapter);
+        diaryAdapter = new DiaryAdapter(diaryListItems, getContext());
+        recyclerView2.setAdapter(diaryAdapter);
     }
 
     private void getDiaryList() {
@@ -112,33 +108,9 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
             public void onSuccess(List<DiaryListItem> diaries) {
                 getActivity().runOnUiThread(() -> {
                     diaryListItems.clear();
-                    for (DiaryListItem diaryListItem : diaries) {
-                        Log.d("DiaryData", "Diary Item: " + diaryListItem.getPhoto1());  // 각 아이템의 제목 확인
-                        diaryListItems.add(new DiaryListItem(
-                                getContext(),
-                                diaryListItem.getId(),
-                                diaryListItem.getTitle(),
-                                diaryListItem.getDiary_date(),
-                                diaryListItem.getPhoto1(),
-                                diaryListItem.getPhoto2(),
-                                diaryListItem.getPhoto3(),
-                                diaryListItem.getPhoto4(),
-                                diaryListItem.getPhoto5(),
-                                diaryListItem.getPhoto6(),
-                                diaryListItem.getPhoto7(),
-                                diaryListItem.getPhoto8(),
-                                diaryListItem.getPhoto9(),
-                                diaryListItem.getPhoto10(),
-                                diaryListItem.getContent(),
-                                diaryListItem.getAddress(),
-                                diaryListItem.getLatitude(),
-                                diaryListItem.getLongitude(),
-                                diaryListItem.getAlbum_title(),
-                                diaryListItem.getUser_character(),
-                                diaryListItem.getUser_nickname()
-                        ));
-                    }
-                    adapter.notifyDataSetChanged();
+                    // 리스트 업데이트
+                    diaryListItems.addAll(diaries);
+                    diaryAdapter.notifyDataSetChanged();
                 });
             }
 
@@ -149,6 +121,7 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         });
     }
 
+    // 주간 - 월간 스피너 설정
     private void setupSpinner() {
         // 커스텀 레이아웃을 사용한 ArrayAdapter 생성
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, getResources().getStringArray(R.array.selectCalender));
@@ -200,14 +173,14 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         CalendarUtil.selecedDate = date;
 
         updateMonthText(); // TextView 업데이트
-        // 선택된 날짜를 형식화하여 monthText에 설정
-        String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN));
-        monthText.setText(formattedDate);
+
+        // 서버에 선택된 날짜의 일기 요청
+        getDiaryList();
     }
 
     // 화면 설정(월간 달력)
     private void setMonthView() {
-        monthText.setText(monthYearFromDate(CalendarUtil.selecedDate));
+        monthText.setText(monthYearFromDate(CalendarUtil.selecedDate)); // 날짜 형식을 YYYY년 MM월 DD일로 표시
         sundayText.setText("일");
         mondayText.setText("월");
         tuesdayText.setText("화");
@@ -216,10 +189,10 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         fridayText.setText("금");
         saturdayText.setText("토");
 
-        ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selecedDate);
+        ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selecedDate); // 일 숫자들 표시
         monthText.setText(CalendarUtil.selecedDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN)));
 
-        CalendarAdapter adapter = new CalendarAdapter(dayList, true); // true: 월간 뷰
+        CalendarAdapter adapter = new CalendarAdapter(dayList, this); // true: 월간 뷰
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 7);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -227,7 +200,7 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
 
     // 화면 설정(주간 달력)
     private void setWeekView() {
-        monthText.setText(monthYearFromDate(CalendarUtil.selecedDate));
+        monthText.setText(monthYearFromDate(CalendarUtil.selecedDate)); // 날짜 형식을 YYYY년 MM월 DD일로 표시
         sundayText.setText("일");
         mondayText.setText("월");
         tuesdayText.setText("화");
@@ -236,16 +209,17 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         fridayText.setText("금");
         saturdayText.setText("토");
 
-        ArrayList<LocalDate> weekList = daysInWeekArray(CalendarUtil.selecedDate);
+        ArrayList<LocalDate> weekList = daysInWeekArray(CalendarUtil.selecedDate); // 일 숫자들 표시
         monthText.setText(CalendarUtil.selecedDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN)));
 
-        CalendarAdapter adapter = new CalendarAdapter(weekList, false); // false: 주간 뷰
+        CalendarAdapter adapter = new CalendarAdapter(weekList, this); // false: 주간 뷰
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 7);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
     }
 
+    // 월간 달력 일 숫자 설정
     private ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> dayList = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
@@ -264,6 +238,7 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         return dayList;
     }
 
+    // 주간 달력 일 숫자 설정
     private ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate) {
         ArrayList<LocalDate> weekDays = new ArrayList<>();
         LocalDate startOfWeek = selectedDate.with(WeekFields.of(Locale.KOREA).dayOfWeek(), 1);
@@ -275,8 +250,9 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
         return weekDays;
     }
 
+    // 날짜 선택 다이얼로그 설정
     private void showDatePickerDialog(final TextView targetTextView) {
-        // 현재 날짜로 설정
+        // 현재 날짜를 년, 월, 일 변수에 저장
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -290,15 +266,17 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
                     CalendarUtil.selecedDate = LocalDate.of(year1, month1 + 1, dayOfMonth);
                     updateMonthText();
 
-                    if (isMonthlyView) {
+                    if (isMonthlyView) { // 월간 달력이면 월간 달력에 표시
                         setMonthView();
-                    } else {
+                    } else { // 주간달력이면 주간 달력에 표시
                         setWeekView();
                     }
+
+                    getDiaryList(); // 서버로 선택된 날짜의 일기 요청
                 },
                 year, month, day);
 
-        // 다이얼로그를 스피너 모드로 설정
+        // 다이얼로그 UI 설정
         datePickerDialog.getDatePicker().setCalendarViewShown(false);
         datePickerDialog.getDatePicker().setSpinnersShown(true);
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);

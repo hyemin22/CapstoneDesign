@@ -25,7 +25,7 @@
             android:fontFamily="@font/yeongdeoksea"
             android:maxLines="2"
             android:lineSpacingExtra="3dp"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:text="우리 가족 나들이"
             android:textColor="@color/black"
             android:textSize="17dp" />

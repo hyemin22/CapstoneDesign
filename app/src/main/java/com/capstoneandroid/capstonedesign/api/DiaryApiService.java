@@ -3,6 +3,7 @@ package com.capstoneandroid.capstonedesign.api;
 import com.capstoneandroid.capstonedesign.item.AlbumItem;
 import com.capstoneandroid.capstonedesign.item.DiaryLikeItem;
 import com.capstoneandroid.capstonedesign.item.DiaryListItem;
+import com.capstoneandroid.capstonedesign.model.DiaryNum;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,10 @@ public interface DiaryApiService {
     // 일기 조회(날짜별)
     @GET("/diary/date")
     Call<List<DiaryListItem>> getDiaryInDate(@Query("userId") Long userId, @Query("date") String date);
+
+    // 일기 개수 조회(날짜별)
+    @GET("/diary/num")
+    Call<List<DiaryNum>> getDiaryNum(@Query("userId") Long userId);
 
     // 일기 조회(장소별)
     @GET("/diary/address")

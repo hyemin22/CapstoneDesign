@@ -130,6 +130,7 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (!isFromUser) return; // 프로그래밍적으로 변경된 경우 리스너 동작 차단
+                progressTextView.setText("100.0");
 
                 // 오늘 날짜 확인
                 String today = getTodayDate();

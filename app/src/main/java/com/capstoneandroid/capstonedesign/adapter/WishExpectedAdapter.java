@@ -94,7 +94,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
         TextView emojiTextView;
         TextView titleTextView;
         TextView ddayTextView;
-        TextView dateTextView;
+        //TextView dateTextView;
         RelativeLayout parentLayout;
         WishListItem currentItem;
 
@@ -104,7 +104,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             emojiTextView = itemView.findViewById(R.id.emoji);
             titleTextView = itemView.findViewById(R.id.title);
             ddayTextView = itemView.findViewById(R.id.dday);
-            dateTextView = itemView.findViewById(R.id.date);
+            //dateTextView = itemView.findViewById(R.id.date);
             parentLayout = itemView.findViewById(R.id.wishLayout);
             CheckBox check = itemView.findViewById(R.id.check);
 
@@ -114,7 +114,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                     if (isChecked) {
                         parentLayout.setBackgroundResource(R.drawable.checked_background_day);
                         titleTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
-                        dateTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
+                        //dateTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
                         // 체크 시 확인 모달 띄우기
                         if (currentItem != null) { // 서버로 completed true로 바꾸는 요청 보내기
                             updateState(currentItem); //완료로 변경
@@ -122,7 +122,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                     } else {
                         parentLayout.setBackgroundResource(R.drawable.checked_background_wish);
                         titleTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.black));
-                        dateTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.black));
+                        //dateTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.black));
                     }
                 }
             });
@@ -154,7 +154,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
         public void setItem(WishListItem item) {
             emojiTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
-            dateTextView.setText(item.getStartDate());
+            //dateTextView.setText(item.getStartDate());
 
             String ddayText = item.getDday();  // 예: "D-2", "D-11", "D-day" 등
             ddayTextView.setText(ddayText);  // Dday를 텍스트로 표시

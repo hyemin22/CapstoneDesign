@@ -5,6 +5,7 @@ import com.capstoneandroid.capstonedesign.api.RetrofitClient;
 import com.capstoneandroid.capstonedesign.item.AlbumItem;
 import com.capstoneandroid.capstonedesign.item.DiaryLikeItem;
 import com.capstoneandroid.capstonedesign.item.DiaryListItem;
+import com.capstoneandroid.capstonedesign.model.DiaryNum;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,11 @@ public class DiaryRepository {
 
     public interface GetLikeTypeCallback {
         void onSuccess(Integer Type);
+        void onFailure(String errorMessage);
+    }
+
+    public interface GetDiaryNumCallback {
+        void onSuccess(List<DiaryNum> diary);
         void onFailure(String errorMessage);
     }
 
@@ -177,6 +183,32 @@ public class DiaryRepository {
 
             @Override
             public void onFailure(Call<List<DiaryListItem>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    // 날짜별 일기 개수 조회(2이상은 2로 반환)
+    public void getDiaryNum(Long userId, GetDiaryNumCallback callback) {
+        Call<List<DiaryNum>> call = diaryApiService.getDiaryNum(userId);
+        call.enqueue(new Callback<List<DiaryNum>>() {
+            @Override
+            public void onResponse(Call<List<DiaryNum>> call, Response<List<DiaryNum>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<DiaryNum> diarynums = response.body();
+                    System.out.println("날짜별 일기 개수 조회 성공: 200 OK");
+                    callback.onSuccess(diarynums); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("날짜별 일기 개수 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DiaryNum>> call, Throwable t) {
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
             }

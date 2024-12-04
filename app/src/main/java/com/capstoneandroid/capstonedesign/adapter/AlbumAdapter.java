@@ -57,6 +57,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(context, AlbumDiaryListActivity.class);
                 intent.putExtra("albumId", item.getId());
+                intent.putExtra("albumname", item.getTitle());
                 context.startActivity(intent);
             }
         });
