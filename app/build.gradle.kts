@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.capstoneandroid.capstonedesign"
+    namespace = "com.capstoneandroid.gieokdama"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.capstoneandroid.capstonedesign"
+        applicationId = "com.capstoneandroid.gieokdama"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

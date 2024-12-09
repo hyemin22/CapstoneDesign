@@ -147,10 +147,20 @@
                 android:layout_marginTop="40dp">
 
                 <TextView
+                    android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendardbold"
-                    android:text="하연님의 미션"
+                    android:text="하연"
+                    android:textColor="@color/black"
+                    android:textSize="24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/nickname"
+                    android:fontFamily="@font/pretendardbold"
+                    android:text="님의 미션"
                     android:textColor="@color/black"
                     android:textSize="24dp" />
 
