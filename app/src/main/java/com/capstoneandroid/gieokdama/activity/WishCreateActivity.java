@@ -257,7 +257,7 @@ public class WishCreateActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //카테고리 추가 화면
-                Intent intent = new Intent(WishCreateActivity.this, WishCategoryCreateActivity.class);
+                Intent intent = new Intent(WishCreateActivity.this, WishCategoryActivity.class);
                 startActivity(intent);
             }
         });
