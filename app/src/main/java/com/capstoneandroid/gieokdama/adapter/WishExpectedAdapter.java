@@ -1,5 +1,7 @@
 package com.capstoneandroid.gieokdama.adapter;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -7,16 +9,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.gieokdama.R;
+import com.capstoneandroid.gieokdama.activity.MissionActivity;
+import com.capstoneandroid.gieokdama.activity.MissionCreateActivity;
+import com.capstoneandroid.gieokdama.fragment.Fragment2;
 import com.capstoneandroid.gieokdama.item.WishListItem;
 import com.capstoneandroid.gieokdama.activity.WishCreateActivity;
 import com.capstoneandroid.gieokdama.repository.WishListRepository;
@@ -117,6 +125,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                         //dateTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.white));
                         // 체크 시 확인 모달 띄우기
                         if (currentItem != null) { // 서버로 completed true로 바꾸는 요청 보내기
+                            showDialogCreate(itemView.getContext()); // itemView로부터 Context 전달
                             updateState(currentItem); //완료로 변경
                         }
                     } else {
@@ -203,6 +212,53 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             ddayTextView.setBackgroundTintList(ColorStateList.valueOf(backgroundColor));
             ddayTextView.setTextColor(textColor);
         }
+
+    }
+
+    // 모달창 보이게 설정
+    public static void showDialogCreate(Context context) {
+        Dialog dialogCreate = new Dialog(context);
+        dialogCreate.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogCreate.setContentView(R.layout.activity_custom_dialog_create);
+        dialogCreate.show();
+
+        // askTextView의 텍스트를 변경
+        TextView askTextView = dialogCreate.findViewById(R.id.askTextView);
+        if (askTextView != null) {
+            askTextView.setText("위시리스트를 완료하시겠어요?");
+        }
+
+        // explainTextView의 텍스트를 변경
+        TextView explainTextView = dialogCreate.findViewById(R.id.explainTextView);
+        if (explainTextView != null) {
+            explainTextView.setText("완료된 위시리스트로 이동돼요.");
+        }
+
+        Button noBtn = dialogCreate.findViewById(R.id.noButton);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogCreate.dismiss();
+            }
+        });
+
+        dialogCreate.findViewById(R.id.yesButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Fragment 전환
+                if (context instanceof AppCompatActivity) {
+                    AppCompatActivity activity = (AppCompatActivity) context;
+                    Fragment2 fragment2 = new Fragment2();
+
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, fragment2) // R.id.container는 Fragment를 담는 레이아웃 ID
+                            .addToBackStack(null) // 뒤로 가기 지원
+                            .commit();
+                }
+
+                dialogCreate.dismiss(); // 다이얼로그 닫기
+            }
+        });
 
     }
 }
