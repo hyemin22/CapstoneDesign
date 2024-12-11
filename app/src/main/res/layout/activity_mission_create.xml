@@ -47,7 +47,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_threedot"
             android:backgroundTint="@color/transparent"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="10dp"
             android:scaleType="centerCrop"/>
     </LinearLayout>
 

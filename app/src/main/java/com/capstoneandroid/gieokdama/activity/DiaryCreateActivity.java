@@ -46,6 +46,7 @@ public class DiaryCreateActivity extends BaseActivity {
     DiaryRepository diaryRepository = new DiaryRepository();
     private EditText titleEdit, editTextDate, editPlace, content;
     private TextView backBtn, search;
+    private ImageView editDate;
     private Button okBtn;
     private Spinner albumPicker;
     ArrayAdapter<String> adapter;
@@ -68,6 +69,7 @@ public class DiaryCreateActivity extends BaseActivity {
         okBtn = findViewById(R.id.okBtn);
         titleEdit = findViewById(R.id.titleEdit);
         editTextDate = findViewById(R.id.editTextDate);
+        editDate = findViewById(R.id.editDate);
         editPlace = findViewById(R.id.editPlace);
         albumPicker = findViewById(R.id.albumPicker);
         content = findViewById(R.id.content);
@@ -142,7 +144,7 @@ public class DiaryCreateActivity extends BaseActivity {
         });
 
         // EditText 클릭 시 DatePickerDialog 표시
-        editTextDate.setOnClickListener(v -> showDatePickerDialog());
+        editDate.setOnClickListener(v -> showDatePickerDialog());
 
         // 검색 버튼 클릭시 검색창으로 이동
         search.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +165,7 @@ public class DiaryCreateActivity extends BaseActivity {
                     // 서버에서 받은 앨범 리스트 응답 기반으로 스피너에 리스트 넣기
                     List<String> albumList = new ArrayList<>();
 
-                    albumList.add("앨범 선택");
+                    albumList.add("일기를 보관하고 싶은 앨범을 선택하세요.");
 
                     // 앨범명 리스트에 추가
                     for (AlbumItem album : albums) {
