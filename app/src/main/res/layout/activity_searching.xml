@@ -14,7 +14,7 @@
 
         <EditText
             android:id="@+id/searching"
-            android:layout_width="320dp"
+            android:layout_width="290dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_textbox"
             android:hint="장소 검색"
@@ -23,7 +23,7 @@
 
         <Button
             android:id="@+id/search"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:text="확인"
             android:textSize="20dp"

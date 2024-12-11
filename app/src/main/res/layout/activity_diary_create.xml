@@ -134,7 +134,7 @@
                             android:ems="10"
                             android:focusable="false"
                             android:fontFamily="@font/pretendardregular"
-                            android:hint="YYYY.MM.DD"
+                            android:hint="YYYY. MM. DD"
                             android:inputType="date"
                             android:textSize="15dp" />
 
@@ -153,7 +153,7 @@
 
                         <EditText
                             android:id="@+id/editPlace"
-                            android:layout_width="170dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:maxLines="1"
@@ -164,9 +164,8 @@
 
                         <TextView
                             android:id="@+id/search"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
                             android:text="검색"
                             android:textSize="15dp"
                             android:fontFamily="@font/pretendardsemibold"
