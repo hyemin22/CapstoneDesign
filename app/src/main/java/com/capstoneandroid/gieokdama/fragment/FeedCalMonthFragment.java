@@ -42,6 +42,15 @@ public class FeedCalMonthFragment extends Fragment implements CalendarAdapter.On
     ImageButton dateSpinnerBtn; // 날짜 버튼(드롭다운)
     RecyclerView recyclerView, recyclerView2; // 달력, 일기 리사이클러뷰
     private DiaryAdapter diaryAdapter; // 일기 어댑터
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // 일기 불러오기
+        getDiaryList();
+    }
+
     private Spinner spinner; // 월간 주간 스피너
     private ArrayList<DiaryListItem> diaryListItems = new ArrayList<>(); // 일기 리스트 아이템
     TextView sundayText, mondayText, tuesdayText, wednesdayText, thursdayText, fridayText, saturdayText;  // 요일 TextView

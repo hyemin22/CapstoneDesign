@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.capstoneandroid.gieokdama.repository.GuestBookRepository;
 public class GuestBookCreateActivity extends BaseActivity {
     GuestBookRepository repository = new GuestBookRepository();
     Long userId = UserInfoManager.getInstance().getUserId();
+    Long getId; //방명록 아이디
     ImageButton backBtn, hamBtn;
     TextView pagename, ment, count;
     EditText contentEdit;
@@ -59,7 +61,8 @@ public class GuestBookCreateActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // PopupMenu 생성
-                PopupMenu popupMenu = new PopupMenu(GuestBookCreateActivity.this, hamBtn);
+                PopupMenu popupMenu = new PopupMenu(GuestBookCreateActivity.this, hamBtn,
+                        Gravity.END, 0, R.style.CustomPopupMenu);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_delete, popupMenu.getMenu());
 
                 // 메뉴 항목 클릭 리스너 설정
@@ -68,10 +71,9 @@ public class GuestBookCreateActivity extends BaseActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int itemId = item.getItemId();
                         if (itemId == R.id.delete) { // 삭제
-                            // 삭제할 아이템의 인덱스를 intent로 넘김
-                            Intent resultIntent = new Intent("DELETE_GUESTBOOK_ITEM");
-                            resultIntent.putExtra("delete_position", position);
-                            LocalBroadcastManager.getInstance(GuestBookCreateActivity.this).sendBroadcast(resultIntent);
+                            // db에서 현재 방명록 삭제
+                            deleteGuestBookData();
+
                             finish(); // 현재 액티비티 종료
                             return true;
                         }
@@ -129,7 +131,7 @@ public class GuestBookCreateActivity extends BaseActivity {
             // 2. 방명록 확인 화면에서 넘어온거면 - 방명록 수정
             //작성된 내용 가져오기
             Intent outIntent = getIntent();
-            Long getId = outIntent.getLongExtra("id", -1L);
+            getId = outIntent.getLongExtra("id", -1L);
             String getContent = outIntent.getStringExtra("content");
             contentEdit.setText(getContent);
             // 햄버거버튼 보이기
@@ -189,12 +191,32 @@ public class GuestBookCreateActivity extends BaseActivity {
             public void onSuccess() {
                 // 방명록 수정 성공
                 Log.d("GuestBookCreateActivity", "방명록이 성공적으로 수정되었습니다");
+                finish(); //현재 액티비티 종료
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 // 방명록 수정 실패
                 Log.e("GuestBookCreateActivity", "방명록 수정 실패: " + errorMessage);
+            }
+        });
+    }
+
+    public void deleteGuestBookData() {
+        // 서버로 DELETE 요청 보내기
+        GuestBookRepository repository = new GuestBookRepository();
+        repository.deleteGuestBook(getId, new GuestBookRepository.GuestBookCallback() {
+            @Override
+            public void onSuccess() {
+                // 방명록 삭제 성공
+                Log.d("GuestBookCreateActivity", "방명록이 성공적으로 삭제되었습니다");
+                finish(); //현재 액티비티 종료
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // 방명록 삭제 실패
+                Log.e("GuestBookCreateActivity", "방명록 삭제 실패: " + errorMessage);
             }
         });
     }

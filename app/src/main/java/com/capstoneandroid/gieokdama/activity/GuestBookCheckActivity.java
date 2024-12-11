@@ -3,6 +3,7 @@ package com.capstoneandroid.gieokdama.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -57,7 +58,8 @@ public class GuestBookCheckActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // PopupMenu 생성
-                PopupMenu popupMenu = new PopupMenu(GuestBookCheckActivity.this, hamBtn);
+                PopupMenu popupMenu = new PopupMenu(GuestBookCheckActivity.this, hamBtn,
+                        Gravity.END, 0, R.style.CustomPopupMenu);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_edit_delete, popupMenu.getMenu());
 
                 // 메뉴 항목 클릭 리스너 설정
@@ -77,10 +79,10 @@ public class GuestBookCheckActivity extends BaseActivity {
                             // db에서 현재 방명록 삭제
                             deleteGuestBookData();
 
-                            // 삭제할 아이템의 인덱스를 intent로 넘김
-                            Intent resultIntent = new Intent("DELETE_GUESTBOOK_ITEM");
-                            resultIntent.putExtra("delete_position", getIntent().getIntExtra("position", -1));
-                            LocalBroadcastManager.getInstance(GuestBookCheckActivity.this).sendBroadcast(resultIntent);
+//                            // 삭제할 아이템의 인덱스를 intent로 넘김
+//                            Intent resultIntent = new Intent("DELETE_GUESTBOOK_ITEM");
+//                            resultIntent.putExtra("delete_position", getIntent().getIntExtra("position", -1));
+//                            LocalBroadcastManager.getInstance(GuestBookCheckActivity.this).sendBroadcast(resultIntent);
                             finish(); // 현재 액티비티 종료
                             return true;
                         }

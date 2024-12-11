@@ -3,9 +3,12 @@ package com.capstoneandroid.gieokdama.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import com.capstoneandroid.gieokdama.R;
 import com.capstoneandroid.gieokdama.activity.DiaryActivity;
 import com.capstoneandroid.gieokdama.activity.DiaryCreateActivity;
 import com.capstoneandroid.gieokdama.item.WishListItem;
+import com.capstoneandroid.gieokdama.repository.WishListRepository;
 
 import java.util.ArrayList;
 
@@ -48,11 +52,11 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
 
         // 일기가 작성된 경우
         if (item.getDiaryId() != null) {
-            existDiaryTextView.setText(" 일기 작성 완료 ");
+            existDiaryTextView.setText(" 일기 작성 ");
             existDiaryTextView.setBackgroundTintList(context.getResources().getColorStateList(R.color.lightpurple));
             existDiaryTextView.setTextColor(context.getResources().getColor(R.color.purple));
         } else { // 일기가 작성되지 않은 경우
-            existDiaryTextView.setText(" 일기 작성 미완료 ");
+            existDiaryTextView.setText(" 일기 미작성 ");
             existDiaryTextView.setBackgroundTintList(context.getResources().getColorStateList(R.color.lightblue));
             existDiaryTextView.setTextColor(context.getResources().getColor(R.color.blue));
         }
@@ -73,6 +77,62 @@ public class WishCompletedAdapter extends RecyclerView.Adapter<WishCompletedAdap
                     intent.putExtra("date", item.getStartDate());
                     context.startActivity(intent);
                 }
+            }
+        });
+
+        // 롱클릭 시 삭제 메뉴 표시
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // 팝업 메뉴 생성
+                PopupMenu popupMenu = new PopupMenu(context, view,
+                        Gravity.END, 0, R.style.CustomPopupMenu);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_delete, popupMenu.getMenu());
+
+                // 메뉴 항목 클릭 리스너 설정
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    if (menuItem.getItemId() == R.id.delete) {
+                        // DB에서 현재 위시 삭제
+                        deleteWishData(item.getId());
+                        return true;
+                    }
+                    return false;
+                });
+
+                // 팝업 메뉴 표시
+                popupMenu.show();
+                return true;
+            }
+        });
+    }
+
+    private void deleteWishData(Long id) {
+        WishListRepository wishListRepository = new WishListRepository();
+        wishListRepository.deleteWishDataToServer(id, new WishListRepository.WishListCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("WishCompletedAdapter", "위시리스트가 성공적으로 삭제되었습니다");
+
+                // 삭제된 아이템의 위치 찾기
+                int position = -1;
+                for (int i = 0; i < items.size(); i++) {
+                    if (items.get(i).getId().equals(id)) {
+                        position = i;
+                        break;
+                    }
+                }
+
+                // 아이템이 리스트에 존재할 경우 삭제 및 RecyclerView 업데이트
+                if (position != -1) {
+                    items.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, items.size());
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("WishCompletedAdapter", "위시리스트 삭제 실패: " + errorMessage);
             }
         });
     }

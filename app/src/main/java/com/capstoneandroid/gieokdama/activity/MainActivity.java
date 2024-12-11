@@ -71,18 +71,6 @@ public class MainActivity extends BaseActivity {
     private void setFragment(int n){
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-//        if (n == R.id.tab1) {
-//            fragmentTransaction.replace(R.id.container, fragment1);
-//        } else if (n == R.id.tab2) {
-//            fragmentTransaction.replace(R.id.container, fragment2);
-//        } else if (n == R.id.tab3) {
-//            fragmentTransaction.replace(R.id.container, fragment3);
-//        } else if (n == R.id.tab4) {
-//            fragmentTransaction.replace(R.id.container, fragment4);
-//        } else if (n == R.id.tab5) {
-//            fragmentTransaction.replace(R.id.container, fragment5);
-//        }
-//        fragmentTransaction.commit();
 
         if (n == R.id.tab1) {
             fragmentTransaction.replace(R.id.container, fragment1);

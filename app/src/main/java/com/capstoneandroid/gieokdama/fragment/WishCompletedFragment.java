@@ -42,11 +42,19 @@ public class WishCompletedFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 서버로 완료된 위시 get 요청 보내기
+        sendGetCompletedWishListData();
+
+    }
+
     private void initUI(ViewGroup rootView) {
         RecyclerView recyclerView1 = rootView.findViewById(R.id.wishCompletedView);
 
         // 로그인한 사용자 가족 정보 조회 -> 카테고리 리스트 get 요청 보내기
-        // 서버로 카테고리 get 요청 보내기
+        // 서버로 완료된 위시 get 요청 보내기
         sendGetCompletedWishListData();
 
         LinearLayoutManager linearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
