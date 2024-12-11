@@ -190,12 +190,12 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             // 배경과 글씨 색상을 변경
             Context context = ddayTextView.getContext(); // Context 가져오기
 
-            int backgroundColor = ContextCompat.getColor(context, R.color.hintgray);;
+            int backgroundColor = ContextCompat.getColor(context, R.color.lightGray);;
             int textColor = ContextCompat.getColor(context, R.color.gray);;
 
             // dday 값에 따라 색상 변경
             if (dday == -2){ // 미정인 경우
-                backgroundColor = ContextCompat.getColor(context, R.color.hintgray);
+                backgroundColor = ContextCompat.getColor(context, R.color.lightGray);
                 textColor = ContextCompat.getColor(context, R.color.gray);
             } else if (dday <= 7) { // 날짜 넘어가거나, 7일 이하인 경우
                 backgroundColor = ContextCompat.getColor(context, R.color.lightPink);
@@ -203,7 +203,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             } else if (dday <= 14) {
                 backgroundColor = ContextCompat.getColor(context, R.color.lightGreen); // lightGreen
                 textColor = ContextCompat.getColor(context, R.color.green); // green
-            } else if (dday > 14) {
+            } else {
                 backgroundColor = ContextCompat.getColor(context, R.color.lightpurple);
                 textColor = ContextCompat.getColor(context, R.color.purple);
             }
