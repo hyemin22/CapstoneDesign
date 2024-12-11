@@ -41,7 +41,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="45dp"
+                    android:layout_marginRight="25dp"
                     android:backgroundTint="@color/transparent"
                     android:rotation="270"
                     android:scaleType="fitXY"

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ public class Fragment5 extends Fragment {
     Long userId = UserInfoManager.getInstance().getUserId();
     private TextView nickname1, nickname2, phone_number,
             goToFamilyControl, goToAlarm, goToFamilyScrap, goToMyScrap, goToMission;
-    private CircleImageView profile;
+    private ImageView profile;
 ;
     @Nullable
     @Override
