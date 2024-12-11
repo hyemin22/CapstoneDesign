@@ -119,10 +119,10 @@
     <!-- Main FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="130dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="100dp"
         android:foreground="@drawable/ic_eventplus"
         android:scaleX="1.5"
         android:scaleY="1.5"
@@ -130,24 +130,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
     <!-- Sub FAB 1 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/sub1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="@+id/fab"
+        android:visibility="invisible"
         android:foreground="@drawable/ic_write"
         android:scaleX="1.3"
         android:scaleY="1.3"
-        android:visibility="invisible"
-        app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fab"
-        app:layout_constraintEnd_toEndOf="@+id/fab" />
+        app:borderWidth="0dp" />
+
 
     <!-- Sub FAB 2 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/sub2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:foreground="@drawable/ic_album"
         android:scaleX="1.3"
         android:scaleY="1.3"
