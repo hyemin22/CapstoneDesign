@@ -1,5 +1,7 @@
 package com.capstoneandroid.gieokdama.fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -16,17 +18,21 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.capstoneandroid.gieokdama.R;
+import com.capstoneandroid.gieokdama.UserInfoManager;
 import com.capstoneandroid.gieokdama.activity.AlbumCreateActivity;
 import com.capstoneandroid.gieokdama.activity.DiaryCreateActivity;
+import com.capstoneandroid.gieokdama.repository.DiaryRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 //추억 화면
 public class Fragment3 extends Fragment {
+    Long userId = UserInfoManager.getInstance().getUserId();
     FeedCalMonthFragment fragment1;
     FeedEventRootFragment fragment2;
     FeedMapFragment fragment3;
     SearchingFragment searchingFragment;
+    TextView count;
     private FloatingActionButton fab, sub1, sub2;
     private boolean isMenuOpen = false;
 
@@ -38,6 +44,7 @@ public class Fragment3 extends Fragment {
         fab = rootView.findViewById(R.id.fab);
         sub1 = rootView.findViewById(R.id.sub1);
         sub2 = rootView.findViewById(R.id.sub2);
+        count = rootView.findViewById(R.id.count);
 
         // FAB 클릭 리스너 설정 - 수정 필요(현재는 버튼 누르면 바로 앨범 생성 화면으로 이동)
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +93,9 @@ public class Fragment3 extends Fragment {
         tabs.addTab(tabs.newTab().setText("일자"));
         tabs.addTab(tabs.newTab().setText("이벤트"));
         tabs.addTab(tabs.newTab().setText("지도"));
+
+        // 일기 전체 개수 바로 반영되도록
+        getDiaryNum();
 
         // 각 탭의 텍스트 뷰에 직접 폰트 적용
         tabs.post(() -> {
@@ -208,5 +218,20 @@ public class Fragment3 extends Fragment {
         }, 500);
 
         isMenuOpen = false;
+    }
+
+    public void getDiaryNum() {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.getAllDiaryNum(userId, new DiaryRepository.GetAllDiaryNumCallback() {
+            @Override
+            public void onSuccess(Integer diaryNum) {
+                count.setText(String.valueOf(diaryNum));
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e(TAG, "일기 개수 조회 실패: " + errorMessage);
+            }
+        });
     }
 }

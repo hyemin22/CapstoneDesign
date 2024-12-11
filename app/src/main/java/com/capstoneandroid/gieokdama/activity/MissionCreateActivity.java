@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -172,7 +173,8 @@ public class MissionCreateActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     // PopupMenu 생성
-                    PopupMenu popupMenu = new PopupMenu(MissionCreateActivity.this, hamBtn);
+                    PopupMenu popupMenu = new PopupMenu(MissionCreateActivity.this, hamBtn,
+                            Gravity.END, 0, R.style.CustomPopupMenu);
                     popupMenu.getMenuInflater().inflate(R.menu.menu_edit_delete, popupMenu.getMenu());
 
                     // 메뉴 항목 클릭 리스너 설정

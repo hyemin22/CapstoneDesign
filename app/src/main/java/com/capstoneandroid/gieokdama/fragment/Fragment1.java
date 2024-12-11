@@ -64,6 +64,20 @@ public class Fragment1 extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 서버로 방명록 목록 다시 요청
+        sendGetGuestBookData();
+
+        // 서버로 위시 get 요청 보내기
+        sendGetRecentWishData();
+
+        // 서버로 하루 미션 get 요청 보내기
+        sendGetTodayMissionData();
+
+    }
+
     //xml 레이아웃 안에 들어 있는 위젯이나 레이아웃을 찾아 변수에 할당하는 코드들을 넣기 위해 만듦
     private void initUI(ViewGroup rootView) {
 
@@ -109,7 +123,6 @@ public class Fragment1 extends Fragment {
                 int position = items.size();
                 Intent intent = new Intent(getActivity(), GuestBookCreateActivity.class);
                 intent.putExtra("source_activity", "Fragment1"); //액티비티 구분 위한 식별자
-                intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
@@ -120,51 +133,8 @@ public class Fragment1 extends Fragment {
         adapter = new GuestbookAdapter(items, getContext());
         viewPager = rootView.findViewById(R.id.guestView);
 
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
-        viewPager.setAdapter(adapter);
-
-        CompositePageTransformer transform = new CompositePageTransformer();
-        transform.addTransformer(new MarginPageTransformer(8));
-        transform.addTransformer(new PageTransformer() {
-            @Override
-            public void transformPage(View view, float position) {
-                float v = 1 - Math.abs(position);
-
-                // 중앙에 있는 페이지의 크기를 줄입니다.
-                float scaleFactor = 0.8f + v * 0.2f;
-
-                // 아이템을 겹치게 하기 위해 페이지 간격을 설정합니다.
-                float pageOffset = 200; // 페이지 간격을 150픽셀로 설정합니다.
-                float pageMargin = 20; // 페이지 마진을 20픽셀로 설정합니다.
-                float myOffset = position * -(2 * pageOffset + pageMargin);
-
-                // 페이지의 크기를 설정합니다.
-                view.setScaleX(scaleFactor);
-                view.setScaleY(scaleFactor);
-
-                // 페이지의 위치를 조절하여 겹치도록 합니다.
-                view.setTranslationX(myOffset);
-
-                // 페이지 투명도를 조절합니다.
-                float alphafront = 1.0f;
-                float alphaback = 0.5f; // 뒤에 보이는 페이지 투명도
-                float alphaelse = 0.0f; // 그 외의 페이지 투명도
-
-                // 현재 보이는 페이지는 투명도를 1로 설정하고, 바로 앞, 뒤 페이지들은 투명도를 조절합니다. 그 외의 페이지는 보이지 않도록 설정합니다.
-                if (position == 0) {
-                    view.setAlpha(alphafront);
-                    view.setTranslationZ(0); // 현재 페이지는 최상위에 위치
-                } else if((position > 0 && position <= 1) || (position < 0 && position >= -1)){
-                    view.setAlpha(alphaback);
-                    view.setTranslationZ(-1); // 다른 페이지들을 뒤에 위치시킵니다.
-                } else {
-                    view.setAlpha(alphaelse);
-                }
-            }
-        });
-
-        viewPager.setPageTransformer(transform);
+        // ViewPager 설정
+        setupViewPager(viewPager);
 
         //---------------위시리스트------------------
         //위시리스트 화면으로 넘어가는 > 버튼 클릭 시 동작
@@ -220,6 +190,54 @@ public class Fragment1 extends Fragment {
         //하루 미션
         recyclerView2.setAdapter(adapter3);
 
+    }
+
+    private void setupViewPager(ViewPager2 viewPager) {
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
+        viewPager.setAdapter(adapter);
+
+        CompositePageTransformer transform = new CompositePageTransformer();
+        transform.addTransformer(new MarginPageTransformer(8));
+        transform.addTransformer(new PageTransformer() {
+            @Override
+            public void transformPage(View view, float position) {
+                float v = 1 - Math.abs(position);
+
+                // 중앙에 있는 페이지의 크기를 줄입니다.
+                float scaleFactor = 0.8f + v * 0.2f;
+
+                // 아이템을 겹치게 하기 위해 페이지 간격을 설정합니다.
+                float pageOffset = 200; // 페이지 간격을 150픽셀로 설정합니다.
+                float pageMargin = 20; // 페이지 마진을 20픽셀로 설정합니다.
+                float myOffset = position * -(2 * pageOffset + pageMargin);
+
+                // 페이지의 크기를 설정합니다.
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+
+                // 페이지의 위치를 조절하여 겹치도록 합니다.
+                view.setTranslationX(myOffset);
+
+                // 페이지 투명도를 조절합니다.
+                float alphafront = 1.0f;
+                float alphaback = 0.5f; // 뒤에 보이는 페이지 투명도
+                float alphaelse = 0.0f; // 그 외의 페이지 투명도
+
+                // 현재 보이는 페이지는 투명도를 1로 설정하고, 바로 앞, 뒤 페이지들은 투명도를 조절합니다. 그 외의 페이지는 보이지 않도록 설정합니다.
+                if (position == 0) {
+                    view.setAlpha(alphafront);
+                    view.setTranslationZ(0); // 현재 페이지는 최상위에 위치
+                } else if((position > 0 && position <= 1) || (position < 0 && position >= -1)){
+                    view.setAlpha(alphaback);
+                    view.setTranslationZ(-1); // 다른 페이지들을 뒤에 위치시킵니다.
+                } else {
+                    view.setAlpha(alphaelse);
+                }
+            }
+        });
+
+        viewPager.setPageTransformer(transform);
     }
 
     private void sendGetGuestBookData() {

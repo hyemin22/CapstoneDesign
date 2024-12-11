@@ -45,6 +45,14 @@ public class FeedEventRootFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // 서버로 앨범 get 요청 보내기
+        getAlbumList();
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

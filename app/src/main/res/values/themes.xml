@@ -32,6 +32,12 @@
         <item name="colorAccent">@color/album_blue</item>
     </style>
 
+    <!-- PopupMenu 스타일 정의 -->
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/custom_popup_background</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <!-- Active Text Appearance -->
     <style name="BottomNavTextAppearanceActive" parent="TextAppearance.AppCompat.Body1">

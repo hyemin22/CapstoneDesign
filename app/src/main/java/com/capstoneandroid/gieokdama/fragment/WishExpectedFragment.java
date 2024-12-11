@@ -56,6 +56,13 @@ public class WishExpectedFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 서버로 카테고리 get 요청 보내기
+        sendGetWishListCategory();
+    }
+
     private void initUI(ViewGroup rootView) {
 
         linearLayout = rootView.findViewById(R.id.linearLayout);
@@ -65,7 +72,6 @@ public class WishExpectedFragment extends Fragment {
             public void onClick(View view) {
                 //카테고리 추가 화면
                 Intent intent = new Intent(getActivity(), WishCategoryActivity.class);
-                intent.putExtra("categoryList", (ArrayList<WishCategoryItem>) wishCategories);
                 startActivity(intent);
             }
         });
@@ -111,15 +117,6 @@ public class WishExpectedFragment extends Fragment {
                         }
                         // 어댑터에 변경 사항을 알림
                         adapter.notifyDataSetChanged();
-
-                        // 위시리스트 개수 업데이트
-                        int itemCount = items.size();
-
-                        // Fragment2로 count 값 전달
-                        Bundle result = new Bundle();
-                        result.putInt("itemCount", itemCount); // 위시리스트 개수 전달
-
-                        getParentFragmentManager().setFragmentResult("requestKey", result);
                     });
                 }
             }
@@ -139,6 +136,9 @@ public class WishExpectedFragment extends Fragment {
             @Override
             public void onListGetSuccess(List<WishCategoryItem> categories) {
                 getActivity().runOnUiThread(() -> {
+                    // 기존 버튼 제거
+                    linearLayout.removeAllViews();
+                    categoryButtons.clear();
                     wishCategories.clear(); // 기존 데이터 초기화
                     wishCategories.addAll(categories); // 받아온 데이터를 wishCategories에 저장
 
@@ -196,7 +196,7 @@ public class WishExpectedFragment extends Fragment {
 
             @Override
             public void onListGetFailure(String errorMessage) {
-                Log.e("Error", "예정된 위시 조회 실패: " + errorMessage);
+                Log.e("Error", "위시 카테고리 조회 실패: " + errorMessage);
             }
         });
     }

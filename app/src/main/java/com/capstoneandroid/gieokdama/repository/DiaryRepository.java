@@ -59,6 +59,11 @@ public class DiaryRepository {
         void onFailure(String errorMessage);
     }
 
+    public interface GetAllDiaryNumCallback {
+        void onSuccess(Integer diaryNum);
+        void onFailure(String errorMessage);
+    }
+
 
     //앨범 저장
     public void saveAlbumDataToServer(AlbumItem album, DiaryRepository.DiaryCallback callback) {
@@ -209,6 +214,32 @@ public class DiaryRepository {
 
             @Override
             public void onFailure(Call<List<DiaryNum>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    // 전체 일기 개수 조회
+    public void getAllDiaryNum(Long userId, GetAllDiaryNumCallback callback) {
+        Call<Integer> call = diaryApiService.getAllDiaryNum(userId);
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    Integer diaryNum = response.body();
+                    System.out.println("전체 일기 개수 조회 성공: 200 OK");
+                    callback.onSuccess(diaryNum); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("전체 일기 개수 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
             }

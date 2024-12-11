@@ -140,6 +140,16 @@ public class MissionActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 서버로 미션 get 요청 보내기
+        sendGetMyMissionList();
+        // 추천 미션 get 요청 보내기
+        sendGetRecMissionList();
+    }
+
     private void getUserInfoData() {
         // 서버로 Get 요청 보내기
         UserRepository userRepository = new UserRepository();

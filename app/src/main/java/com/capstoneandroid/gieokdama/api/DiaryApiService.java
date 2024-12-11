@@ -50,6 +50,10 @@ public interface DiaryApiService {
     @GET("/diary/num")
     Call<List<DiaryNum>> getDiaryNum(@Query("userId") Long userId);
 
+    // 일기 전체 개수 조회
+    @GET("/diary/all")
+    Call<Integer> getAllDiaryNum(@Query("userId") Long userId);
+
     // 일기 조회(장소별)
     @GET("/diary/address")
     Call<List<DiaryListItem>> getDiaryInAddress(@Query("userId") Long userId);

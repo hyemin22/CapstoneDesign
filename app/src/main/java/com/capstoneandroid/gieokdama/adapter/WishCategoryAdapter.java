@@ -3,6 +3,7 @@ package com.capstoneandroid.gieokdama.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.gieokdama.R;
 import com.capstoneandroid.gieokdama.activity.WishCategoryCreateActivity;
+import com.capstoneandroid.gieokdama.activity.WishCreateActivity;
 import com.capstoneandroid.gieokdama.item.WishCategoryItem;
 import com.capstoneandroid.gieokdama.repository.WishListRepository;
 
@@ -24,10 +26,21 @@ import java.util.ArrayList;
 public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapter.ViewHolder> {
     ArrayList<WishCategoryItem> items = new ArrayList<WishCategoryItem>();
     Context context;
+    private OnItemDeletedListener onItemDeletedListener; // 삭제 콜백
 
     public WishCategoryAdapter(ArrayList<WishCategoryItem> items, Context context) {
         this.items = items;
         this.context = context;
+    }
+
+    // 콜백 인터페이스 정의
+    public interface OnItemDeletedListener {
+        void onItemDeleted(int position);
+    }
+
+    // 콜백 등록 메서드
+    public void setOnItemDeletedListener(OnItemDeletedListener listener) {
+        this.onItemDeletedListener = listener;
     }
 
     @NonNull
@@ -43,6 +56,15 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WishCategoryItem item = items.get(position);
         holder.setItem(item);
+
+        // 삭제 콜백 처리
+        holder.setOnDeleteCallback(() -> {
+            items.remove(position); // 데이터 삭제
+            notifyItemRemoved(position); // 삭제된 아이템 반영
+            if (onItemDeletedListener != null) {
+                onItemDeletedListener.onItemDeleted(position); // Activity에 알림
+            }
+        });
     }
 
     @Override
@@ -67,6 +89,7 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
         TextView categoryName;
         ImageButton hamBtn;
         Context context;
+        private Runnable deleteCallback; // 삭제 콜백
 
         public ViewHolder(View itemView, Context context) {
             super(itemView);
@@ -81,7 +104,8 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
                 @Override
                 public void onClick(View view) {
                     // PopupMenu 생성
-                    PopupMenu popupMenu = new PopupMenu(view.getContext(), hamBtn);
+                    PopupMenu popupMenu = new PopupMenu(view.getContext(), hamBtn,
+                            Gravity.END, 0, R.style.CustomPopupMenu);
                     popupMenu.getMenuInflater().inflate(R.menu.menu_edit_delete, popupMenu.getMenu());
 
                     // 메뉴 항목 클릭 리스너 설정
@@ -109,6 +133,11 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
                 }
             });
         }
+
+        public void setOnDeleteCallback(Runnable deleteCallback) {
+            this.deleteCallback = deleteCallback;
+        }
+
         private void deleteWishCategory(WishCategoryItem item) {
             WishListRepository wishListRepository = new WishListRepository();
 
@@ -116,6 +145,9 @@ public class WishCategoryAdapter extends RecyclerView.Adapter<WishCategoryAdapte
                 @Override
                 public void onSuccess() {
                     Log.d("WishListCreateActivity", "위시 카테고리가 성공적으로 삭제되었습니다");
+                    if (deleteCallback != null) {
+                        deleteCallback.run(); // 콜백 실행
+                    }
                 }
 
                 @Override

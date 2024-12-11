@@ -67,6 +67,9 @@ public class Fragment2 extends Fragment {
         tabs.addTab(tabs.newTab().setText("예정된 위시리스트"));
         tabs.addTab(tabs.newTab().setText("완료된 위시리스트"));
 
+        // 위시 메뉴 클릭 시 처음에는 예정된 위시 개수 바로 반영되도록
+        getWishExpectedCount(false);
+
         // 각 탭의 텍스트 뷰에 직접 폰트 적용
         tabs.post(() -> {
             for (int i = 0; i < tabs.getTabCount(); i++) {

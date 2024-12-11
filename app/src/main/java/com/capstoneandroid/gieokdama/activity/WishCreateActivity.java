@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -109,7 +110,8 @@ public class WishCreateActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     // PopupMenu 생성
-                    PopupMenu popupMenu = new PopupMenu(WishCreateActivity.this, hamBtn);
+                    PopupMenu popupMenu = new PopupMenu(WishCreateActivity.this, hamBtn,
+                            Gravity.END, 0, R.style.CustomPopupMenu);
                     popupMenu.getMenuInflater().inflate(R.menu.menu_edit_delete, popupMenu.getMenu());
 
                     if ("WishCompletedAdapter".equals(source)) {
