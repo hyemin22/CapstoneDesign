@@ -34,8 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DiaryActivity extends BaseActivity {
     Long userId = UserInfoManager.getInstance().getUserId();
     TextView albumname, nickname, date, place, title, content;
-    CircleImageView profile;
-    ImageView backBtn, likeSelect;
+    ImageView profile, backBtn, likeSelect;
     CardView likeCardView;
     private Button[] buttons;
     private ImageView[] imageViews;
