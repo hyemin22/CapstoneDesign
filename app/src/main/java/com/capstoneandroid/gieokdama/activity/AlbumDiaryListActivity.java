@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,7 +26,8 @@ public class AlbumDiaryListActivity extends BaseActivity {
     Long userId = UserInfoManager.getInstance().getUserId();
     Long albumId; // 현재 선택된 앨범 아이디
     Button backBtn, editBtn;
-    TextView albumname;
+    ImageView editIcon;
+    EditText albumname;
     boolean isEditMode = false;
     private DiaryListAdapter adapter;
     private ArrayList<DiaryListItem> items = new ArrayList<>();
@@ -36,7 +39,10 @@ public class AlbumDiaryListActivity extends BaseActivity {
 
         backBtn = findViewById(R.id.album_back);
         editBtn = findViewById(R.id.album_edit);
+        editIcon = findViewById(R.id.editIcon);
+        editIcon.setVisibility(View.GONE);
         albumname = findViewById(R.id.albumname);
+        albumname.setEnabled(false);
 
         Intent intent = getIntent();
         albumId = intent.getLongExtra("albumId", -1);
@@ -66,9 +72,36 @@ public class AlbumDiaryListActivity extends BaseActivity {
                 adapter.setEditMode(isEditMode); // Adapter에 모드 전달
                 if (isEditMode) {
                     editBtn.setText("완료"); // 버튼 텍스트 변경
+                    editIcon.setVisibility(View.VISIBLE);
+
+                    // 앨범명 수정 가능
+                    albumname.setEnabled(true);
+                    albumname.setTextColor(getResources().getColor(R.color.gray1));
                 } else {
                     editBtn.setText("편집"); // 버튼 텍스트 원래대로
+                    editIcon.setVisibility(View.GONE);
+
+                    // 앨범명 저장
+                    updateAlbumName(String.valueOf(albumname.getText()));
+
+                    // 앨범명 수정 불가
+                    albumname.setEnabled(false);
                 }
+            }
+        });
+    }
+
+    private void updateAlbumName(String albumName) {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.updateAlbumName(albumId, albumName, new DiaryRepository.DiaryCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("AlbumDiaryListActivity", "앨범명 수정 성공");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("AlbumDiaryListActivity", "앨범명 수정 실패: " + errorMessage);
             }
         });
     }

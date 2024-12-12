@@ -2,9 +2,12 @@ package com.capstoneandroid.gieokdama.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstoneandroid.gieokdama.activity.AlbumDiaryListActivity;
 import com.capstoneandroid.gieokdama.item.AlbumItem;
 import com.capstoneandroid.gieokdama.R;
+import com.capstoneandroid.gieokdama.repository.DiaryRepository;
 
 import java.util.ArrayList;
 
@@ -59,6 +63,46 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 intent.putExtra("albumId", item.getId());
                 intent.putExtra("albumname", item.getTitle());
                 context.startActivity(intent);
+            }
+        });
+
+        // 롱클릭 시 앨범 삭제
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // 팝업 메뉴 생성
+                PopupMenu popupMenu = new PopupMenu(context, view,
+                        Gravity.END, 0, R.style.CustomPopupMenu);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_delete, popupMenu.getMenu());
+
+                // 메뉴 항목 클릭 리스너 설정
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    if (menuItem.getItemId() == R.id.delete) {
+                        // 앨범 삭제
+                        deleteAlbum(item.getId());
+                        return true;
+                    }
+                    return false;
+                });
+
+                // 팝업 메뉴 표시
+                popupMenu.show();
+                return true;
+            }
+        });
+    }
+
+    private void deleteAlbum(Long albumId) {
+        DiaryRepository diaryRepository = new DiaryRepository();
+        diaryRepository.deleteAlbum(albumId, new DiaryRepository.DiaryCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("AlbumAdapter", "앨범이 성공적으로 삭제되었습니다");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("AlbumAdapter", "앨범 삭제 실패: " + errorMessage);
             }
         });
     }

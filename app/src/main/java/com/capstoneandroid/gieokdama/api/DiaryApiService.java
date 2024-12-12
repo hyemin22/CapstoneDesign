@@ -16,6 +16,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
@@ -29,6 +30,15 @@ public interface DiaryApiService {
     // 앨범 조회
     @GET("/album")
     Call<List<AlbumItem>> getAlbum(@Query("userId") Long userId);
+
+    // 앨범명 수정
+    @PUT("/album")
+    Call<Void> updateAlbumName(@Query("albumId") Long albumId,
+                               @Query("albumName") String albumName);
+
+    // 앨범 삭제
+    @DELETE("/album")
+    Call<Void> deleteAlbum(@Query("albumId") Long albumId);
 
     // 일기 저장
     @Multipart

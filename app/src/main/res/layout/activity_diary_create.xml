@@ -136,12 +136,12 @@
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
-
                     <Spinner
                         android:id="@+id/albumPicker"
                         style="@style/Widget.AppCompat.Spinner"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:paddingStart="10dp"
                         android:background="@drawable/rounded_textbox2"
                         android:fontFamily="@font/pretendardbold"
                         android:gravity="center"
@@ -184,9 +184,7 @@
                             android:id="@+id/content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
+                            android:padding="10dp"
                             android:background="@android:color/transparent"
                             android:fontFamily="@font/pretendardregular"
                             android:hint=" 가족과 나눈 이야기를 자유롭게 작성해주세요."
@@ -212,14 +210,15 @@
                     android:layout_marginTop="5dp"
                     android:layout_gravity="center">
 
-
                     <EditText
                         android:id="@+id/editPlace"
                         style="@style/Widget.AppCompat.Spinner"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:inputType="text"
-                        android:hint="   추억을 나눈 장소를 검색해 보세요"
+                        android:hint="추억을 나눈 장소를 검색해 보세요"
+                        android:paddingStart="10dp"
+                        android:textColorHint="@color/hintgray"
                         android:background="@drawable/rounded_textbox2"
                         android:fontFamily="@font/pretendardregular"
                         android:spinnerMode="dropdown"

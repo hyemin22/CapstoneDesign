@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.gieokdama.R;
+import com.capstoneandroid.gieokdama.UserInfoManager;
 import com.capstoneandroid.gieokdama.activity.MissionActivity;
 import com.capstoneandroid.gieokdama.activity.MissionCreateActivity;
 import com.capstoneandroid.gieokdama.fragment.Fragment2;
@@ -34,10 +35,13 @@ import com.capstoneandroid.gieokdama.repository.WishListRepository;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapter.ViewHolder>{
     ArrayList<WishListItem> items = new ArrayList<WishListItem>();
     Context context;
+    WishListRepository wishListRepository = new WishListRepository();
+    private Long userId = UserInfoManager.getInstance().getUserId();
 
     public WishExpectedAdapter(ArrayList<WishListItem> items, Context context) {
         this.items = items;
@@ -93,10 +97,10 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
                     if (menuItem.getItemId() == R.id.add) {
                         // 공감 추가
-                        //addLike(item.getId());
+                        addLike(item.getId());
                     } else if (menuItem.getItemId() == R.id.delete) {
                         // 공감 삭제
-                        //deleteLike(item.getId());
+                        deleteLike(item.getId());
                         return true;
                     }
                     return false;
@@ -105,6 +109,36 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                 // 팝업 메뉴 표시
                 popupMenu.show();
                 return true;
+            }
+        });
+    }
+
+    private void addLike(Long wishId) {
+        wishListRepository.saveLike(wishId, userId, new WishListRepository.WishListCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("WishExpectedAdapter", "위시 좋아요가 성공적으로 추가되었습니다");
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("WishExpectedAdapter", "위시 좋아요 추가 실패: " + errorMessage);
+            }
+        });
+    }
+
+    private void deleteLike(Long wishId) {
+        wishListRepository.deleteLike(wishId, userId, new WishListRepository.WishListCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("WishExpectedAdapter", "위시 좋아요가 성공적으로 삭제되었습니다");
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("WishExpectedAdapter", "위시 좋아요 삭제 실패: " + errorMessage);
             }
         });
     }
@@ -135,6 +169,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
         TextView titleTextView;
         TextView ddayTextView;
         //TextView dateTextView;
+        TextView likeNumTextView;
         RelativeLayout parentLayout;
         WishListItem currentItem;
 
@@ -144,6 +179,7 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             emojiTextView = itemView.findViewById(R.id.emoji);
             titleTextView = itemView.findViewById(R.id.title);
             ddayTextView = itemView.findViewById(R.id.dday);
+            likeNumTextView = itemView.findViewById(R.id.likeNum);
             //dateTextView = itemView.findViewById(R.id.date);
             parentLayout = itemView.findViewById(R.id.wishLayout);
             CheckBox check = itemView.findViewById(R.id.check);
@@ -191,11 +227,31 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
             });
         }
 
+        public void getLikeNumFromServer(WishListItem item) {
+            WishListRepository wishListRepository = new WishListRepository();
+            wishListRepository.getLike(item.getId(), new WishListRepository.GetWishLikeCallback() {
+                @Override
+                public void onSuccess(List<Long> likeUsers) {
+                    if (likeUsers != null) {
+                        likeNumTextView.setText(String.valueOf(likeUsers.size()));
+                    } else {
+                        likeNumTextView.setText("0");
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    Log.e("WishExpectedAdapter", "위시 좋아요 조회 실패: " + errorMessage);
+                }
+            });
+        }
+
         //뷰 객체에 있는 데이터를 다른 것으로 보이도록 하는 역할
         public void setItem(WishListItem item) {
             emojiTextView.setText(item.getEmoji());
             titleTextView.setText(item.getTitle());
             //dateTextView.setText(item.getStartDate());
+            getLikeNumFromServer(item);
 
             String ddayText = item.getDday();  // 예: "D-2", "D-11", "D-day" 등
             ddayTextView.setText(ddayText);  // Dday를 텍스트로 표시

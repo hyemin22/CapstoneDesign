@@ -77,6 +77,9 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.View
             });
             // 편집모드에서는 itemView 클릭 리스너 비활성화
             holder.itemView.setOnClickListener(null);
+
+            // 편집모드일 때 앨범명 수정 가능
+
         } else {
             holder.deleteButton.setVisibility(View.INVISIBLE);
             holder.itemView.setOnClickListener(new View.OnClickListener() { // 편집모드 아닐 때: 클릭 시 특정 일기 화면으로 넘어감
