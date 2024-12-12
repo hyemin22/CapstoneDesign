@@ -49,37 +49,35 @@
                     android:gravity="center_vertical"
                     android:layout_centerInParent="true" >
 
-                    <TextView
+
+                    <EditText
+                        android:id="@+id/editTextDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@id/albumPicker"
-                        android:fontFamily="@font/pretendardbold"
-                        android:text=""
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center"
+                        android:background="@color/transparent"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:fontFamily="@font/pretendardsemibold"
+                        android:hint="YYYY. MM. DD"
+                        android:textColorHint="@color/black"
+                        android:inputType="date"
                         android:textColor="@color/black"
                         android:textSize="17dp" />
 
-                    <Spinner
-                        android:id="@+id/albumPicker"
-                        style="@style/Widget.AppCompat.Spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:fontFamily="@font/pretendardbold"
-                        android:gravity="center"
-                        android:spinnerMode="dropdown"
-                        android:textColor="@color/black"
-                        android:textSize="23dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_toRightOf="@id/albumPicker"
-                        android:fontFamily="@font/pretendardbold"
-                        android:text="▼"
-                        android:textColor="@color/black"
-                        android:textSize="10dp" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/editDate"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_cal" />
             </RelativeLayout>
 
             <View
@@ -107,72 +105,147 @@
                     android:textColorHint="@color/hintgray"
                     android:textSize="28dp" />
 
-                <LinearLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EFEFEF"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="앨범 선택하기"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center">
 
-                    <LinearLayout
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_calendar" />
-
-                        <EditText
-                            android:id="@+id/editTextDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:background="@color/transparent"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:fontFamily="@font/pretendardregular"
-                            android:hint="YYYY. MM. DD"
-                            android:inputType="date"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginLeft="5dp"
+                        android:layout_toStartOf="@id/albumPicker"
+                        android:fontFamily="@font/pretendardbold"
+                        android:text="  "
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_placepickergray" />
+
+                    <Spinner
+                        android:id="@+id/albumPicker"
+                        style="@style/Widget.AppCompat.Spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_textbox2"
+                        android:fontFamily="@font/pretendardbold"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/pretendardbold"
+                        android:text="▼   "
+                        android:layout_gravity="end|center_vertical"
+                        android:textColor="@color/gray1"
+                        android:textSize="18dp" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="일기 남기기"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_textbox2"
+                    android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/editPlace"
-                            android:layout_width="150dp"
+                            android:id="@+id/content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:inputType="text"
+                            android:layout_marginRight="5dp"
+                            android:background="@android:color/transparent"
                             android:fontFamily="@font/pretendardregular"
-                            android:hint="장소를 입력해주세요"
-                            android:textSize="15dp" />
+                            android:hint=" 가족과 나눈 이야기를 자유롭게 작성해주세요."
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintgray"
+                            android:textSize="18dp" />
 
-                        <TextView
-                            android:id="@+id/search"
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:text="검색"
-                            android:textSize="15dp"
-                            android:fontFamily="@font/pretendardsemibold"
-                            android:textColor="@color/blue" />
-
-                    </LinearLayout>
+                    </ScrollView>
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="위치 추가"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center">
+
+
+                    <EditText
+                        android:id="@+id/editPlace"
+                        style="@style/Widget.AppCompat.Spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="text"
+                        android:hint="   추억을 나눈 장소를 검색해 보세요"
+                        android:background="@drawable/rounded_textbox2"
+                        android:fontFamily="@font/pretendardregular"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/pretendardsemibold"
+                        android:text="검색   "
+                        android:layout_gravity="end|center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="사진 추가하기"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -203,7 +276,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -221,7 +294,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -239,7 +312,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -257,7 +330,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -275,7 +348,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -293,7 +366,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -311,7 +384,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -329,7 +402,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -347,7 +420,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -365,7 +438,7 @@
                                     android:layout_width="210dp"
                                     android:layout_height="250dp"
                                     android:layout_marginEnd="5dp"
-                                    android:background="@drawable/ic_imgadd"
+                                    android:background="@drawable/ic_addphoto"
                                     android:scaleType="centerCrop" />
                             </androidx.cardview.widget.CardView>
 
@@ -373,29 +446,7 @@
                     </HorizontalScrollView>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:orientation="vertical">
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/pretendardregular"
-                            android:hint="가족과의 추억을 작성해주세요 ..."
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/hintgray"
-                            android:textSize="18dp" />
-
-                    </ScrollView>
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
