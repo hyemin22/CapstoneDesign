@@ -2,6 +2,7 @@ package com.capstoneandroid.gieokdama.repository;
 
 import com.capstoneandroid.gieokdama.api.RetrofitClient;
 import com.capstoneandroid.gieokdama.api.WishListApiService;
+import com.capstoneandroid.gieokdama.item.DiaryLikeItem;
 import com.capstoneandroid.gieokdama.item.WishCategoryItem;
 import com.capstoneandroid.gieokdama.item.WishListItem;
 import com.capstoneandroid.gieokdama.model.WishCategory;
@@ -51,6 +52,11 @@ public class WishListRepository {
         void onListCountGetSuccess(Integer wishCount);
 
         void onListCountGetFailure(String errorMessage);
+    }
+
+    public interface GetWishLikeCallback {
+        void onSuccess(List<Long> likeUsers);
+        void onFailure(String errorMessage);
     }
 
 
@@ -383,6 +389,56 @@ public class WishListRepository {
                 t.printStackTrace();
                 System.out.println("네트워크 오류: " + t.getMessage());
                 callback.onFailure("네트워크 오류: " + t.getMessage());
+            }
+        });
+    }
+
+    // 좋아요 추가
+    public void saveLike(Long wishId, Long userId, WishListRepository.WishListCallback callback) {
+        Call<Void> call = wishListApiService.saveLike(wishId, userId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    System.out.println("위시 공감 추가 성공");
+                    callback.onSuccess(); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("위시 공감 추가 실패: " + response.errorBody());
+                    callback.onFailure("서버 오류: " + response.message());
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
+            }
+        });
+    }
+
+    // 좋아요 조회
+    public void getLike(Long wishId, WishListRepository.GetWishLikeCallback callback) {
+        Call<List<Long>> call = wishListApiService.getLike(wishId);
+        call.enqueue(new Callback<List<Long>>() {
+            @Override
+            public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 서버로부터 성공 응답을 받았을 때 처리
+                    List<Long> likeUsers = response.body();
+                    System.out.println("위시 공감 조회 성공: 200 OK");
+                    callback.onSuccess(likeUsers); // 성공 시 콜백 호출
+                } else {
+                    // 서버 응답이 있지만 오류가 있을 때 처리
+                    System.out.println("위시 공감 조회 실패: " + response.errorBody().toString());
+                    callback.onFailure("서버 오류: " + response.message()); // 실패 시 콜백 호출
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Long>> call, Throwable t) {
+                System.out.println("네트워크 오류: " + t.getMessage());
+                callback.onFailure("네트워크 오류: " + t.getMessage()); // 실패 시 콜백 호출
             }
         });
     }

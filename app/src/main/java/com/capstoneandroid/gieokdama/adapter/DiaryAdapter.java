@@ -188,13 +188,13 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
             diaryRepository.saveLike(diaryId, type, userId, new DiaryRepository.DiaryCallback() {
                 @Override
                 public void onSuccess() {
-                    Log.d("DiaryActivity", "일기 공감이 성공적으로 추가되었습니다");
+                    Log.d("DiaryAdapter", "일기 공감이 성공적으로 추가되었습니다");
                     getLikeList(); // 공감 추가 후 최신 리스트 다시 가져오기
                 }
 
                 @Override
                 public void onFailure(String errorMessage) {
-                    Log.e("DiaryActivity", "일기 공감 추가 실패: " + errorMessage);
+                    Log.e("DiaryAdapter", "일기 공감 추가 실패: " + errorMessage);
                 }
             });
         }
@@ -203,13 +203,13 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
             diaryRepository.deleteLike(diaryId, type, userId, new DiaryRepository.DiaryCallback() {
                 @Override
                 public void onSuccess() {
-                    Log.d("DiaryActivity", "일기 공감이 성공적으로 삭제되었습니다");
+                    Log.d("DiaryAdapter", "일기 공감이 성공적으로 삭제되었습니다");
                     getLikeList(); // 공감 삭제 후 최신 리스트 다시 가져오기
                 }
 
                 @Override
                 public void onFailure(String errorMessage) {
-                    Log.e("DiaryActivity", "일기 공감 삭제 실패: " + errorMessage);
+                    Log.e("DiaryAdapter", "일기 공감 삭제 실패: " + errorMessage);
                 }
             });
         }
@@ -310,6 +310,11 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
             contentTextView.setText(item.getContent());
             Glide.with(itemView.getContext()).load(item.getPhoto1()).into(photoImageView);
 
+            // diaryId 설정
+            diaryId = item.getId();
+
+            // UI 업데이트
+            getLikeList();
         }
     }
 }

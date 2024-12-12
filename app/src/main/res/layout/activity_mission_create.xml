@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -21,24 +21,15 @@
             android:scaleX="-1"
             android:src="@drawable/ic_chevron_black" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
         <TextView
             android:id="@+id/pageTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/pretendardbold"
             android:text="미션 생성하기"
             android:textColor="@color/black"
             android:textSize="23dp" />
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/hamBtn"
@@ -47,9 +38,10 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_threedot"
             android:backgroundTint="@color/transparent"
-            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
             android:scaleType="centerCrop"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"

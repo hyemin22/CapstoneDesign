@@ -1,5 +1,6 @@
 package com.capstoneandroid.gieokdama.api;
 
+import com.capstoneandroid.gieokdama.item.DiaryLikeItem;
 import com.capstoneandroid.gieokdama.item.WishCategoryItem;
 import com.capstoneandroid.gieokdama.item.WishListItem;
 import com.capstoneandroid.gieokdama.model.WishCategory;
@@ -65,4 +66,15 @@ public interface WishListApiService {
     @DELETE("/wish")
     Call<Void> deleteWish(@Query("id") Long id);
 
+    // 위시 좋아요 추가
+    @POST("/wish/like")
+    Call<Void> saveLike(@Query("wishId") Long wishId, @Query("userId") Long userId);
+
+    // 위시 좋아요 조회
+    @GET("/wish/like")
+    Call<List<Long>> getLike(@Query("wishId") Long wishId);
+
+    // 위시 좋아요 삭제
+    @DELETE("/wish/like")
+    Call<Void> deleteLike(@Query("wishId") Long wishId, @Query("userId") Long userId);
 }

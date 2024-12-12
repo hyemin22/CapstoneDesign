@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -42,6 +43,7 @@ public class WishCreateActivity extends BaseActivity {
     ImageButton backBtn, hamBtn, spinnerBtn;
     EditText titleEdit, memoEdit, emojiSelect;
     TextView ment, startDay, endDay, plusText;
+    CheckBox checkbox;
     Spinner spinner;
     Switch alarmSwitch;
     Button okBtn;
@@ -49,6 +51,13 @@ public class WishCreateActivity extends BaseActivity {
     Integer categoryId = -1;
     Long userId = UserInfoManager.getInstance().getUserId();
     Long idNum; //사용자 아이디, 위시리스트 아이디
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // DB에서 카테고리 데이터 가져오는 요청 보내기
+        sendGetWishListCategory();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +77,7 @@ public class WishCreateActivity extends BaseActivity {
         spinner = findViewById(R.id.spinner);
         alarmSwitch = findViewById(R.id.alarmSwitch);
         okBtn = findViewById(R.id.okBtn);
+        checkbox = findViewById(R.id.checkbox);
 
         // Intent로 전달된 데이터 받기
         Intent intent = getIntent();
@@ -80,6 +90,7 @@ public class WishCreateActivity extends BaseActivity {
             emojiSelect.setEnabled(false);
             titleEdit.setEnabled(false);
             memoEdit.setEnabled(false);
+            checkbox.setEnabled(false);
             startDay.setEnabled(false);
             endDay.setEnabled(false);
             plusText.setEnabled(false);
@@ -98,8 +109,12 @@ public class WishCreateActivity extends BaseActivity {
             boolean alarm = intent.getBooleanExtra("alarm", false);
 
             titleEdit.setText(titleText); //제목 채우기
-            startDay.setText(startDateText); //성취 예정일 채우기
-            endDay.setText(endDateText);
+            if (startDateText == null || startDateText.isEmpty()) {
+                checkbox.setChecked(true);
+            } else {
+                startDay.setText(startDateText); //성취 예정일 채우기
+                endDay.setText(endDateText);
+            }
             emojiSelect.setText(iconText); //아이콘 채우기
             emojiSelect.setBackground(null);
             memoEdit.setText(memoText); //메모 채우기
@@ -128,6 +143,7 @@ public class WishCreateActivity extends BaseActivity {
                                 emojiSelect.setEnabled(true);
                                 titleEdit.setEnabled(true);
                                 memoEdit.setEnabled(true);
+                                checkbox.setEnabled(true);
                                 startDay.setEnabled(true);
                                 endDay.setEnabled(true);
                                 plusText.setEnabled(true);
@@ -180,6 +196,7 @@ public class WishCreateActivity extends BaseActivity {
             emojiSelect.setEnabled(true);
             titleEdit.setEnabled(true);
             memoEdit.setEnabled(true);
+            checkbox.setEnabled(true);
             startDay.setEnabled(true);
             endDay.setEnabled(true);
             plusText.setEnabled(true);
@@ -228,13 +245,29 @@ public class WishCreateActivity extends BaseActivity {
         spinner.setAdapter(adapter);
 
         // DB에서 카테고리 데이터 가져오는 요청 보내기
-        fetchCategoryDataFromDB();
+        sendGetWishListCategory();
 
         //이전버튼
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+
+        // 미정 체크박스
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(checkbox.isChecked()) {
+                    // 체크상태면
+                    startDay.setEnabled(false);
+                    endDay.setEnabled(false);
+                } else {
+                    // 언체크 상태면
+                    startDay.setEnabled(true);
+                    endDay.setEnabled(true);
+                }
             }
         });
 
@@ -400,10 +433,6 @@ public class WishCreateActivity extends BaseActivity {
     }
 
     // DB에서 카테고리 데이터 가져오는 요청 보내기
-    private void fetchCategoryDataFromDB() {
-        sendGetWishListCategory(); // 카테고리 요청
-    }
-
     // 위시리스트 카테고리 이름 리스트 가져와서 스피너에 넣기
     private void sendGetWishListCategory() {
         wishListRepository.getWishListByCategory(userId, new WishListRepository.GetCategoryListCallback() {

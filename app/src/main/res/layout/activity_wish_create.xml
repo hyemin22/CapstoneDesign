@@ -94,13 +94,13 @@
                     android:textSize="16dp"
                     android:textColor="#747474"
                     android:fontFamily="@font/pretendardsemibold"
-                    android:layout_toStartOf="@id/dayCheckbox"
+                    android:layout_toStartOf="@id/checkbox"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_gravity="center_vertical"/>
 
                 <CheckBox
-                    android:id="@+id/dayCheckbox"
+                    android:id="@+id/checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

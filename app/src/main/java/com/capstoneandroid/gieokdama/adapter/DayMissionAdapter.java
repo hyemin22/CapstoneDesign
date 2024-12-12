@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstoneandroid.gieokdama.activity.MissionCreateActivity;
 import com.capstoneandroid.gieokdama.R;
+import com.capstoneandroid.gieokdama.fragment.Fragment1;
 import com.capstoneandroid.gieokdama.item.MyMissionItem;
 import com.capstoneandroid.gieokdama.repository.MissionRepository;
 
@@ -129,7 +130,6 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (!isFromUser) return; // 프로그래밍적으로 변경된 경우 리스너 동작 차단
-                progressTextView.setText("100.0");
 
                 // 오늘 날짜 확인
                 String today = getTodayDate();
@@ -142,8 +142,10 @@ public class DayMissionAdapter extends RecyclerView.Adapter<DayMissionAdapter.Vi
                 }
 
                 preferences.edit().putString("mission_" + currentItem.getId(), today).apply();
+
                 updateCheckedUI();
                 updateMissionProgress(currentItem.getId());
+
             });
         }
 

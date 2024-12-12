@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +31,8 @@ import com.capstoneandroid.gieokdama.item.WishListItem;
 import com.capstoneandroid.gieokdama.activity.WishCreateActivity;
 import com.capstoneandroid.gieokdama.repository.WishListRepository;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapter.ViewHolder>{
@@ -73,6 +77,34 @@ public class WishExpectedAdapter extends RecyclerView.Adapter<WishExpectedAdapte
                 intent.putExtra("alarm", item.getAlarm());
                 intent.putExtra("source", "WishExpectedAdapter");
                 context.startActivity(intent);
+            }
+        });
+
+        // 롱클릭 시 공감 추가 및 삭제 버튼 표시
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // 팝업 메뉴 생성
+                PopupMenu popupMenu = new PopupMenu(context, view,
+                        Gravity.END, 0, R.style.CustomPopupMenu);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_like, popupMenu.getMenu());
+
+                // 메뉴 항목 클릭 리스너 설정
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    if (menuItem.getItemId() == R.id.add) {
+                        // 공감 추가
+                        //addLike(item.getId());
+                    } else if (menuItem.getItemId() == R.id.delete) {
+                        // 공감 삭제
+                        //deleteLike(item.getId());
+                        return true;
+                    }
+                    return false;
+                });
+
+                // 팝업 메뉴 표시
+                popupMenu.show();
+                return true;
             }
         });
     }

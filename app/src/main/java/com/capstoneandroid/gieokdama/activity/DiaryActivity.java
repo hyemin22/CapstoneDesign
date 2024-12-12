@@ -184,7 +184,6 @@ public class DiaryActivity extends BaseActivity {
 
                 // 작성자 캐릭터
                 int drawableId = getResources().getIdentifier(diary.getUser_character(), "drawable", getApplicationContext().getPackageName());
-                System.out.println("drawable??!!" + drawableId);
 
                 if (drawableId != 0) {
                     profile.setImageResource(drawableId);

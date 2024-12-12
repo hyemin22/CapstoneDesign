@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add"
+        android:title="좋아요 추가" />
+    <item
+        android:id="@+id/delete"
+        android:title="좋아요 삭제" />
+</menu>
