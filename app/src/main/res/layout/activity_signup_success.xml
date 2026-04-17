@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blue"
+    android:gravity="center_horizontal"
+    android:padding="20dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.15"
+        android:scaleY="1.15"
+        android:src="@drawable/giftbox"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입에 성공했어요 🙌🏻"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:textSize="27dp"
+        android:fontFamily="@font/pretendardbold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기억담아와 함께 가족과의 추억을\n나눌 준비 되셨나요?"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/pretendardmedium" />
+
+    <Button
+        android:id="@+id/okBtn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button_white"
+        android:text="확인"
+        android:textSize="20dp"
+        android:layout_marginTop="115dp"
+        android:fontFamily="@font/pretendardsemibold"/>
+
+</LinearLayout>

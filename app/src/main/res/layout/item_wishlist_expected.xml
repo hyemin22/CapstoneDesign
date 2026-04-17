@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wishLayout"
+    android:layout_width="185dp"
+    android:layout_height="210dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/checked_background_wish">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:text="❤️"
+            android:textColor="@color/black"
+            android:textSize="35dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emoji"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="15dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/pretendardbold"
+            android:maxLines="2"
+            android:text="한강가서 치킨 시켜먹기"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/dday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/lightGreen"
+            android:fontFamily="@font/pretendardsemibold"
+            android:gravity="center"
+            android:text="d-day"
+            android:textColor="@color/green"
+            android:textSize="13dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="7dp"
+            android:background="@drawable/like_rounded_box_blue"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendardsemibold"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="👍"
+                android:textColor="@color/white"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/likeNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:fontFamily="@font/pretendardsemibold"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="13dp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/ic_checked"
+        android:button="@color/transparent" />
+</RelativeLayout>

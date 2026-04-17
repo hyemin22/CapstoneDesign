@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/eventSwipeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingLeft="50dp"
+        android:paddingTop="80dp"
+        android:paddingRight="50dp"
+        android:paddingBottom="10dp" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <!-- Spinner -->
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="95dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="bottom"
+            android:fontFamily="@font/pretendardbold"
+            android:background="@drawable/spinner_bg"
+            android:entries="@array/selectEvent" />
+
+        <!-- ImageView 겹치기 -->
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/spinnerdropdown" />
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/toggleBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end|top"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/ic_event_swipe"/>
+
+</RelativeLayout>

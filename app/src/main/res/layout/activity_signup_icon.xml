@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="13dp"
+        android:layout_height="20dp"
+        android:scaleType="fitXY"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_chevron"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/maintext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안녕하세요 하연님!\n하연님의 아이콘을 골라주세요."
+        android:textSize="27dp"
+        android:fontFamily="@font/pretendardsemibold"
+        android:textColor="@color/black"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이콘은 언제든지 변경 가능하며, 단 다른 가족\n구성원이 사용 중인 아이콘으로는 변경이 불가능합니다."
+        android:textSize="17dp"
+        android:fontFamily="@font/pretendardmedium"
+        android:textColor="@color/gray3"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="40dp"/>
+
+    <GridLayout
+        android:id="@+id/gridIcon"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:columnCount="4"
+        android:rowCount="2"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/icon1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_orange"
+            android:background="@color/transparent" />
+
+        <ImageButton
+            android:id="@+id/icon2"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ch_pineapple" />
+
+        <ImageButton
+            android:id="@+id/icon3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_grape"
+            android:background="@color/transparent" />
+
+        <ImageButton
+            android:id="@+id/icon4"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_strawberry"
+            android:background="@color/transparent" />
+
+        <ImageButton
+            android:id="@+id/icon5"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_apple"
+            android:background="@color/transparent" />
+
+        <ImageButton
+            android:id="@+id/icon6"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_mango"
+            android:background="@color/transparent" />
+
+        <ImageButton
+            android:id="@+id/icon7"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_kiwi"
+            android:background="@color/transparent" />
+
+        <ImageButton
+            android:id="@+id/icon8"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ch_cherry"
+            android:background="@color/transparent" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/okBtn2"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button"
+        android:text="확인"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendardsemibold"
+        android:layout_marginTop="210dp" />
+
+</LinearLayout>

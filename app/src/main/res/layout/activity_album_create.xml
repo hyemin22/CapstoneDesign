@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="47dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="8dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="fitXY"
+            android:scaleX="-1"
+            android:src="@drawable/ic_chevron_black" />
+
+        <TextView
+            android:id="@+id/pageTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/pretendardbold"
+            android:text="앨범 생성하기          "
+            android:textColor="@color/black"
+            android:textSize="23dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendardsemibold"
+            android:text="어떤 앨범을\n만드시나요?"
+            android:textColor="@color/black"
+            android:textSize="26dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/pretendardbold"
+            android:text="제목 *"
+            android:textColor="@color/blue"
+            android:textSize="22dp" />
+
+        <EditText
+            android:id="@+id/titleEdit"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_textbox"
+            android:hint="입력..."
+            android:textColorHint="@color/hintgray"
+            android:fontFamily="@font/pretendardsemibold"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:paddingLeft="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/pretendardbold"
+            android:text="표지 색상 *"
+            android:textColor="@color/blue"
+            android:textSize="22dp" />
+
+        <RelativeLayout
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/album_yellow"
+                    android:background="@drawable/color_button_solid" />
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/album_red"
+                    android:background="@drawable/color_button_solid"/>
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/album_blue"
+                    android:background="@drawable/color_button_solid"/>
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/album_purple"
+                    android:background="@drawable/color_button_solid"/>
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/album_white"
+                    android:background="@drawable/color_button_solid"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/yellow"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_button" />
+
+                <Button
+                    android:id="@+id/red"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_button" />
+
+                <Button
+                    android:id="@+id/blue"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_button" />
+
+                <Button
+                    android:id="@+id/purple"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_button" />
+
+                <Button
+                    android:id="@+id/white"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_button" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/pretendardsemibold"
+            android:text="만들기"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+</LinearLayout>

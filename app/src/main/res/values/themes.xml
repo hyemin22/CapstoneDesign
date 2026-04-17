@@ -1,9 +1,60 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.CapstoneDesign" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.CapstoneDesign" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
     </style>
 
     <style name="Theme.CapstoneDesign" parent="Base.Theme.CapstoneDesign" />
+
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ment_default">
+        <item name="android:fontFamily">@font/pretendardsemibold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">26dp</item>
+
+    </style>
+
+    <style name="edit_default">
+        <item name="android:fontFamily">@font/pretendardsemibold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">17dp</item>
+    </style>
+
+    <style name="CustomDatePickerDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue2</item>
+        <item name="colorAccent">@color/album_blue</item>
+    </style>
+
+    <!-- PopupMenu 스타일 정의 -->
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/custom_popup_background</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Active Text Appearance -->
+    <style name="BottomNavTextAppearanceActive" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/blue</item>  <!-- 활성화된 텍스트 색상 -->
+        <item name="android:fontFamily">@font/pretendardsemibold</item>  <!-- 사용자 정의 폰트 -->
+    </style>
+
+    <!-- Inactive Text Appearance -->
+    <style name="BottomNavTextAppearanceInactive" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray</item>  <!-- 비활성화된 텍스트 색상 -->
+        <item name="android:fontFamily">@font/pretendardsemibold</item>  <!-- 사용자 정의 폰트 -->
+    </style>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">18sp</item>    <!-- 텍스트 크기 -->
+        <item name="android:fontFamily">@font/pretendardsemibold</item>   <!-- 폰트 스타일 (serif, sans-serif 등) -->
+    </style>
 </resources>
